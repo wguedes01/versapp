@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 
+import com.versapp.DashboardActivity;
+
 import org.jivesoftware.smack.Connection;
 import org.jivesoftware.smack.ConnectionConfiguration;
 import org.jivesoftware.smack.SASLAuthentication;
@@ -44,6 +46,7 @@ public class LoginAT extends AsyncTask<String, Void, Connection>{
 
             if (connection.isConnected()){
                 connection.login(username, password);
+                return connection;
             } else {
                 // Failed to connect
             }
@@ -60,6 +63,7 @@ public class LoginAT extends AsyncTask<String, Void, Connection>{
         if (conn != null){
             context.startService(new Intent(context, ConnectionService.class));
             ConnectionService.setConnection(conn);
+            context.startActivity(new Intent(context, DashboardActivity.class));
         }
 
         super.onPostExecute(conn);
