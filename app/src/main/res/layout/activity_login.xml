@@ -9,4 +9,12 @@
     tools:context="com.versapp.LoginActivity"
     android:background="@android:color/white">
 
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Login"
+        android:id="@+id/button"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:onClick="login" />
 </RelativeLayout>
