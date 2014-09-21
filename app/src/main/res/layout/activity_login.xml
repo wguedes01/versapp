@@ -7,14 +7,44 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     android:paddingBottom="@dimen/activity_vertical_margin"
     tools:context="com.versapp.LoginActivity"
-    android:background="@android:color/white">
+    android:background="@drawable/owl_bg_login"
+    android:orientation="vertical"    >
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Login"
-        android:id="@+id/button"
+
+
+
+    <LinearLayout
         android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:onClick="login" />
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <Button
+            android:id="@+id/login_btn"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.5"
+            android:text="Login"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:background="@color/confessionBlue"
+            android:onClick="login"
+            android:layout_margin="5dp" />
+
+
+        <Button
+            android:id="@+id/signup_btn"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.5"
+            android:text="Sign Up"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:background="@color/confessionBlue"
+            android:onClick="signup"
+            android:layout_margin="5dp" />
+
+        </LinearLayout>
+
+
 </RelativeLayout>
+
