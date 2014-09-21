@@ -1,5 +1,8 @@
 package com.versapp.confessions;
 
+import com.versapp.connection.ConnectionManager;
+import com.versapp.connection.ConnectionService;
+
 /**
  * Created by william on 20/09/14.
  */
@@ -80,5 +83,30 @@ public class Confession {
 
     public void setNumFavorites(int numFavorites) {
         this.numFavorites = numFavorites;
+    }
+
+    public void toggleFavorite(){
+
+            if (isFavorited) {
+                numFavorites--;
+            } else {
+                numFavorites++;
+            }
+
+            isFavorited = !isFavorited;
+
+            // process request async.
+            String packetId = "toggle_favorite";
+
+            String xml = "<iq type='set' to='" + ConnectionManager.SERVER_IP_ADDRESS + "' id='" + packetId + "' from='"
+                    + ConnectionService.getConnection().getUser() + "'><confession xmlns='who:iq:confession'><toggle_favorite id='" + getId()
+                    + "'/></confession></iq>";
+
+            // Ignore response.
+            ConnectionService.sendCustomXMLPacket(xml, packetId);
+    }
+
+    public boolean isMine() {
+        return false;
     }
 }
