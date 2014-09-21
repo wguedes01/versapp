@@ -1,5 +1,10 @@
 package com.versapp.connection;
 
+import org.jivesoftware.smack.Connection;
+import org.jivesoftware.smack.ConnectionConfiguration;
+import org.jivesoftware.smack.XMPPConnection;
+import org.jivesoftware.smack.XMPPException;
+
 /**
  * Created by william on 20/09/14.
  */
@@ -28,6 +33,19 @@ public class ConnectionManager {
         }
 
         return instance;
+    }
+
+    public Connection anonymousLogin() throws XMPPException {
+
+        ConnectionConfiguration config = new ConnectionConfiguration(SERVER_IP_ADDRESS, PORT);
+        config.setSecurityMode(ConnectionConfiguration.SecurityMode.disabled);
+
+        Connection conn = new XMPPConnection(config);
+
+        conn.connect();
+
+        return conn;
+
     }
 
 

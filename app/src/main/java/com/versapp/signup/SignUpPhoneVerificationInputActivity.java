@@ -48,9 +48,10 @@ public class SignUpPhoneVerificationInputActivity extends Activity {
             @Override
             public void afterTextChanged(Editable s) {
 
-                System.out.println(phoneEdit.getText().toString());
                 // Remove US area code.
-                phoneEdit.setText(phoneEdit.getText().toString().replace("^+1", ""));
+                if (phoneEdit.getText().toString().length() > 10) {
+                    phoneEdit.setText(phoneEdit.getText().toString().replace("^+1", ""));
+                }
             }
         });
 
@@ -59,69 +60,76 @@ public class SignUpPhoneVerificationInputActivity extends Activity {
 
     public void next(View view){
 
+        boolean requireVerification = true;
 
-        // validate phone number.
-        final String phone = phoneEdit.getText().toString();
+        if (!requireVerification){
 
-        // send text message.
-        if (phone.length() > 0) {
+            startActivity(new Intent(SignUpPhoneVerificationInputActivity.this, SignUpUsernamePassInputActivity.class));
 
-            RegistrationManager.getInstance(this).storePhone(phone);
+        }  else {
 
-            new AsyncTask<Void, Void, Boolean>(){
-                @Override
-                protected Boolean doInBackground(Void... params) {
 
-                    try {
+            // validate phone number.
+            final String phone = phoneEdit.getText().toString();
 
-                        return RegistrationManager.getInstance(SignUpPhoneVerificationInputActivity.this).isPhoneAvailable(phone);
+            // send text message.
+            if (phone.length() > 0) {
 
-                    } catch (IOException e) {
+                RegistrationManager.getInstance(this).storePhone(phone);
 
-                        e.printStackTrace();
+                new AsyncTask<Void, Void, Boolean>() {
+                    @Override
+                    protected Boolean doInBackground(Void... params) {
+
+                        try {
+
+                            return RegistrationManager.getInstance(SignUpPhoneVerificationInputActivity.this).isPhoneAvailable(phone);
+
+                        } catch (IOException e) {
+
+                            e.printStackTrace();
+                        }
+
+                        return null;
                     }
 
-                    return null;
-                }
-
-                @Override
-                protected void onPostExecute(Boolean isAvailable) {
+                    @Override
+                    protected void onPostExecute(Boolean isAvailable) {
 
 
+                        if (isAvailable == null) {
+                            Toast.makeText(SignUpPhoneVerificationInputActivity.this, "We are currently unable to verify your phone. Please try again soon.", Toast.LENGTH_LONG).show();
+                        } else if (isAvailable) {
 
-                    if (isAvailable == null) {
-                        Toast.makeText(SignUpPhoneVerificationInputActivity.this, "We are currently unable to verify your phone. Please try again soon.", Toast.LENGTH_LONG).show();
-                    } else if(isAvailable) {
+                            new AsyncTask<Void, Void, Void>() {
 
-                        new AsyncTask<Void, Void, Void>(){
+                                @Override
+                                protected Void doInBackground(Void... params) {
 
-                            @Override
-                            protected Void doInBackground(Void... params) {
+                                    RegistrationManager.getInstance(getApplicationContext()).sendConfirmationText();
 
-                                RegistrationManager.getInstance(getApplicationContext()).sendConfirmationText();
+                                    startActivity(new Intent(SignUpPhoneVerificationInputActivity.this, VerificationCodeInputActivity.class));
 
-                                startActivity(new Intent(SignUpPhoneVerificationInputActivity.this, VerificationCodeInputActivity.class));
+                                    return null;
+                                }
+                            }.execute();
 
-                                return null;
-                            }
-                        }.execute();
+                        } else {
+                            Toast.makeText(SignUpPhoneVerificationInputActivity.this, "Number is already taken.", Toast.LENGTH_SHORT).show();
+                        }
 
-                    } else {
-                        Toast.makeText(SignUpPhoneVerificationInputActivity.this, "Number is already taken.", Toast.LENGTH_SHORT).show();
+
+                        super.onPostExecute(isAvailable);
                     }
+                }.execute();
 
+            } else {
 
+                Toast.makeText(this, "Invalid number.", Toast.LENGTH_SHORT).show();
 
-                    super.onPostExecute(isAvailable);
-                }
-            }.execute();
-
-        } else {
-
-            Toast.makeText(this, "Invalid number.", Toast.LENGTH_SHORT).show();
+            }
 
         }
-
 
     }
 

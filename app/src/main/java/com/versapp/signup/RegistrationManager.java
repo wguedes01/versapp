@@ -2,8 +2,10 @@ package com.versapp.signup;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.util.Log;
 
 import com.versapp.connection.ConnectionManager;
+import com.versapp.connection.ConnectionService;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -14,6 +16,7 @@ import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
+import org.jivesoftware.smack.XMPPException;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
@@ -36,12 +39,13 @@ public class RegistrationManager {
     private static final String REGISTRATION_INFO_EMAIL_KEY = "REGISTRATION_INFO_EMAIL_KEY";
     private static final String REGISTRATION_INFO_RANDOM_CODE_KEY = "REGISTRATION_INFO_RANDOM_CODE_KEY";
 
-
+    private Context context;
     private static RegistrationManager instance;
     private SharedPreferences preferences;
 
 
     private RegistrationManager(Context context) {
+        this.context = context;
         preferences = context.getSharedPreferences(REGISTRATION_INFO, Context.MODE_PRIVATE);
     }
 
@@ -59,6 +63,7 @@ public class RegistrationManager {
     public void storeUsername(String username) {storeStringData(REGISTRATION_INFO_USERNAME_KEY, username);}
     public void storePassword(String password) {storeStringData(REGISTRATION_INFO_PASSWORD_KEY, password);}
     public void storeEmail(String email) {storeStringData(REGISTRATION_INFO_EMAIL_KEY, email);}
+    public void storeVerificationCode(String code) {storeStringData(REGISTRATION_INFO_RANDOM_CODE_KEY, code);}
 
     public String getPhone(){return preferences.getString(REGISTRATION_INFO_PHONE_KEY, null);}
     public String getName(){return preferences.getString(REGISTRATION_INFO_NAME_KEY, null);}
@@ -76,9 +81,7 @@ public class RegistrationManager {
     public void sendConfirmationText(){
 
         String randomCode = generateRandomCode();
-        SharedPreferences.Editor edit = preferences.edit();
-        edit.putString(REGISTRATION_INFO_RANDOM_CODE_KEY, randomCode);
-
+        storeVerificationCode(randomCode);
 
         try {
             HttpClient httpClient = new DefaultHttpClient();
@@ -127,14 +130,30 @@ public class RegistrationManager {
         edit.remove(REGISTRATION_INFO_RANDOM_CODE_KEY);
     }
 
-    public void register(){
+    public boolean register() throws XMPPException {
 
+        String packetID = "register";
 
+        StringBuilder packet = new StringBuilder();
+
+        packet.append(String.format("<iq id='%s' type='set' to='%s'>", packetID, ConnectionManager.SERVER_IP_ADDRESS));
+        packet.append("<query xmlns='jabber:iq:register'>");
+        packet.append(String.format("<username>%s</username>", getUsername()));
+        packet.append(String.format("<password>%s</password>", getPassword()));
+        packet.append("</query>");
+        packet.append("</iq>");
+
+        String response = ConnectionService.sendUnauthenticatedCustomXMLPacket(packet.toString(), packetID, ConnectionManager.getInstance().anonymousLogin());
+        Log.d("Registration", response);
+
+        // THIS IS A HACK.
+        if (response.equals("<iq id=\"register\" from=\"" + ConnectionManager.SERVER_IP_ADDRESS + "\" type=\"result\"></iq>")) {
+            return true;
+        }
+        return false;
     }
 
-    public RegistrationManager() {
-        super();
-    }
+
 
     public boolean isPhoneAvailable(String phone) throws IOException {
 

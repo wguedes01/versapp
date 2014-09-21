@@ -55,6 +55,10 @@
             android:name=".signup.VerificationCodeInputActivity"
             android:label="@string/title_activity_verification_code_input" >
         </activity>
+        <activity
+            android:name=".signup.SignUpUsernamePassInputActivity"
+            android:label="@string/title_activity_sign_up_username_pass_input" >
+        </activity>
     </application>
 
     <!-- To auto-complete the email text field in the login form with the user's emails -->

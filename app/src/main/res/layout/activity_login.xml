@@ -2,10 +2,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    android:paddingBottom="@dimen/activity_vertical_margin"
     tools:context="com.versapp.LoginActivity"
     android:background="@drawable/owl_bg_login"
     android:orientation="vertical"    >
@@ -15,6 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
+
         <Button
             android:id="@+id/login_btn"
             android:layout_width="match_parent"
@@ -24,9 +21,8 @@
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
             android:background="@color/confessionBlue"
-            android:onClick="login"
+            android:onClick="showLoginFields"
             android:layout_margin="5dp" />
-
 
         <Button
             android:id="@+id/signup_btn"
@@ -41,6 +37,73 @@
             android:layout_margin="5dp" />
 
         </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/login_and_pass_edit_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/veryDarkTransparent"
+        android:orientation="vertical"
+        android:visibility="gone"
+        android:gravity="center">
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/username_edit"
+            android:inputType="textVisiblePassword"
+            android:padding="10dp"
+            android:layout_margin="5dp"
+            android:textColor="@android:color/black"
+            android:hint="@string/sign_up_username_hint"
+            android:background="@android:color/white"/>
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/password_edit"
+            android:inputType="textPassword"
+            android:textColor="@android:color/black"
+            android:padding="10dp"
+            android:hint="@string/sign_up_password_hint"
+            android:layout_margin="5dp"
+            android:background="@android:color/white"
+            android:imeOptions="actionGo"/>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <Button
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.5"
+                android:text="Cancel"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                android:background="@color/confessionBlue"
+                android:onClick="hideLoginFields"
+                android:layout_margin="5dp" />
+
+
+            <Button
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.5"
+                android:text="Login"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                android:background="@color/confessionBlue"
+                android:onClick="login"
+                android:layout_margin="5dp" />
+
+            </LinearLayout>
+
+
+
+
+    </LinearLayout>
 
 
 </RelativeLayout>

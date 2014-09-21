@@ -3,10 +3,9 @@ package com.versapp.connection;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
-import android.util.Log;
+import android.widget.Toast;
 
 import com.versapp.DashboardActivity;
-import com.versapp.Logger;
 
 import org.jivesoftware.smack.Connection;
 import org.jivesoftware.smack.ConnectionConfiguration;
@@ -21,9 +20,11 @@ public class LoginAT extends AsyncTask<String, Void, Connection>{
 
 
     private Context context;
+    private Runnable postExecute;
 
-    public LoginAT(Context context) {
+    public LoginAT(Context context, Runnable run) {
         this.context = context;
+        this.postExecute = run;
     }
 
     @Override
@@ -50,26 +51,43 @@ public class LoginAT extends AsyncTask<String, Void, Connection>{
                 connection.login(username, password);
                 return connection;
             } else {
-                // Failed to connect
+                return null;
             }
         } catch (XMPPException e) {
             e.printStackTrace();
+            return null;
         }
-
-        return null;
     }
 
     @Override
     protected void onPostExecute(Connection conn) {
 
         if (conn != null){
-            context.startService(new Intent(context, ConnectionService.class));
-            ConnectionService.setConnection(conn);
 
-            Log.d(Logger.CONNECTION_DEBUG, "Session Id: " + ConnectionService.getSessionId());
-            context.startActivity(new Intent(context, DashboardActivity.class));
+            if (conn.isAuthenticated()){
+
+                context.startService(new Intent(context, ConnectionService.class));
+                ConnectionService.setConnection(conn);
+
+                if (postExecute != null) {
+
+                    postExecute.run();
+
+                } else {
+                    context.startActivity(new Intent(context, DashboardActivity.class));
+                }
+
+            } else {
+
+                Toast.makeText(context, "Invalid username or password.", Toast.LENGTH_SHORT).show();
+
+            }
+
+        } else {
+            Toast.makeText(context, "Sorry, we are having some technical issues. Try again soon!", Toast.LENGTH_LONG).show();
         }
 
         super.onPostExecute(conn);
     }
+
 }

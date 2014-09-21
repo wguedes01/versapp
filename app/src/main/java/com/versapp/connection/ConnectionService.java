@@ -95,5 +95,40 @@ public class ConnectionService extends Service {
         return sessionId;
     }
 
+    public static String sendUnauthenticatedCustomXMLPacket(final String xml, final String packetId, Connection conn) {
+
+        // we should change this to throwing exceptions..
+        if (!conn.isConnected()) {
+            return "";
+        }
+
+        PacketCollector iqPacketCollector = conn.createPacketCollector(new PacketFilter() {
+
+            @Override
+            public boolean accept(Packet packet) {
+                if (packet.toXML().contains(packetId)) {
+                    return true;
+                }
+                return false;
+            }
+        });
+
+        Packet packet = new Packet() {
+            @Override
+            public String toXML() {
+                return xml;
+            }
+        };
+
+        conn.sendPacket(packet);
+
+        String response = iqPacketCollector.nextResult().toXML().replaceAll("\\r\\n|\\r|\\n", " ");
+
+        Log.d(Logger.EJABBERD_SERVER_REQUESTS_DEBUG, "Sent (Unauthenticated): " + xml);
+        Log.d(Logger.EJABBERD_SERVER_REQUESTS_DEBUG, "Received (Unauthenticated): " + response);
+        return response;
+
+    }
+
 
 }

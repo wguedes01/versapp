@@ -2,63 +2,76 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.versapp.signup.SignUpNameEmailInputActivity"
+    tools:context="com.versapp.signup.SignUpUsernamePassInputActivity"
     android:background="@android:color/white">
+
+
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/sign_up_header"
+        android:text="@string/username_pass_input_header"
         android:textSize="30sp"
         android:background="@color/confessionBlue"
         android:gravity="center"
         android:textColor="@android:color/white"
         android:padding="15dp"
-        android:id="@+id/sign_up_header_text" />
+        android:id="@+id/sign_up_username_header_text" />
 
     <EditText
 
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:inputType="textCapSentences"
         android:ems="10"
-        android:id="@+id/sign_up_name_edit"
-        android:layout_below="@+id/sign_up_header_text"
+        android:inputType="textVisiblePassword|textNoSuggestions"
         android:textColorHint="@android:color/white"
+        android:id="@+id/sign_up_username_edit"
+        android:layout_below="@+id/sign_up_username_header_text"
         android:layout_centerHorizontal="true"
+        android:layout_marginTop="63dp"
+        android:hint="@string/sign_up_username_hint"
+        android:layout_margin="10dp"
         android:padding="10dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginTop="10dp"
         android:gravity="center"
-        android:hint="@string/sign_up_name_hint"
         android:background="@color/confessionBlue"><requestFocus></requestFocus></EditText>
 
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:inputType="textEmailAddress"
+        android:inputType="textPassword"
         android:ems="10"
         android:textColorHint="@android:color/white"
-        android:id="@+id/sign_up_email_edit"
+        android:id="@+id/sign_up_password_edit"
+        android:layout_margin="10dp"
+        android:layout_below="@id/sign_up_username_edit"
         android:layout_centerHorizontal="true"
-        android:hint="@string/sign_up_email_hint"
+        android:hint="@string/sign_up_password_hint"
         android:padding="10dp"
-        android:layout_below="@id/sign_up_name_edit"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginTop="10dp"
+        android:gravity="center"
+        android:background="@color/confessionBlue"/>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="textPassword"
+        android:ems="10"
+        android:layout_margin="10dp"
+        android:textColorHint="@android:color/white"
+        android:id="@+id/sign_up_confirm_password_edit"
+        android:layout_below="@id/sign_up_password_edit"
+        android:layout_centerHorizontal="true"
+        android:hint="@string/sign_up_password_hint"
+        android:padding="10dp"
         android:gravity="center"
         android:background="@color/confessionBlue"/>
 
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Next"
+        android:text="Finish"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:background="@color/confessionBlue"
-        android:onClick="next" />
-
+        android:onClick="register" />
 
 </RelativeLayout>

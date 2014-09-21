@@ -16,5 +16,11 @@
         Versapp will never, ever, give your phone number away.</string>
     <string name="title_activity_verification_code_input">VerificationCodeInputActivity</string>
     <string name="hello_world">Hello world!</string>
+    <string name="title_activity_sign_up_username_pass_input">SignUpUsernamePassInputActivity</string>
+    <string name="username_pass_input_header">Last Step!</string>
+    <string name="sign_up_username_hint">Username</string>
+    <string name="sign_up_password_hint">Password</string>
+    <string name="varification_code_input_header">Vefiry</string>
+    <string name="sign_up_verification_code_hint">Code</string>
 
 </resources>
