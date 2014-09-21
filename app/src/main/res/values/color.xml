@@ -4,5 +4,6 @@
     <color name="darkTransparent">#60000000</color>
     <color name="veryDarkTransparent">#AA000000</color>
     <color name="confessionBlue">#FF2EB0FF</color>
+    <color name="orangeBeauty">#FFF49200</color>
     <color name="lightblue">#FFC0DCFC</color>
 </resources>

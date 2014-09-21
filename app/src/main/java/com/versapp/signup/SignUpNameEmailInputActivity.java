@@ -39,7 +39,7 @@ public class SignUpNameEmailInputActivity extends Activity {
             Toast.makeText(this, "Enter a valid name.", Toast.LENGTH_SHORT).show();
         } else if(!name.contains(" ")){
             Toast.makeText(this, "Enter first and last name", Toast.LENGTH_SHORT).show();
-        } else if(email.length() <= 0 && !email.contains("@")){
+        } else if(email.length() <= 0 || !email.contains("@")){
             Toast.makeText(this, "Enter a valid email.", Toast.LENGTH_SHORT).show();
         } else {
 

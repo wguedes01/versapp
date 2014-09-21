@@ -33,7 +33,7 @@
         android:layout_margin="10dp"
         android:padding="10dp"
         android:gravity="center"
-        android:background="@color/confessionBlue"><requestFocus></requestFocus></EditText>
+        android:background="@color/orangeBeauty"><requestFocus></requestFocus></EditText>
 
     <EditText
         android:layout_width="match_parent"
@@ -48,7 +48,7 @@
         android:hint="@string/sign_up_password_hint"
         android:padding="10dp"
         android:gravity="center"
-        android:background="@color/confessionBlue"/>
+        android:background="@color/orangeBeauty"/>
 
     <EditText
         android:layout_width="match_parent"
@@ -63,7 +63,7 @@
         android:hint="@string/sign_up_password_hint"
         android:padding="10dp"
         android:gravity="center"
-        android:background="@color/confessionBlue"/>
+        android:background="@color/orangeBeauty"/>
 
     <Button
         android:layout_width="match_parent"

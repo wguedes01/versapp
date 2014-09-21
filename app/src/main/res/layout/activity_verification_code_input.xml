@@ -29,7 +29,7 @@
         android:hint="@string/sign_up_verification_code_hint"
         android:padding="10dp"
         android:gravity="center"
-        android:background="@color/confessionBlue"/>
+        android:background="@color/orangeBeauty"/>
 
 
     <Button

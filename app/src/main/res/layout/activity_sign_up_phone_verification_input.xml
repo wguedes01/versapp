@@ -39,10 +39,17 @@
         android:padding="10dp"
         android:gravity="center"
         android:hint="Phone"
-        android:background="@color/confessionBlue"
+        android:background="@color/orangeBeauty"
         android:id="@+id/sign_up_phone_edit"
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true" />
+
+    <ImageView
+        android:layout_width="320dp"
+        android:layout_height="250dp"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/owl_on_bottom"
+        android:layout_alignParentBottom="true"/>
 
     <Button
         android:layout_width="match_parent"
@@ -52,6 +59,7 @@
         android:layout_centerHorizontal="true"
         android:background="@color/confessionBlue"
         android:onClick="next" />
+
 
 
 </RelativeLayout>

@@ -5,6 +5,17 @@
     tools:context="com.versapp.signup.SignUpNameEmailInputActivity"
     android:background="@android:color/white">
 
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/owl_on_right"
+        android:paddingLeft="130dp"
+        android:paddingTop="130dp"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+
+        />
+
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -32,7 +43,7 @@
         android:layout_marginTop="10dp"
         android:gravity="center"
         android:hint="@string/sign_up_name_hint"
-        android:background="@color/confessionBlue"><requestFocus></requestFocus></EditText>
+        android:background="@color/orangeBeauty"><requestFocus></requestFocus></EditText>
 
     <EditText
         android:layout_width="match_parent"
@@ -49,7 +60,7 @@
         android:layout_marginRight="10dp"
         android:layout_marginTop="10dp"
         android:gravity="center"
-        android:background="@color/confessionBlue"/>
+        android:background="@color/orangeBeauty"/>
 
     <Button
         android:layout_width="match_parent"
@@ -59,6 +70,8 @@
         android:layout_centerHorizontal="true"
         android:background="@color/confessionBlue"
         android:onClick="next" />
+
+
 
 
 </RelativeLayout>
