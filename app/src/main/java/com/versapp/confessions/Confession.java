@@ -23,6 +23,9 @@ public class Confession {
         this.numFavorites = numFavorites;
     }
 
+    public Confession() {
+    }
+
     public long getId() {
         return id;
     }

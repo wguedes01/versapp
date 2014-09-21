@@ -40,5 +40,8 @@ public class DashboardActivity extends FragmentActivity {
         });
 
 
+
+        System.out.println(getFilesDir());
+
     }
 }

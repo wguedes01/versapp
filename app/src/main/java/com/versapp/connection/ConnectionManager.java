@@ -11,12 +11,15 @@ public class ConnectionManager {
     public static final String CONFERENCE_IP_ADDRESS = "conference." + SERVER_IP_ADDRESS;
     public static final int PORT = 5222;
 
-    private ConnectionManager instance;
+
+
+
+    private static ConnectionManager instance;
 
     private ConnectionManager() {
     }
 
-    public ConnectionManager getInstance() {
+    public static ConnectionManager getInstance() {
 
         if (instance == null){
             instance = new ConnectionManager();

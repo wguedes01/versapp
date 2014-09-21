@@ -1,6 +1,101 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" android:layout_height="match_parent">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <TextView
+        android:id="@+id/big_confesion_tutorial_swipe_up_or_down_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:gravity="center"
+        android:padding="10dp"
+        android:text="Swipe Up or Down"
+        android:textSize="25sp"
+        android:visibility="gone" >
+    </TextView>
+
+    <LinearLayout
+        android:id="@+id/big_confession_dashboard"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentBottom="true"
+        android:background="@android:color/white"
+        android:orientation="horizontal" >
+
+
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="2dp"
+            android:layout_marginLeft="2dp"
+            android:layout_marginRight="1dp"
+            android:layout_marginTop="2dp"
+            android:layout_weight="0.5" >
+
+            <ImageButton
+                android:id="@+id/big_confession_msg_btn"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_centerInParent="true"
+                android:padding="30dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/start_conversation_btn_bg" />
+
+            <TextView
+                android:id="@+id/big_confession_remove_confession_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:text="X"
+                android:textColor="@android:color/white"
+                android:textSize="60sp"
+                android:visibility="gone" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="2dp"
+            android:layout_marginLeft="1dp"
+            android:layout_marginRight="2dp"
+            android:layout_marginTop="2dp"
+            android:layout_weight="0.5"
+            android:background="@color/confessionBlue" >
+
+            <ImageButton
+                android:id="@+id/big_confession_favorite_btn"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/transparent"
+                android:padding="30dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/big_confession_heart_outline" />
+        </RelativeLayout>
+    </LinearLayout>
+
+    <ImageButton
+        android:id="@+id/big_confession_compose_new_confession_btn"
+        android:layout_width="80dp"
+        android:layout_height="40dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/compose_confession_btn_bg" />
+
+    <ListView
+        android:id="@+id/fragment_big_confessions_list_view"
+        style="@style/confessionsListView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/big_confesion_tutorial_swipe_up_or_down_label"
+        android:background="@android:color/black" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_above="@id/big_confession_dashboard"
+        android:background="@drawable/big_confession_listview_gradient" >
+    </LinearLayout>
 
 </RelativeLayout>

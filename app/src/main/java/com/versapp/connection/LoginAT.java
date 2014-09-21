@@ -3,8 +3,10 @@ package com.versapp.connection;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.util.Log;
 
 import com.versapp.DashboardActivity;
+import com.versapp.Logger;
 
 import org.jivesoftware.smack.Connection;
 import org.jivesoftware.smack.ConnectionConfiguration;
@@ -63,6 +65,8 @@ public class LoginAT extends AsyncTask<String, Void, Connection>{
         if (conn != null){
             context.startService(new Intent(context, ConnectionService.class));
             ConnectionService.setConnection(conn);
+
+            Log.d(Logger.CONNECTION_DEBUG, "Session Id: " + ConnectionService.getSessionId());
             context.startActivity(new Intent(context, DashboardActivity.class));
         }
 
