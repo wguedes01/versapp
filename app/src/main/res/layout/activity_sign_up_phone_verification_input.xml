@@ -1,0 +1,51 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.versapp.signup.SignUpPhoneVerificationInputActivity"
+    android:background="@android:color/white">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/phone_verification_header"
+        android:textSize="30sp"
+        android:background="@color/confessionBlue"
+        android:gravity="center"
+        android:textColor="@android:color/white"
+        android:padding="15dp"
+        android:id="@+id/sign_up_header_text" />
+
+
+    <TextView
+        android:layout_below="@id/sign_up_header_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/phone_verification_description"
+        android:textSize="18sp"
+        android:gravity="center"
+        android:textColor="@color/confessionBlue"
+        android:padding="15dp" />
+
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="phone"
+        android:ems="10"
+        android:background="@color/confessionBlue"
+        android:id="@+id/sign_up_phone_edit"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true" />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Next"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:background="@color/confessionBlue"
+        android:onClick="next" />
+
+
+</RelativeLayout>

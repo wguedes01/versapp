@@ -10,6 +10,7 @@
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.SEND_SMS" />
+    <uses-permission android:name="android.permission.RECEIVE_SMS" />
 
     <!-- GCM requires a Google account. -->
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
@@ -41,6 +42,18 @@
         <activity
             android:name=".DashboardActivity"
             android:label="@string/title_activity_dashboard" >
+        </activity>
+        <activity
+            android:name=".signup.SignUpNameEmailInputActivity"
+            android:label="@string/title_activity_sign_up_name_email_input" >
+        </activity>
+        <activity
+            android:name=".signup.SignUpPhoneVerificationInputActivity"
+            android:label="@string/title_activity_sign_up_phone_verification_input" >
+        </activity>
+        <activity
+            android:name=".signup.VerificationCodeInputActivity"
+            android:label="@string/title_activity_verification_code_input" >
         </activity>
     </application>
 

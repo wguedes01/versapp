@@ -1,0 +1,53 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.versapp.signup.SignUpNameEmailInputActivity"
+    android:background="@android:color/white">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/sign_up_header"
+        android:textSize="30sp"
+        android:background="@color/confessionBlue"
+        android:gravity="center"
+        android:textColor="@android:color/white"
+        android:padding="15dp"
+        android:id="@+id/sign_up_header_text" />
+
+    <EditText
+
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:ems="10"
+        android:id="@+id/sign_up_name_edit"
+        android:layout_below="@+id/sign_up_header_text"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="63dp"
+        android:hint="@string/sign_up_name_hint"
+        android:background="@color/confessionBlue"><requestFocus></requestFocus></EditText>
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textEmailAddress"
+        android:ems="10"
+        android:id="@+id/sign_up_email_edit"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"
+        android:hint="@string/sign_up_email_hint"
+        android:background="@color/confessionBlue"/>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Next"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:background="@color/confessionBlue"
+        android:onClick="next" />
+
+
+</RelativeLayout>

@@ -43,7 +43,7 @@ public class ConnectionService extends Service {
     public static String sendCustomXMLPacket(final String xml, final String packetId) {
 
         // we should change this to throwing exceptions..
-        if (!connection.isAuthenticated()) {
+        if (!connection.isConnected() || !connection.isAuthenticated()) {
             return "";
         }
 

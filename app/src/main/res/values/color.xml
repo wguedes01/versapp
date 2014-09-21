@@ -3,4 +3,5 @@
     <color name="transparent">#00000000</color>
     <color name="darkTransparent">#60000000</color>
     <color name="confessionBlue">#FF2EB0FF</color>
+    <color name="lightblue">#FFC0DCFC</color>
 </resources>

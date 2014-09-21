@@ -10,9 +10,6 @@
     android:background="@drawable/owl_bg_login"
     android:orientation="vertical"    >
 
-
-
-
     <LinearLayout
         android:layout_alignParentBottom="true"
         android:layout_width="match_parent"
@@ -40,7 +37,7 @@
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
             android:background="@color/confessionBlue"
-            android:onClick="signup"
+            android:onClick="signUp"
             android:layout_margin="5dp" />
 
         </LinearLayout>

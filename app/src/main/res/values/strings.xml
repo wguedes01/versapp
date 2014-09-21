@@ -2,9 +2,19 @@
 <resources>
 
     <string name="app_name">Versapp</string>
-    <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
     <string name="title_activity_login">LoginActivity</string>
     <string name="title_activity_dashboard">DashboardActivity</string>
+    <string name="title_activity_sign_up_name_email_input">SignUpNameEmailInput</string>
+    <string name="sign_up_header">Sign Up</string>
+    <string name="sign_up_name_hint">Name</string>
+    <string name="sign_up_email_hint">Email</string>
+    <string name="title_activity_sign_up_phone_verification_input">SignUpPhoneVerificationInput</string>
+    <string name="phone_verification_header">Find Friends!</string>
+    <string name="phone_verification_description">We just need to verify your number. \n\n
+        We will also be looking for your friends!\n\n
+        Versapp will never, ever, give your phone number away.</string>
+    <string name="title_activity_verification_code_input">VerificationCodeInputActivity</string>
+    <string name="hello_world">Hello world!</string>
 
 </resources>
