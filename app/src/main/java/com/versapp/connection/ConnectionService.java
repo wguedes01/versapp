@@ -21,6 +21,7 @@ import java.util.regex.Pattern;
 public class ConnectionService extends Service {
 
     private static Connection connection;
+    private static String user;
 
     @Override
     public void onCreate() {
@@ -129,6 +130,17 @@ public class ConnectionService extends Service {
         return response;
 
     }
+
+
+    public static String getUser() {
+
+        if (user == null){
+            user = connection.getUser().split("@")[0];
+        }
+
+        return user;
+    }
+
 
 
 }

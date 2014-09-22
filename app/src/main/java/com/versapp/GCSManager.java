@@ -43,11 +43,6 @@ public class GCSManager {
 
     private GCSManager(Context context) {
         this.context = context;
-        try {
-            storage = initializeStorage();
-        } catch (GeneralSecurityException e) {
-            e.printStackTrace();
-        }
     }
 
     public static GCSManager getInstance(Context context){
@@ -79,16 +74,6 @@ public class GCSManager {
                             // .setClientSecrets(CLIENT_ID, CLIENT_SECRET)
                     .build();
 
-			/*
-			 * GoogleCredential credential = new GoogleCredential.Builder()
-			 * .setTransport(httpTransport) .setJsonFactory(JSON_FACTORY)
-			 * .setServiceAccountId(SERVICE_ACCOUNT_EMAIL)
-			 * //.setServiceAccountUser(userEmail)
-			 * .setServiceAccountPrivateKeyFromP12File( new
-			 * java.io.File(context.
-			 * getCacheDir().getAbsoluteFile()R.raw.gcs_privatekey)) .build();
-			 */
-
             credential.refreshToken();
 
             String URI = "https://storage.googleapis.com/msgpics";
@@ -119,74 +104,105 @@ public class GCSManager {
 
     public String upload(Bitmap bitmap) throws IOException {
 
-        // Compress image
-        ByteArrayOutputStream bos = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.PNG, 0 /* ignored for PNG */, bos);
-        byte[] bitmapdata = bos.toByteArray();
-        ByteArrayInputStream bs = new ByteArrayInputStream(bitmapdata);
+        if (storage == null) {
+            try {
 
-        int quality = 100;
-        while (bs.available() > 40000 && quality > 50) {
-            quality -= 10;
-            bos = new ByteArrayOutputStream();
-            bitmap.compress(Bitmap.CompressFormat.JPEG, quality, bos);
-            bitmapdata = bos.toByteArray();
+                storage = initializeStorage();
+
+            } catch (GeneralSecurityException e) {
+                e.printStackTrace();
+            }
         }
-        bs = new ByteArrayInputStream(bitmapdata);
 
-        String imageUrl = generateImageId();
+        if (storage != null){
 
-        // Bucket newBucket =
-        // storage.buckets().insert("versappkalamazoo-2014", new
-        // Bucket().setName("msgpics2").setLocation("US").setStorageClass("DURABLE_REDUCED_AVAILABILITY")).execute();
+            // Compress image
+            ByteArrayOutputStream bos = new ByteArrayOutputStream();
+            bitmap.compress(Bitmap.CompressFormat.PNG, 0 /* ignored for PNG */, bos);
+            byte[] bitmapdata = bos.toByteArray();
+            ByteArrayInputStream bs = new ByteArrayInputStream(bitmapdata);
 
-        InputStreamContent mediaContent = new InputStreamContent("image/png", bs);
+            int quality = 100;
+            while (bs.available() > 40000 && quality > 50) {
+                quality -= 10;
+                bos = new ByteArrayOutputStream();
+                bitmap.compress(Bitmap.CompressFormat.JPEG, quality, bos);
+                bitmapdata = bos.toByteArray();
+            }
+            bs = new ByteArrayInputStream(bitmapdata);
 
-        // Knowing the stream length allows server-side
-        // optimization, and client-side progress
-        // reporting with a MediaHttpUploaderProgressListener.
-        mediaContent.setLength(bs.available());
+            String imageUrl = generateImageId();
 
-        StorageObject objectMetadata = null;
+            // Bucket newBucket =
+            // storage.buckets().insert("versappkalamazoo-2014", new
+            // Bucket().setName("msgpics2").setLocation("US").setStorageClass("DURABLE_REDUCED_AVAILABILITY")).execute();
 
-        Storage.Objects.Insert insertObject = this.storage.objects().insert(GCS_BUCKET_NAME, objectMetadata, mediaContent);
+            InputStreamContent mediaContent = new InputStreamContent("image/png", bs);
 
-        insertObject.setName(imageUrl);
-        // For small files, you may wish to call
-        // setDirectUploadEnabled(true), to
-        // reduce the number of HTTP requests made to the server.
-        if (mediaContent.getLength() > 0 && mediaContent.getLength() <= 2 * 1000 * 1000 /*
+            // Knowing the stream length allows server-side
+            // optimization, and client-side progress
+            // reporting with a MediaHttpUploaderProgressListener.
+            mediaContent.setLength(bs.available());
+
+            StorageObject objectMetadata = null;
+
+            Storage.Objects.Insert insertObject = this.storage.objects().insert(GCS_BUCKET_NAME, objectMetadata, mediaContent);
+
+            insertObject.setName(imageUrl);
+            // For small files, you may wish to call
+            // setDirectUploadEnabled(true), to
+            // reduce the number of HTTP requests made to the server.
+            if (mediaContent.getLength() > 0 && mediaContent.getLength() <= 2 * 1000 * 1000 /*
 																						 * 2
 																						 * MB
 																						 */) {
-            insertObject.getMediaHttpUploader().setDirectUploadEnabled(true);
+                insertObject.getMediaHttpUploader().setDirectUploadEnabled(true);
+            }
+
+            insertObject.execute();
+
+
+            return imageUrl;
         }
 
-        insertObject.execute();
-
-        return imageUrl;
-
+        return null;
     }
 
     public Bitmap downloadImage(final String imageUrl, int reqWidth, int reqHeight) {
 
-        Bitmap image = null;
+        if (storage == null) {
+            try {
 
-        Storage.Objects.Get getObject;
-        try {
+                storage = initializeStorage();
 
-            getObject = storage.objects().get(GCS_BUCKET_NAME, imageUrl);
+            } catch (GeneralSecurityException e) {
+                e.printStackTrace();
+            }
+        }
 
-            ByteArrayOutputStream out = new ByteArrayOutputStream();
-            // If you're not in AppEngine, download the whole thing in
-            // one request, if possible.
-            getObject.getMediaHttpDownloader().setDirectDownloadEnabled(true);
-            getObject.executeMediaAndDownloadTo(out);
+        if (storage != null){
 
-            return decodeSampledBitmapFromByteArray(out.toByteArray(), reqWidth, reqHeight);
 
-        } catch (IOException e) {
-            e.printStackTrace();
+            Bitmap image = null;
+
+            Storage.Objects.Get getObject;
+            try {
+
+                getObject = storage.objects().get(GCS_BUCKET_NAME, imageUrl);
+
+                ByteArrayOutputStream out = new ByteArrayOutputStream();
+                // If you're not in AppEngine, download the whole thing in
+                // one request, if possible.
+                getObject.getMediaHttpDownloader().setDirectDownloadEnabled(true);
+                getObject.executeMediaAndDownloadTo(out);
+
+                return decodeSampledBitmapFromByteArray(out.toByteArray(), reqWidth, reqHeight);
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+
         }
 
         return null;
@@ -207,7 +223,6 @@ public class GCSManager {
         // Decode bitmap with inSampleSize set
         options.inJustDecodeBounds = false;
         Bitmap image = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length, options);
-        Log.d(Logger.IMAGE_DOWNLOAD_DEBUG, "Image Size Before: " + image.getByteCount());
 
         return image;
     }

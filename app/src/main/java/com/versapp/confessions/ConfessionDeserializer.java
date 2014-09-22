@@ -40,8 +40,13 @@ public class ConfessionDeserializer implements JsonDeserializer<Confession> {
         confession.setBody(URLDecoder.decode(bodyElement.getAsString()));
         confession.setCreatedTimestamp(createdTimestampElement.getAsLong());
         confession.setImageUrl(imageUrlElement.getAsString());
-        confession.setDegree(degreeElement.getAsString());
-        confession.setFavorited(isFavoritedElement.getAsBoolean());
+        confession.setDegree(Integer.valueOf(degreeElement.getAsString()));
+
+        boolean isFavorited = false;
+        if (isFavoritedElement.getAsString().equals("true"))
+            isFavorited = true;
+
+        confession.setFavorited(isFavorited);
         confession.setNumFavorites(numFavoritesElement.getAsInt());
 
         return confession;

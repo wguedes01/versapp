@@ -1,10 +1,20 @@
 [
 {
+	"id":1150,
+	"body":"Cool%21",
+	"image_url":"#8dc126",
+	"created_timestamp":1410578047,
+	"degree":"2",
+	"has_favorited":"false",
+	"num_favorites":0,
+	"score":1410578047
+},
+{
   "id": 1196,
   "body": "hello",
   "image_url": "aaronendre1400874952",
   "created_timestamp": 1411095307,
-  "degree": "global",
+  "degree": "7",
   "has_favorited": "false",
   "num_favorites": 77,
   "score": 1411095307
@@ -14,7 +24,7 @@
   "body": "some+thought",
   "image_url": "#AAAAAAAA",
   "created_timestamp": 1411095304,
-  "degree": "global",
+  "degree": 1,
   "has_favorited": "false",
   "num_favorites": 0,
   "score": 1411095306
@@ -24,7 +34,7 @@
   "body": "hello",
   "image_url": "#AAAAAAAA",
   "created_timestamp": 1411095307,
-  "degree": "global",
+  "degree": 2,
   "has_favorited": "false",
   "num_favorites": 0,
   "score": 1411095307
@@ -34,7 +44,7 @@
   "body": "some+thought",
   "image_url": "andrew_kaylor1405794207",
   "created_timestamp": 1411095304,
-  "degree": "global",
+  "degree": 0,
   "has_favorited": "false",
   "num_favorites": 0,
   "score": 1411095306

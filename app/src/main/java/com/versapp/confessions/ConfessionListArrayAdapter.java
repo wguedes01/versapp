@@ -23,11 +23,13 @@ public class ConfessionListArrayAdapter extends ArrayAdapter<Confession> {
 
     private Activity activity;
     private ArrayList<Confession> confessions;
+    private ConfessionImageCache cache;
 
-    public ConfessionListArrayAdapter(Activity activity, ArrayList<Confession> confessions) {
+    public ConfessionListArrayAdapter(Activity activity, ArrayList<Confession> confessions, ConfessionImageCache cache) {
         super(activity, R.layout.confession_list_item, confessions);
         this.activity = activity;
         this.confessions = confessions;
+        this.cache = cache;
     }
 
     @Override
@@ -65,7 +67,7 @@ public class ConfessionListArrayAdapter extends ArrayAdapter<Confession> {
         holder.backgroundImage.setBackgroundColor(activity.getResources().getColor(android.R.color.white));
 
         holder.favoriteCount.setText(String.valueOf(confession.getNumFavorites()));
-        holder.degreeText.setText(confession.getDegree());
+        holder.degreeText.setText(String.valueOf(confession.getDegree()));
 
         // Makes layout squared.
         int width = activity.getWindowManager().getDefaultDisplay().getWidth(); // deprecated
@@ -86,9 +88,16 @@ public class ConfessionListArrayAdapter extends ArrayAdapter<Confession> {
             holder.backgroundImage.setBackgroundColor(Color.parseColor(confessions.get(position).getImageUrl()));
         } else {
 
-            DownloadImageAT task = new DownloadImageAT(activity, holder.backgroundImage);
-            holder.task = task;
-            task.execute(confession.getImageUrl());
+            if (!cache.isCached(confession.getImageUrl())){
+                DownloadImageAT task = new DownloadImageAT(activity, confession.getImageUrl(), holder.backgroundImage, cache);
+                holder.task = task;
+                task.execute();
+            } else {
+
+                holder.backgroundImage.setImageBitmap(cache.getCachedImage(confession.getImageUrl()));
+
+               // ConfessionImageCache.setBitmapOnView(activity, holder.backgroundImage, cache.getCachedImage(confession.getImageUrl()));
+            }
 
         }
 
@@ -108,6 +117,9 @@ public class ConfessionListArrayAdapter extends ArrayAdapter<Confession> {
     }
 
     private void updateDegreeIndicatorIcon(int position, ImageView iconView) {
+
+
+
     }
 
     @Override

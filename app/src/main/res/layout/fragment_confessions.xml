@@ -42,16 +42,6 @@
                 android:padding="30dp"
                 android:scaleType="fitCenter"
                 android:src="@drawable/start_conversation_btn_bg" />
-
-            <TextView
-                android:id="@+id/big_confession_remove_confession_btn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:text="X"
-                android:textColor="@android:color/white"
-                android:textSize="60sp"
-                android:visibility="gone" />
         </RelativeLayout>
 
         <RelativeLayout

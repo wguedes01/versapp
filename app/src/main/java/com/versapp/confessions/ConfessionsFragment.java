@@ -20,7 +20,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 import com.versapp.Logger;
 import com.versapp.R;
@@ -39,7 +38,8 @@ public class ConfessionsFragment extends Fragment {
     private ImageButton favoriteBtn;
     private ImageButton startMessageBtn;
     private ImageView composeConfessionBtn;
-    private TextView removeConfessionLabel;
+
+    private ConfessionImageCache cache;
 
     private ConfessionTutorial tutorial;
 
@@ -54,8 +54,10 @@ public class ConfessionsFragment extends Fragment {
 
         confessions = new ArrayList<Confession>();
 
+        cache = new ConfessionImageCache(getActivity());
+
         confessionsListView = (ListView) convertView.findViewById(R.id.fragment_big_confessions_list_view);
-        adapter = new ConfessionListArrayAdapter(getActivity(), confessions);
+        adapter = new ConfessionListArrayAdapter(getActivity(), confessions, cache);
         confessionsListView.setAdapter(adapter);
 
 
@@ -63,7 +65,6 @@ public class ConfessionsFragment extends Fragment {
         favoriteBtn = (ImageButton) convertView.findViewById(R.id.big_confession_favorite_btn);
         startMessageBtn = (ImageButton) convertView.findViewById(R.id.big_confession_msg_btn);
         composeConfessionBtn = (ImageView) convertView.findViewById(R.id.big_confession_compose_new_confession_btn);
-        removeConfessionLabel = (TextView) convertView.findViewById(R.id.big_confession_remove_confession_btn);
 
         // Due to differences among devices, we need to programatically adjust
         // size of a few elements.
@@ -138,7 +139,9 @@ public class ConfessionsFragment extends Fragment {
 
                 Log.d(Logger.CONFESSIONS_DEBUG, "About to get confessions");
                 Confession[] confessions = ConfessionManager.getInstance().downloadConfessions(getActivity());
-                Log.d(Logger.CONFESSIONS_DEBUG, "Size: " + confessions.length);
+
+                if (confessions == null)
+                    confessions = new Confession[0];
 
                 return confessions;
 
@@ -166,22 +169,21 @@ public class ConfessionsFragment extends Fragment {
 
     private void updateLayout() {
 
-        removeConfessionLabel.setVisibility(View.GONE); // Always invisible
-        // unless specified down
-        // below
         startMessageBtn.setImageResource(R.drawable.big_confession_start_conversation_btn);
         startMessageBtn.setBackgroundColor(getResources().getColor(R.color.confessionBlue));
 
         // Always update favorite and message icon
         if (confessions.get(selectedConfessionPosition).isMine()) {
 
-            removeConfessionLabel.setVisibility(View.VISIBLE);
-            startMessageBtn.setImageResource(R.color.transparent);
+            //startMessageBtn.setImageResource(R.color.transparent);
+            startMessageBtn.setImageResource(R.drawable.owl_on_bottom);
 
-        } else if ( true ) { //isGlobal
+        } else if(confessions.get(selectedConfessionPosition).getDegree() == 1){ // friend
+            startMessageBtn.setImageResource(R.drawable.owl_on_bottom);
+        }  else if(confessions.get(selectedConfessionPosition).getDegree() == 2){ // friend of friend
+            startMessageBtn.setImageResource(R.drawable.owl_on_bottom);
+        } else { // 7 - global
             startMessageBtn.setImageResource(R.drawable.big_confession_global_icon);
-        } else { // friend of friend
-
         }
 
         if (confessions.get(selectedConfessionPosition).isFavorited()) {
@@ -197,7 +199,9 @@ public class ConfessionsFragment extends Fragment {
 
             if (!nextConfession.getImageUrl().startsWith("#")) {
 
-               // imageCache.cacheImage(nextConfession.getImageUrl(), confessionsListView.getWidth(), confessionsListView.getWidth());
+                System.out.print("Downloading: " + nextConfession.getBody());
+
+               cache.cacheImage(nextConfession.getImageUrl(), confessionsListView.getWidth(), confessionsListView.getWidth());
 
             }
 

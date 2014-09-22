@@ -1,13 +1,18 @@
 package com.versapp.confessions;
 
 import android.app.Activity;
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.ColorFilter;
+import android.os.AsyncTask;
 import android.support.v4.util.LruCache;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 
 import com.versapp.GCSManager;
+import com.versapp.R;
 
 /**
  * Created by william on 22/09/14.
@@ -30,56 +35,15 @@ public class ConfessionImageCache {
         }
     }
 
-    public void loadBitmap(final ImageView imageView, final String key) {
-
-            if (cache.get(key) != null) {
-
-                activity.runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-
-                        setBitmapOnView(imageView, cache.get(key));
-                    }
-                });
-
-            } else {
-
-                new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-
-                        Thread.currentThread().setPriority(Thread.MAX_PRIORITY);
-
-                        if (gcsManager == null) {
-                            gcsManager = GCSManager.getInstance(activity);
-                        }
-
-                        if (gcsManager != null) {
-
-                            final Bitmap image = gcsManager.downloadImage(key, imageView.getWidth(), imageView.getHeight());
-
-                            addToCache(key, image);
-
-                            imageView.setTag(key);
-
-                            activity.runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    setBitmapOnView(imageView, image);
-                                    // imageView.setImageBitmap(image);
-                                }
-                            });
-
-                        }
-
-                    }
-                }).start();
-
-        }
-
+    public boolean isCached(String key){
+        return cache.get(key) != null;
     }
 
-    private void setBitmapOnView(ImageView view, Bitmap image) {
+    public static void setBitmapOnView(Context context, ImageView view, Bitmap image) {
+
+        Animation animation = AnimationUtils.loadAnimation(context, R.anim.image_fade_in);
+        view.startAnimation(animation);
+        animation.start();
 
         if (isAboveWhiteThreshold(image)) {
             ColorFilter filter = new ColorFilter();
@@ -91,7 +55,7 @@ public class ConfessionImageCache {
         view.setImageBitmap(image);
     }
 
-    private boolean isAboveWhiteThreshold(Bitmap image) {
+    private static boolean isAboveWhiteThreshold(Bitmap image) {
 
         int border = (int) (image.getWidth() * 0.2);
 
@@ -114,7 +78,27 @@ public class ConfessionImageCache {
 
         System.out.println(String.format("%s,%s,%s", totalRed / numPixels, totalGreen / numPixels, totalBlue / numPixels));
 
-        return ((totalBlue / numPixels) > 115 && (totalRed / numPixels) > 115 && (totalGreen / numPixels) > 115);
+        return ((totalBlue / numPixels) > 115 && (totalRed / numPixels) > 115 && (totalGreen / numPixels) > 115) || (((totalRed / numPixels) + (totalGreen / numPixels) + (totalBlue / numPixels)) > 230);
     }
 
+    public Bitmap getCachedImage(String imageUrl) {
+        return cache.get(imageUrl);
+    }
+
+    public void cacheImage(final String imageUrl, final int width, final int height) {
+
+        new AsyncTask<Void, Void, Bitmap>() {
+            @Override
+            protected Bitmap doInBackground(Void... params) {
+                return GCSManager.getInstance(activity).downloadImage(imageUrl, width, height);
+            }
+
+            @Override
+            protected void onPostExecute(Bitmap bitmap) {
+                addToCache(imageUrl, bitmap);
+                super.onPostExecute(bitmap);
+            }
+        }.execute();
+
+    }
 }

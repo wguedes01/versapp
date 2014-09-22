@@ -12,11 +12,11 @@ public class Confession {
     private String body;
     private long createdTimestamp;
     private String imageUrl;
-    private String degree;
+    private int degree;
     private boolean isFavorited;
     private int numFavorites;
 
-    public Confession(long id, String body, long createdTimestamp, String imageUrl, String degree, boolean isFavorited, int numFavorites) {
+    public Confession(long id, String body, long createdTimestamp, String imageUrl, int degree, boolean isFavorited, int numFavorites) {
         this.id = id;
         this.body = body;
         this.createdTimestamp = createdTimestamp;
@@ -61,11 +61,11 @@ public class Confession {
         this.imageUrl = imageUrl;
     }
 
-    public String getDegree() {
+    public int getDegree() {
         return degree;
     }
 
-    public void setDegree(String degree) {
+    public void setDegree(int degree) {
         this.degree = degree;
     }
 
