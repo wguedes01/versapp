@@ -18,9 +18,6 @@ public class ConnectionManager {
     public static final String VERIFY_PHONE_URL = "http://harmon.dev.versapp.co/verify/";
     public static final String NUMBER_AVAILABILITY_URL = "http://" + SERVER_IP_ADDRESS + "/validate.php?";
 
-
-
-
     private static ConnectionManager instance;
 
     private ConnectionManager() {
@@ -47,6 +44,9 @@ public class ConnectionManager {
         return conn;
 
     }
+
+
+
 
 
 }

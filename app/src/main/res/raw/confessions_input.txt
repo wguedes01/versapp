@@ -2,7 +2,7 @@
 {
   "id": 1196,
   "body": "hello",
-  "image_url": "#AAAAAAAA",
+  "image_url": "aaronendre1400874952",
   "created_timestamp": 1411095307,
   "degree": "global",
   "has_favorited": "false",
@@ -32,7 +32,7 @@
 {
   "id": 1199,
   "body": "some+thought",
-  "image_url": "#AAAAAAAA",
+  "image_url": "andrew_kaylor1405794207",
   "created_timestamp": 1411095304,
   "degree": "global",
   "has_favorited": "false",

@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.versapp.DownloadImageAT;
 import com.versapp.R;
 
 import java.util.ArrayList;
@@ -53,7 +54,15 @@ public class ConfessionListArrayAdapter extends ArrayAdapter<Confession> {
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
+
+            if (holder.task != null) {
+                holder.task.cancel(true);
+            }
+
         }
+
+        holder.backgroundImage.setImageBitmap(null);
+        holder.backgroundImage.setBackgroundColor(activity.getResources().getColor(android.R.color.white));
 
         holder.favoriteCount.setText(String.valueOf(confession.getNumFavorites()));
         holder.degreeText.setText(confession.getDegree());
@@ -77,6 +86,9 @@ public class ConfessionListArrayAdapter extends ArrayAdapter<Confession> {
             holder.backgroundImage.setBackgroundColor(Color.parseColor(confessions.get(position).getImageUrl()));
         } else {
 
+            DownloadImageAT task = new DownloadImageAT(activity, holder.backgroundImage);
+            holder.task = task;
+            task.execute(confession.getImageUrl());
 
         }
 
@@ -92,6 +104,7 @@ public class ConfessionListArrayAdapter extends ArrayAdapter<Confession> {
         ImageView degreeIcon;
         TextView favoriteCount;
         TextView degreeText;
+        DownloadImageAT task;
     }
 
     private void updateDegreeIndicatorIcon(int position, ImageView iconView) {

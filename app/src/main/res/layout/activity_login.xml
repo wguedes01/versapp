@@ -106,5 +106,11 @@
     </LinearLayout>
 
 
+    <LinearLayout
+        android:id="@+id/login_cover"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/owl_bg_login"></LinearLayout>
+
 </RelativeLayout>
 

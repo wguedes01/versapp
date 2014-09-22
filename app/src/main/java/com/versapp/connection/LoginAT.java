@@ -42,17 +42,19 @@ public class LoginAT extends AsyncTask<String, Void, Connection>{
 
         Connection connection = new XMPPConnection(config);
 
-
         try {
             connection.connect();
             connection.addConnectionListener(new ConnectionListener());
 
-            if (connection.isConnected()){
+
                 connection.login(username, password);
+
+                if (connection.isAuthenticated()){
+                    CredentialsManager.getInstance(context).setValidCredentials(username, password);
+                }
+
                 return connection;
-            } else {
-                return null;
-            }
+
         } catch (XMPPException e) {
             e.printStackTrace();
             return null;
@@ -69,6 +71,7 @@ public class LoginAT extends AsyncTask<String, Void, Connection>{
                 context.startService(new Intent(context, ConnectionService.class));
                 ConnectionService.setConnection(conn);
 
+
                 if (postExecute != null) {
 
                     postExecute.run();
@@ -80,7 +83,6 @@ public class LoginAT extends AsyncTask<String, Void, Connection>{
             } else {
 
                 Toast.makeText(context, "Invalid username or password.", Toast.LENGTH_SHORT).show();
-
             }
 
         } else {

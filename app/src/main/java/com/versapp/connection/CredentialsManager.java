@@ -1,0 +1,55 @@
+package com.versapp.connection;
+
+import android.content.Context;
+import android.content.SharedPreferences;
+
+/**
+ * Created by william on 21/09/14.
+ */
+public class CredentialsManager {
+
+    private static final String CREDENTIALS = "CREDENTIALS";
+    private static final String USERNAME_KEY = "USERNAME_KEY";
+    private static final String PASSWORD_KEY = "PASSWORD_KEY";
+
+    private static CredentialsManager instance;
+    private Context context;
+    private SharedPreferences preferences;
+
+    private CredentialsManager(Context context) {
+        this.context = context;
+        this.preferences = context.getSharedPreferences(CREDENTIALS, Context.MODE_PRIVATE);
+    }
+
+
+    public static CredentialsManager getInstance(Context context) {
+
+        if (instance == null) {
+            instance = new CredentialsManager(context);
+        }
+
+        return instance;
+    }
+
+    public void setValidCredentials(String username, String password){
+        SharedPreferences.Editor edit = preferences.edit();
+        edit.putString(USERNAME_KEY, username);
+        edit.putString(PASSWORD_KEY, password);
+        edit.commit();
+    }
+
+    public void unsetValidCredentials(){
+        SharedPreferences.Editor edit = preferences.edit();
+        edit.clear();
+        edit.commit();
+    }
+
+    public String getValidUsername(){
+        return preferences.getString(USERNAME_KEY, null);
+    }
+
+    public String getValidPassword(){
+        return preferences.getString(PASSWORD_KEY, null);
+    }
+
+}
