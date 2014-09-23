@@ -71,6 +71,9 @@ public class ConfessionsFragment extends Fragment {
         startMessageBtn = (ImageButton) convertView.findViewById(R.id.big_confession_msg_btn);
         composeConfessionBtn = (ImageView) convertView.findViewById(R.id.big_confession_compose_new_confession_btn);
 
+        final View progressBarHolder = convertView.findViewById(R.id.confession_dashboard_progress_bar_holder);
+
+
         // Due to differences among devices, we need to programatically adjust
         // size of a few elements.
         adjustLayoutElementsSize(convertView);
@@ -140,6 +143,13 @@ public class ConfessionsFragment extends Fragment {
 
 
         new AsyncTask<Void, Void, Confession[]>() {
+
+            @Override
+            protected void onPreExecute() {
+                progressBarHolder.setVisibility(View.VISIBLE);
+                super.onPreExecute();
+            }
+
             @Override
             protected Confession[] doInBackground(Void... params) {
 
@@ -167,6 +177,7 @@ public class ConfessionsFragment extends Fragment {
 
                     updateLayout();
 
+                    progressBarHolder.setVisibility(View.GONE);
                 }
 
                 super.onPostExecute(result);
@@ -186,7 +197,6 @@ public class ConfessionsFragment extends Fragment {
                 } else {
                     Toast.makeText(getActivity(), "Imagine you're startig a convo with whoever posted this...", Toast.LENGTH_LONG).show();
                 }
-
 
             }
 

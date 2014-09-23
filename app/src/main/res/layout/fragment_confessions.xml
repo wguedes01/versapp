@@ -4,18 +4,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
 
-    <TextView
-        android:id="@+id/big_confesion_tutorial_swipe_up_or_down_label"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:gravity="center"
-        android:padding="10dp"
-        android:text="Swipe Up or Down"
-        android:textSize="25sp"
-        android:visibility="gone" >
-    </TextView>
-
     <LinearLayout
         android:id="@+id/big_confession_dashboard"
         android:layout_width="match_parent"
@@ -23,7 +11,6 @@
         android:layout_alignParentBottom="true"
         android:background="@android:color/white"
         android:orientation="horizontal" >
-
 
         <RelativeLayout
             android:layout_width="0dp"
@@ -78,7 +65,6 @@
         style="@style/confessionsListView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@id/big_confesion_tutorial_swipe_up_or_down_label"
         android:background="@android:color/black" />
 
     <LinearLayout
@@ -87,5 +73,40 @@
         android:layout_above="@id/big_confession_dashboard"
         android:background="@drawable/big_confession_listview_gradient" >
     </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/confession_dashboard_progress_bar_holder"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone">
+
+        <ProgressBar
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@android:color/black"/>
+
+        <ImageView
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:src="@drawable/ic_owl_only"
+            android:layout_centerInParent="true"/>
+    </RelativeLayout>
+
+
+    <TextView
+        android:id="@+id/big_confesion_tutorial_swipe_up_or_down_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="10dp"
+        android:gravity="center"
+        android:padding="10dp"
+        android:text="Swipe Up or Down"
+        android:background="@color/orangeBeauty"
+        android:textColor="@android:color/white"
+        android:textSize="25sp"
+        android:layout_centerHorizontal="true"
+        android:visibility="gone" >
+    </TextView>
 
 </RelativeLayout>

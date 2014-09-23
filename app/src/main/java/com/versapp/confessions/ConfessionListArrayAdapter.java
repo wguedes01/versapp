@@ -101,8 +101,6 @@ public class ConfessionListArrayAdapter extends ArrayAdapter<Confession> {
 
         }
 
-        updateDegreeIndicatorIcon(position, holder.degreeIcon);
-
         return convertView;
     }
 
@@ -116,11 +114,6 @@ public class ConfessionListArrayAdapter extends ArrayAdapter<Confession> {
         DownloadImageAT task;
     }
 
-    private void updateDegreeIndicatorIcon(int position, ImageView iconView) {
-
-
-
-    }
 
     @Override
     public int getCount() {
