@@ -18,6 +18,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
+import java.net.URLEncoder;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Created by william on 20/09/14.
@@ -156,6 +159,30 @@ public class ConfessionManager {
 
         conn.disconnect();
 */
+    }
+
+    public Confession createConfession(String body, String imageUrl){
+
+
+        String packetId = "create_confession";
+
+        String xml = String.format("<iq type='set' to='%s' id='%s' from='%s'><confession xmlns='who:iq:confession'><create><body>%s</body><image_url>%s</image_url></create></confession></iq>",
+                ConnectionManager.SERVER_IP_ADDRESS, packetId, ConnectionService.getJid(), URLEncoder.encode(body), imageUrl);
+
+        String response = ConnectionService.sendCustomXMLPacket(xml, packetId);
+
+        Pattern p = Pattern.compile(">(\\d+),(\\d+)<");
+        Matcher m = p.matcher(response);
+
+        long id = 0;
+        long createdTimestamp = 0;
+        if (m.find()) {
+            id = Long.valueOf(m.group(1));
+            createdTimestamp = Long.valueOf(m.group(2));
+            return  new Confession(id, body, createdTimestamp, imageUrl, 0, false, 0);
+        }
+
+        return null;
     }
 
 

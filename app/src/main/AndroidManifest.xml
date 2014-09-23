@@ -59,6 +59,10 @@
             android:name=".signup.SignUpUsernamePassInputActivity"
             android:label="@string/title_activity_sign_up_username_pass_input" >
         </activity>
+        <activity
+            android:name=".confessions.ComposeConfessionActivity"
+            android:label="@string/title_activity_compose_confession" >
+        </activity>
     </application>
 
     <!-- To auto-complete the email text field in the login form with the user's emails -->

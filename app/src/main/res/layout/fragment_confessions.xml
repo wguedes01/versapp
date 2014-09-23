@@ -28,6 +28,7 @@
                 android:layout_centerInParent="true"
                 android:padding="30dp"
                 android:scaleType="fitCenter"
+                android:background="@color/confessionBlue"
                 android:src="@drawable/start_conversation_btn_bg" />
         </RelativeLayout>
 

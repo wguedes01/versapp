@@ -16,11 +16,11 @@ public class ConfessionDeserializer implements JsonDeserializer<Confession> {
 
     private static final String CONFESSION_ID_JSON_KEY = "id";
     private static final String CONFESSION_BODY_JSON_KEY = "body";
-    private static final String CONFESSION_CREATED_TIMESTAMP_JSON_KEY = "created_timestamp";
-    private static final String CONFESSION_IMAGE_URL_JSON_KEY = "image_url";
+    private static final String CONFESSION_CREATED_TIMESTAMP_JSON_KEY = "timestamp";
+    private static final String CONFESSION_IMAGE_URL_JSON_KEY = "imageUrl";
     private static final String CONFESSION_DEGREE_JSON_KEY = "degree";
-    private static final String CONFESSION_IS_FAVORITED_JSON_KEY = "has_favorited";
-    private static final String CONFESSION_FAVORITE_COUNT_JSON_KEY = "num_favorites";
+    private static final String CONFESSION_IS_FAVORITED_JSON_KEY = "hasFavorited";
+    private static final String CONFESSION_FAVORITE_COUNT_JSON_KEY = "numFavorites";
 
 
     @Override
@@ -40,13 +40,8 @@ public class ConfessionDeserializer implements JsonDeserializer<Confession> {
         confession.setBody(URLDecoder.decode(bodyElement.getAsString()));
         confession.setCreatedTimestamp(createdTimestampElement.getAsLong());
         confession.setImageUrl(imageUrlElement.getAsString());
-        confession.setDegree(Integer.valueOf(degreeElement.getAsString()));
-
-        boolean isFavorited = false;
-        if (isFavoritedElement.getAsString().equals("true"))
-            isFavorited = true;
-
-        confession.setFavorited(isFavorited);
+        confession.setDegree(degreeElement.getAsInt());
+        confession.setFavorited(isFavoritedElement.getAsBoolean());
         confession.setNumFavorites(numFavoritesElement.getAsInt());
 
         return confession;

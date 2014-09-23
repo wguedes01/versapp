@@ -3,6 +3,7 @@ package com.versapp.confessions;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Point;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -37,18 +38,18 @@ import java.util.List;
  */
 public class ConfessionsFragment extends Fragment {
 
-    private ArrayList<Confession> confessions;
-    private ListView confessionsListView;
-    private ConfessionListArrayAdapter adapter;
-    private ImageButton favoriteBtn;
-    private ImageButton startMessageBtn;
-    private ImageView composeConfessionBtn;
+    public static ArrayList<Confession> confessions;
+    private static ListView confessionsListView;
+    public static ConfessionListArrayAdapter adapter;
+    private static ImageButton favoriteBtn;
+    private static ImageButton startMessageBtn;
+    private static ImageView composeConfessionBtn;
 
-    private ConfessionImageCache cache;
+    private static ConfessionImageCache cache;
 
-    private ConfessionTutorial tutorial;
+    private static ConfessionTutorial tutorial;
 
-    private int selectedConfessionPosition = -1;
+    private static int selectedConfessionPosition = -1;
     //private int previousConfessionPosition = -1;
 
 
@@ -83,6 +84,14 @@ public class ConfessionsFragment extends Fragment {
             tutorial = new ConfessionTutorial(getActivity(), convertView);
             tutorial.start();
         }
+
+        composeConfessionBtn.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getActivity(), ComposeConfessionActivity.class));
+            }
+        });
 
         confessionsListView.setOnScrollListener(new AbsListView.OnScrollListener() {
 
@@ -231,10 +240,10 @@ public class ConfessionsFragment extends Fragment {
 
     }
 
-    private void updateLayout() {
+    private static void updateLayout() {
 
         startMessageBtn.setImageResource(R.drawable.big_confession_start_conversation_btn);
-        startMessageBtn.setBackgroundColor(getResources().getColor(R.color.confessionBlue));
+        //startMessageBtn.setBackgroundColor(ConfessionsFragment.getResources().getColor(R.color.confessionBlue));
 
         // Always update favorite and message icon
         if (confessions.get(selectedConfessionPosition).isMine()) {
@@ -477,5 +486,15 @@ public class ConfessionsFragment extends Fragment {
 
         return true;
 
+    }
+
+    public static void addConfession(Confession confession){
+        confessions.add(0, confession);
+        adapter.notifyDataSetChanged();
+
+        selectedConfessionPosition = 0;
+        confessionsListView.setSelection(0);
+
+        updateLayout();
     }
 }

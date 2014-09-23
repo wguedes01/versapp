@@ -22,6 +22,7 @@ public class ConnectionService extends Service {
 
     private static Connection connection;
     private static String user;
+    private static String jid;
 
     @Override
     public void onCreate() {
@@ -139,6 +140,15 @@ public class ConnectionService extends Service {
         }
 
         return user;
+    }
+
+    public static String getJid() {
+
+        if (jid == null){
+            jid = connection.getUser().split("/")[0];
+        }
+
+        return jid;
     }
 
 
