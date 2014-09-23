@@ -1,6 +1,8 @@
 package com.versapp.confessions;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.Point;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -20,12 +22,15 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import com.versapp.Logger;
 import com.versapp.R;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * Created by william on 20/09/14.
@@ -44,7 +49,7 @@ public class ConfessionsFragment extends Fragment {
     private ConfessionTutorial tutorial;
 
     private int selectedConfessionPosition = -1;
-    private int previousConfessionPosition = -1;
+    //private int previousConfessionPosition = -1;
 
 
     @Override
@@ -87,6 +92,7 @@ public class ConfessionsFragment extends Fragment {
                     // confessions are aligned with the top of the screen
                     confessionsListView.setSelection(selectedConfessionPosition);
 
+                    // Very important to call this so buttons reflect current confession.
                     updateLayout();
 
                     if (tutorial != null) {
@@ -140,6 +146,10 @@ public class ConfessionsFragment extends Fragment {
                 Log.d(Logger.CONFESSIONS_DEBUG, "About to get confessions");
                 Confession[] confessions = ConfessionManager.getInstance().downloadConfessions(getActivity());
 
+                List< Confession > list = Arrays.asList(confessions);
+                Collections.reverse(list);
+                confessions = (Confession[]) list.toArray();
+
                 if (confessions == null)
                     confessions = new Confession[0];
 
@@ -154,6 +164,9 @@ public class ConfessionsFragment extends Fragment {
                     confessions.addAll(Arrays.asList(result));
                     selectedConfessionPosition = 0;
                     adapter.notifyDataSetChanged();
+
+                    updateLayout();
+
                 }
 
                 super.onPostExecute(result);
@@ -161,11 +174,52 @@ public class ConfessionsFragment extends Fragment {
         }.execute();
 
 
+        startMessageBtn.setOnTouchListener(new CustomTouchableElementListener(getActivity(), new Runnable() {
+
+            @Override
+            public void run() {
+
+                if (confessions.get(selectedConfessionPosition).isMine()){
+                   deleteConfession();
+                } else if(confessions.get(selectedConfessionPosition).getDegree() == 7) {
+                    Toast.makeText(getActivity(), "This confession is from someone who's not your friend.", Toast.LENGTH_LONG).show();
+                } else {
+                    Toast.makeText(getActivity(), "Imagine you're startig a convo with whoever posted this...", Toast.LENGTH_LONG).show();
+                }
+
+
+            }
+
+        }));
+
         confessionsListView.setOnTouchListener(new ConfessionListOnTouchListener());
 
         return convertView;
     }
 
+    private void deleteConfession() {
+
+        new AlertDialog.Builder(getActivity()).setMessage("Are you sure you would like to delete this post?")
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        confessions.get(selectedConfessionPosition).destroy();
+                        confessions.remove(confessions.get(selectedConfessionPosition));
+                        adapter.notifyDataSetChanged();
+                        selectedConfessionPosition = confessionsListView.getFirstVisiblePosition();
+                        updateLayout();
+
+                    }
+                }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+
+            @Override
+            public void onClick(DialogInterface dialog, int which) { //
+                dialog.dismiss();
+            }
+        }).show();
+
+    }
 
     private void updateLayout() {
 
@@ -176,12 +230,12 @@ public class ConfessionsFragment extends Fragment {
         if (confessions.get(selectedConfessionPosition).isMine()) {
 
             //startMessageBtn.setImageResource(R.color.transparent);
-            startMessageBtn.setImageResource(R.drawable.owl_on_bottom);
+            startMessageBtn.setImageResource(R.drawable.delete_confession_btn);
 
         } else if(confessions.get(selectedConfessionPosition).getDegree() == 1){ // friend
-            startMessageBtn.setImageResource(R.drawable.owl_on_bottom);
+            startMessageBtn.setImageResource(R.drawable.confession_start_chat_btn);
         }  else if(confessions.get(selectedConfessionPosition).getDegree() == 2){ // friend of friend
-            startMessageBtn.setImageResource(R.drawable.owl_on_bottom);
+            startMessageBtn.setImageResource(R.drawable.confession_start_chat_btn);
         } else { // 7 - global
             startMessageBtn.setImageResource(R.drawable.big_confession_global_icon);
         }
@@ -384,20 +438,13 @@ public class ConfessionsFragment extends Fragment {
     }
 
     private void moveToNextConfession() {
-
-        previousConfessionPosition = selectedConfessionPosition;
         selectedConfessionPosition++;
-
         moveToPosition(selectedConfessionPosition);
-
     }
 
     private void moveToPreviousConfession() {
-        previousConfessionPosition = selectedConfessionPosition;
         selectedConfessionPosition--;
-
         moveToPosition(selectedConfessionPosition);
-
     }
 
     private boolean hasNextConfession() {

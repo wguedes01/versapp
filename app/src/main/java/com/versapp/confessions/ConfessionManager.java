@@ -56,11 +56,14 @@ public class ConfessionManager {
 
             confessions = gson.fromJson(reader, Confession[].class);
 
-
         } catch (IOException e) {
             e.printStackTrace();
         }
 
+
+        for(Confession c : confessions){
+            System.out.println(c.toString());
+        }
 
         return confessions;
     }

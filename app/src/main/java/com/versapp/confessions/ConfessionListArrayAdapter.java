@@ -67,7 +67,7 @@ public class ConfessionListArrayAdapter extends ArrayAdapter<Confession> {
         holder.backgroundImage.setBackgroundColor(activity.getResources().getColor(android.R.color.white));
 
         holder.favoriteCount.setText(String.valueOf(confession.getNumFavorites()));
-        holder.degreeText.setText(String.valueOf(confession.getDegree()));
+        holder.degreeText.setText(confession.getReadableDegree());
 
         // Makes layout squared.
         int width = activity.getWindowManager().getDefaultDisplay().getWidth(); // deprecated

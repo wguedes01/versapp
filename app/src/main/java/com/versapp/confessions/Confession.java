@@ -1,5 +1,7 @@
 package com.versapp.confessions;
 
+import android.os.AsyncTask;
+
 import com.versapp.connection.ConnectionManager;
 import com.versapp.connection.ConnectionService;
 
@@ -107,6 +109,48 @@ public class Confession {
     }
 
     public boolean isMine() {
-        return false;
+        return degree == 0;
+    }
+
+    public String getReadableDegree(){
+
+        switch(getDegree()) {
+            case 0:
+                return "Yours";
+            case 1:
+                return "Friend";
+            case 2:
+                return "Friend of friend";
+            default:
+                return "Global";
+        }
+
+    }
+
+    public void destroy() {
+
+        new AsyncTask<Void, Void, Void>() {
+
+            @Override
+            protected Void doInBackground(Void... params) {
+                System.out.println("Sending remove packet.");
+
+                String packetId = "destroy_confession";
+
+                String xml = "<iq type='set' to='" + ConnectionManager.SERVER_IP_ADDRESS + "' id='" + packetId + "' from='"
+                        + ConnectionService.getConnection().getUser() + "'><confession xmlns='who:iq:confession'><destroy id='" + getId()
+                        + "'/></confession></iq>";
+
+                ConnectionService.sendCustomXMLPacket(xml, packetId);
+
+                return null;
+            }
+        }.execute();
+
+    }
+
+    @Override
+    public String toString() {
+        return String.format("{%d, %d, %s}", getId(), getDegree(), getBody());
     }
 }
