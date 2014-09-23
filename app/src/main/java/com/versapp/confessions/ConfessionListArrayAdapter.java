@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -24,6 +25,7 @@ public class ConfessionListArrayAdapter extends ArrayAdapter<Confession> {
     private Activity activity;
     private ArrayList<Confession> confessions;
     private ConfessionImageCache cache;
+
 
     public ConfessionListArrayAdapter(Activity activity, ArrayList<Confession> confessions, ConfessionImageCache cache) {
         super(activity, R.layout.confession_list_item, confessions);
@@ -45,6 +47,7 @@ public class ConfessionListArrayAdapter extends ArrayAdapter<Confession> {
 
             holder = new ViewHolder();
 
+            holder.progressBar = (ProgressBar) convertView.findViewById(R.id.confession_progress_bar);
             holder.confessionSizer = (RelativeLayout) convertView.findViewById(R.id.big_confession_sizer);
             holder.backgroundImage = (ImageView) convertView.findViewById(R.id.big_confession_background_image);
             holder.body = (TextView) convertView.findViewById(R.id.big_confession_body);
@@ -89,7 +92,7 @@ public class ConfessionListArrayAdapter extends ArrayAdapter<Confession> {
         } else {
 
             if (!cache.isCached(confession.getImageUrl())){
-                DownloadImageAT task = new DownloadImageAT(activity, confession.getImageUrl(), holder.backgroundImage, cache);
+                DownloadImageAT task = new DownloadImageAT(activity, confession.getImageUrl(), holder.backgroundImage, cache, holder.progressBar);
                 holder.task = task;
                 task.execute();
             } else {
@@ -112,6 +115,7 @@ public class ConfessionListArrayAdapter extends ArrayAdapter<Confession> {
         TextView favoriteCount;
         TextView degreeText;
         DownloadImageAT task;
+        ProgressBar progressBar;
     }
 
 

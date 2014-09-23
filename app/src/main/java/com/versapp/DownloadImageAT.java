@@ -3,7 +3,9 @@ package com.versapp;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.os.AsyncTask;
+import android.view.View;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 
 import com.versapp.confessions.ConfessionImageCache;
 
@@ -16,12 +18,20 @@ public class DownloadImageAT extends AsyncTask<Void, Void, Bitmap> {
     ImageView imageView;
     Context context;
     ConfessionImageCache cache;
+    ProgressBar progressBar;
 
-    public DownloadImageAT(Context context, String key, ImageView imageView, ConfessionImageCache cache) {
+    public DownloadImageAT(Context context, String key, ImageView imageView, ConfessionImageCache cache, ProgressBar progressBar) {
         this.context = context;
         this.key = key;
         this.imageView = imageView;
         this.cache = cache;
+        this.progressBar = progressBar;
+    }
+
+    @Override
+    protected void onPreExecute() {
+        progressBar.setVisibility(View.VISIBLE);
+        super.onPreExecute();
     }
 
     @Override
@@ -38,7 +48,11 @@ public class DownloadImageAT extends AsyncTask<Void, Void, Bitmap> {
         if (!isCancelled()) {
 
             if (imageView != null) {
+
+                progressBar.setVisibility(View.GONE);
+
                 if (bitmap != null) {
+
                     ConfessionImageCache.setBitmapOnView(context, imageView, bitmap);
                     cache.addToCache(key, bitmap);
                 } else {
