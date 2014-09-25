@@ -21,10 +21,10 @@ public class FriendListActivity extends Activity {
     public static final String OPTS_MODE = "opts_mode";
 
     ArrayList<Friend> friends;
-    ArrayList<Friend> selectedFriends;
+    ArrayList<FriendListItem> friendListItems;
     ArrayList<Friend> blockedFriends;
     ListView friendList;
-    ArrayAdapter<Friend> adapter;
+    ArrayAdapter<FriendListItem> adapter;
     ProgressBar progressBar;
 
     @Override
@@ -33,13 +33,10 @@ public class FriendListActivity extends Activity {
         setContentView(R.layout.activity_friend_list);
 
         friends = new ArrayList<Friend>();
+        friendListItems = new ArrayList<FriendListItem>();
 
         progressBar = (ProgressBar) findViewById(R.id.activity_friend_list_progress_bar);
         friendList = (ListView) findViewById(R.id.activity_friend_list_main_list);
-        adapter = new FriendListArrayAdapter(this, friends);
-        friendList.setAdapter(adapter);
-
-        new LoadFriendsAT(adapter, progressBar).execute();
 
         String listMode = getIntent().getStringExtra(LIST_MODE_INTENT_EXTRA);
          if (listMode.equals(SINGLE_SELECTION_MODE)){
@@ -50,6 +47,13 @@ public class FriendListActivity extends Activity {
             setOptionMode(friendList);
         }
 
+
+
+        adapter = new FriendListArrayAdapter(this, friendListItems, listMode);
+        friendList.setAdapter(adapter);
+
+        new LoadFriendsAT(adapter, progressBar).execute();
+
     }
 
     private void setSingleSelectionMode(ListView list){
@@ -58,7 +62,17 @@ public class FriendListActivity extends Activity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-                Toast.makeText(getApplicationContext(), "Single", Toast.LENGTH_SHORT).show();
+
+
+                if (friendListItems.get(position).friend.isBlocked()){
+
+                    Toast.makeText(getApplicationContext(), "You can't interact with blocked friends", Toast.LENGTH_SHORT).show();
+
+                } else {
+
+                    // Start one-to-one conversation
+
+                }
 
             }
         });
@@ -71,7 +85,17 @@ public class FriendListActivity extends Activity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-                Toast.makeText(getApplicationContext(), "Multi", Toast.LENGTH_SHORT).show();
+                if (friendListItems.get(position).friend.isBlocked()){
+
+                    Toast.makeText(getApplicationContext(), "You can't interact with blocked friends", Toast.LENGTH_SHORT).show();
+
+                } else {
+
+                    friendListItems.get(position).setSelected(!friendListItems.get(position).isSelected());
+                    adapter.notifyDataSetChanged();
+
+                }
+
 
             }
         });
@@ -83,8 +107,6 @@ public class FriendListActivity extends Activity {
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-                Toast.makeText(getApplicationContext(), "Opts", Toast.LENGTH_SHORT).show();
 
             }
         });

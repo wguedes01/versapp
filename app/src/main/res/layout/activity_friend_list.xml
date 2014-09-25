@@ -2,16 +2,16 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    tools:context="com.versapp.friends.FriendListActivity">
+    tools:context="com.versapp.friends.FriendListActivity"
+    android:background="@drawable/friends_background">
 
     <ListView
         android:id="@+id/activity_friend_list_main_list"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"></ListView>
+        android:layout_height="match_parent"
+        android:background="@android:color/white"
+        android:dividerHeight="1dp"
+        android:divider="@drawable/friend_list_divider"></ListView>
 
     <ProgressBar
         android:id="@+id/activity_friend_list_progress_bar"

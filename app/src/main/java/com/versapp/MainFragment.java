@@ -37,7 +37,7 @@ public class MainFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), FriendListActivity.class);
-                intent.putExtra(FriendListActivity.LIST_MODE_INTENT_EXTRA, FriendListActivity.MULTI_SELECTION_MODE);
+                intent.putExtra(FriendListActivity.LIST_MODE_INTENT_EXTRA, FriendListActivity.SINGLE_SELECTION_MODE);
                 startActivity(intent);
             }
         });

@@ -6,16 +6,17 @@ import android.widget.ArrayAdapter;
 import android.widget.ProgressBar;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 /**
  * Created by william on 25/09/14.
  */
-public class LoadFriendsAT extends AsyncTask<Void, Void, ArrayList<Friend>> {
+public class LoadFriendsAT extends AsyncTask<Void, Void, ArrayList<FriendListItem>> {
 
-    private ArrayAdapter<Friend> adapter;
+    private ArrayAdapter<FriendListItem> adapter;
     private ProgressBar progressBar;
 
-    public LoadFriendsAT(ArrayAdapter<Friend> adapter, ProgressBar progressBar) {
+    public LoadFriendsAT(ArrayAdapter<FriendListItem> adapter, ProgressBar progressBar) {
         this.adapter = adapter;
         this.progressBar = progressBar;
     }
@@ -27,17 +28,25 @@ public class LoadFriendsAT extends AsyncTask<Void, Void, ArrayList<Friend>> {
     }
 
     @Override
-    protected ArrayList<Friend> doInBackground(Void... params) {
+    protected ArrayList<FriendListItem> doInBackground(Void... params) {
 
         ArrayList<Friend> allFriends = FriendsManager.getInstance().getFriends();
+        Collections.sort(allFriends);
 
-        return allFriends;
+
+        ArrayList<FriendListItem> items = new ArrayList<FriendListItem>();
+
+        for (Friend f : allFriends){
+            items.add(new FriendListItem(f));
+        }
+
+        return items;
     }
 
     @Override
-    protected void onPostExecute(final ArrayList<Friend> friends) {
+    protected void onPostExecute(final ArrayList<FriendListItem> friendListItems) {
         this.progressBar.setVisibility(View.GONE);
-        adapter.addAll(friends);
+        adapter.addAll(friendListItems);
         adapter.notifyDataSetChanged();
 
 
@@ -51,9 +60,9 @@ public class LoadFriendsAT extends AsyncTask<Void, Void, ArrayList<Friend>> {
             @Override
             protected void onPostExecute(ArrayList<String> usernames) {
 
-                for (Friend f : friends){
-                    if (usernames.contains(f.getUsername())){
-                        f.setBlocked(true);
+                for (FriendListItem item : friendListItems){
+                    if (usernames.contains(item.friend.getUsername())){
+                        item.friend.setBlocked(true);
                     }
                 }
 
