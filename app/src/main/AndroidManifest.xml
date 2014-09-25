@@ -68,7 +68,11 @@
         <activity
             android:name=".friends.FriendListActivity"
             android:label="@string/title_activity_friend_list"
-            android:windowSoftInputMode="stateHidden">
+            android:windowSoftInputMode="stateHidden" >
+        </activity>
+        <activity
+            android:name=".SettingsActivity"
+            android:label="@string/title_activity_settings" >
         </activity>
     </application>
 

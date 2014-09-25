@@ -55,6 +55,7 @@
                 android:background="@drawable/dashboard_btn_bg"
                 android:layout_marginRight="1dp"/>
             <ImageButton
+                android:id="@+id/fragment_main_settings_btn"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="0.5"

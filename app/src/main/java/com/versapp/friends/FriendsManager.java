@@ -10,6 +10,9 @@ import com.versapp.confessions.ConfessionDeserializer;
 import com.versapp.connection.ConnectionManager;
 import com.versapp.connection.ConnectionService;
 
+import org.jivesoftware.smack.Connection;
+import org.jivesoftware.smack.packet.Presence;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -22,7 +25,8 @@ import java.util.Arrays;
  */
 public class FriendsManager {
 
-    private static final String FRIEND_URL = "http://"+ConnectionManager.SERVER_IP_ADDRESS+":8052/friends/active";
+    private static final String FRIEND_URL = ConnectionManager.HTTP_PROTOCOL+"://"+ConnectionManager.SERVER_IP_ADDRESS+":8052/friends/active";
+    private static final String PENDING_FRIEND_URL =  ConnectionManager.HTTP_PROTOCOL+"://"+ConnectionManager.SERVER_IP_ADDRESS+":8052/friends/pending";
 
     private static final String SUBSCRIPTION_NONE = "none";
 
@@ -70,6 +74,39 @@ public class FriendsManager {
         return friendList;
     }
 
+    public ArrayList<Friend> getPendingFriends(){
+
+        GsonBuilder gsonBuilder = new GsonBuilder();
+        gsonBuilder.registerTypeAdapter(Confession.class, new ConfessionDeserializer());
+        Gson gson = gsonBuilder.create();
+
+        Friend[] friends = null;
+        InputStream in = null;
+        try {
+
+            in = HTTPRequestManager.getInstance().sendSimpleHttpRequest(PENDING_FRIEND_URL);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        if (in != null){
+            Reader reader = new InputStreamReader(in);
+            friends = gson.fromJson(reader, Friend[].class);
+        }
+
+        ArrayList<Friend> friendList = new ArrayList<Friend>();
+
+        if (friends != null) {
+            Arrays.sort(friends);
+            friendList.addAll(Arrays.asList(friends));
+        }
+
+        return friendList;
+    }
+
+
+
     public void removeFriend(Context context, String username) {
 
         // remove from roster.
@@ -78,6 +115,24 @@ public class FriendsManager {
                 + ConnectionManager.SERVER_IP_ADDRESS + "' subscription='remove'/></query></iq>";
 
         String response = ConnectionService.sendCustomXMLPacket(xml, packetId);
+    }
+
+    public boolean sendRequest(Context context, String toJID) {
+
+        // FriendsDAO friendsDb = new FriendsDAO(context);
+        // friendsDb.setFriendRequestSent(toJID.split("@")[0]);
+
+        if (!toJID.contains("@")) {
+            toJID = toJID + "@" + ConnectionManager.SERVER_IP_ADDRESS;
+        }
+
+        Connection connection = ConnectionService.getConnection();
+
+        Presence presenceResponse = new Presence(Presence.Type.subscribe);
+        presenceResponse.setTo(toJID);
+        connection.sendPacket(presenceResponse);
+
+        return true;
     }
 
 

@@ -1,5 +1,6 @@
 package com.versapp;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -47,6 +48,20 @@ public class DashboardActivity extends FragmentActivity {
 
     @Override
     public void onBackPressed() {
+
+
+        new AsyncTask<Void, Void, Void>(){
+
+            @Override
+            protected Void doInBackground(Void... params) {
+
+                return null;
+            }
+        }.execute();
+
+
+
+
 
        // super.onBackPressed();
     }

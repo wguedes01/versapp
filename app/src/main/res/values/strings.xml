@@ -27,5 +27,6 @@
     <string name="compose_confession_swipe_to_change_color_text">Swipe to change color</string>
     <string name="title_activity_friend_list">FriendListActivity</string>
     <string name="search_friend">Search</string>
+    <string name="title_activity_settings">SettingsActivity</string>
 
 </resources>

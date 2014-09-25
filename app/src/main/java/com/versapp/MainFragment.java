@@ -23,15 +23,24 @@ public class MainFragment extends Fragment {
     LinearLayout buttonsHolder;
     ImageButton newOneToOneBtn;
     ImageButton newGroupBtn;
+    ImageButton settingsBtn;
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         View convertView = inflater.inflate(R.layout.fragment_main, container, false);
 
+        settingsBtn = (ImageButton) convertView.findViewById(R.id.fragment_main_settings_btn);
         buttonsHolder = (LinearLayout) convertView.findViewById(R.id.fragment_main_buttons_holder);
         newOneToOneBtn = (ImageButton) convertView.findViewById(R.id.fragment_main_new_one_to_one_btn);
         newGroupBtn = (ImageButton) convertView.findViewById(R.id.fragment_main_new_group_btn);
+
+        settingsBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getActivity(), SettingsActivity.class));
+            }
+        });
 
         newOneToOneBtn.setOnClickListener(new View.OnClickListener() {
             @Override
