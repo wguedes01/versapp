@@ -6,6 +6,7 @@ import android.os.AsyncTask;
 import android.widget.Toast;
 
 import com.versapp.DashboardActivity;
+import com.versapp.gcm.GCMDeviceRegistration;
 
 import org.jivesoftware.smack.Connection;
 import org.jivesoftware.smack.ConnectionConfiguration;
@@ -70,6 +71,10 @@ public class LoginAT extends AsyncTask<String, Void, Connection>{
 
                 context.startService(new Intent(context, ConnectionService.class));
                 ConnectionService.setConnection(conn);
+
+                if (!GCMDeviceRegistration.isGCMDeviceIdRegistered(context)) {
+                    GCMDeviceRegistration.registerDeviceOnBackground(context);
+                }
 
 
                 if (postExecute != null) {
