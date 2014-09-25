@@ -25,5 +25,6 @@
     <string name="title_activity_compose_confession">ComposeConfessionActivity</string>
     <string name="compose_confession_hintt">What\'s up?</string>
     <string name="compose_confession_swipe_to_change_color_text">Swipe to change color</string>
+    <string name="title_activity_friend_list">FriendListActivity</string>
 
 </resources>

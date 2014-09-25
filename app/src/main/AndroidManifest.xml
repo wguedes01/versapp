@@ -42,7 +42,7 @@
         <activity
             android:name=".DashboardActivity"
             android:label="@string/title_activity_dashboard"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name=".signup.SignUpNameEmailInputActivity"
@@ -63,7 +63,11 @@
         <activity
             android:name=".confessions.ComposeConfessionActivity"
             android:label="@string/title_activity_compose_confession"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name=".friends.FriendListActivity"
+            android:label="@string/title_activity_friend_list" >
         </activity>
     </application>
 

@@ -172,12 +172,13 @@ public class ConfessionsFragment extends Fragment {
                 Log.d(Logger.CONFESSIONS_DEBUG, "About to get confessions");
                 Confession[] confessions = ConfessionManager.getInstance().downloadConfessions(getActivity());
 
-                List< Confession > list = Arrays.asList(confessions);
-                Collections.reverse(list);
-                confessions = (Confession[]) list.toArray();
-
-                if (confessions == null)
+                if (confessions == null){
                     confessions = new Confession[0];
+                } else {
+                    List< Confession > list = Arrays.asList(confessions);
+                    Collections.reverse(list);
+                    confessions = (Confession[]) list.toArray();
+                }
 
                 return confessions;
 

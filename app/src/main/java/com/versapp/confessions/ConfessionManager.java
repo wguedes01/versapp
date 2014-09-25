@@ -63,11 +63,6 @@ public class ConfessionManager {
             e.printStackTrace();
         }
 
-
-        for(Confession c : confessions){
-            System.out.println(c.toString());
-        }
-
         return confessions;
     }
 
