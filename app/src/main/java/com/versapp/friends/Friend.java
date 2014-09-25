@@ -10,6 +10,7 @@ public class Friend implements Comparable<Friend>{
     public static final String PENDING_SENT = "pending_sent";
     public static final String BLOCKED = "blocked";
 
+    private boolean isBlocked;
     private String username;
     private String name;
 
@@ -34,6 +35,13 @@ public class Friend implements Comparable<Friend>{
         this.name = name;
     }
 
+    public boolean isBlocked() {
+        return isBlocked;
+    }
+
+    public void setBlocked(boolean isBlocked) {
+        this.isBlocked = isBlocked;
+    }
 
     @Override
     public int compareTo(Friend another) {

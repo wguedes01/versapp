@@ -50,7 +50,9 @@ public class DashboardActivity extends FragmentActivity {
     @Override
     public void onBackPressed() {
 
-        startActivity(new Intent(this, FriendListActivity.class));
+        Intent intent = new Intent(this, FriendListActivity.class);
+        intent.putExtra(FriendListActivity.LIST_MODE_INTENT_EXTRA, FriendListActivity.OPTS_MODE);
+        startActivity(intent);
 
        // super.onBackPressed();
     }

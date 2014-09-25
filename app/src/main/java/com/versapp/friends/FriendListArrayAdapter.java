@@ -17,6 +17,7 @@ import java.util.ArrayList;
 public class FriendListArrayAdapter extends ArrayAdapter<Friend> {
 
     private ArrayList<Friend> friends;
+    private ArrayList<Friend> blockedFriends;
 
     public FriendListArrayAdapter(Context context, ArrayList<Friend> friends) {
         super(context, R.layout.friend_list_item, friends);
@@ -38,6 +39,14 @@ public class FriendListArrayAdapter extends ArrayAdapter<Friend> {
         nameText.setText(friend.getName());
         usernameText.setText(friend.getUsername());
 
+        if (friend.isBlocked()){
+            convertView.setBackgroundColor(convertView.getContext().getResources().getColor(android.R.color.holo_red_dark));
+        } else {
+            convertView.setBackgroundColor(convertView.getContext().getResources().getColor(R.color.transparent));
+        }
+
         return convertView;
     }
+
+
 }
