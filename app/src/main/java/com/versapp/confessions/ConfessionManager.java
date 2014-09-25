@@ -73,7 +73,6 @@ public class ConfessionManager {
 
     private InputStream makeHttpRequest(Context context) throws IOException {
 
-
             HttpClient httpClient = new DefaultHttpClient();
             HttpGet httpGet = new HttpGet(CONFESSIONS_URL);
 
@@ -83,12 +82,10 @@ public class ConfessionManager {
 
             String encoding = Base64Encoder.getInstance().encode(String.format("%s:%s", ConnectionService.getUser(), sessionId));
 
-
             httpGet.setHeader("Authorization", "Basic " + encoding);
 
             HttpResponse res = httpClient.execute(httpGet);
             HttpEntity entity = res.getEntity();
-
 
             InputStream in = entity.getContent();
 

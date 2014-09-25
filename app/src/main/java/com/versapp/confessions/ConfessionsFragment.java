@@ -129,28 +129,35 @@ public class ConfessionsFragment extends Fragment {
             @Override
             public void run() {
 
-                if (!confessions.get(selectedConfessionPosition).isFavorited()) {
-                    favoriteBtn.setImageResource(R.drawable.big_confession_heart_filled);
-                } else {
-                    favoriteBtn.setImageResource(R.drawable.big_confession_heart_outline);
+                // if hasn't loaded thoughts yet.
+                if (selectedConfessionPosition != -1){
+
+                    if (!confessions.get(selectedConfessionPosition).isFavorited()) {
+                        favoriteBtn.setImageResource(R.drawable.big_confession_heart_filled);
+                    } else {
+                        favoriteBtn.setImageResource(R.drawable.big_confession_heart_outline);
+                    }
+
+                    new AsyncTask<Void, Void, Void>() {
+
+                        @Override
+                        protected Void doInBackground(Void... params) {
+                            confessions.get(selectedConfessionPosition).toggleFavorite();
+                            System.out.println(confessions.get(selectedConfessionPosition).isFavorited());
+                            return null;
+                        }
+                    }.execute();
+
+                    adapter.notifyDataSetChanged();
+
                 }
 
-                new AsyncTask<Void, Void, Void>() {
 
-                    @Override
-                    protected Void doInBackground(Void... params) {
-                        confessions.get(selectedConfessionPosition).toggleFavorite();
-                        System.out.println(confessions.get(selectedConfessionPosition).isFavorited());
-                        return null;
-                    }
-                }.execute();
-
-                adapter.notifyDataSetChanged();
 
             }
         }));
 
-
+        Log.d(Logger.CONFESSIONS_DEBUG, "Getting confessions.");
         new AsyncTask<Void, Void, Confession[]>() {
 
             @Override
@@ -179,7 +186,10 @@ public class ConfessionsFragment extends Fragment {
             @Override
             protected void onPostExecute(Confession[] result) {
 
+                Log.d(Logger.CONFESSIONS_DEBUG, "Got " + result.length + " confessions.");
+
                 if (result.length > 0) {
+
                     confessions.addAll(Arrays.asList(result));
                     selectedConfessionPosition = 0;
                     adapter.notifyDataSetChanged();
@@ -199,12 +209,17 @@ public class ConfessionsFragment extends Fragment {
             @Override
             public void run() {
 
-                if (confessions.get(selectedConfessionPosition).isMine()){
-                   deleteConfession();
-                } else if(confessions.get(selectedConfessionPosition).getDegree() == 7) {
-                    Toast.makeText(getActivity(), "This confession is from someone who's not your friend.", Toast.LENGTH_LONG).show();
-                } else {
-                    Toast.makeText(getActivity(), "Imagine you're startig a convo with whoever posted this...", Toast.LENGTH_LONG).show();
+                // if hasn't loaded thoughts yet.
+                if (selectedConfessionPosition != -1) {
+
+                    if (confessions.get(selectedConfessionPosition).isMine()){
+                        deleteConfession();
+                    } else if(confessions.get(selectedConfessionPosition).getDegree() == 7) {
+                        Toast.makeText(getActivity(), "This confession is from someone who's not your friend.", Toast.LENGTH_LONG).show();
+                    } else {
+                        Toast.makeText(getActivity(), "Imagine you're startig a convo with whoever posted this...", Toast.LENGTH_LONG).show();
+                    }
+
                 }
 
             }

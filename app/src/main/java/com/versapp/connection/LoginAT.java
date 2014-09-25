@@ -47,7 +47,7 @@ public class LoginAT extends AsyncTask<String, Void, Connection>{
             connection.addConnectionListener(new ConnectionListener());
 
 
-                connection.login(username, password);
+                connection.login(username, password, "who");
 
                 if (connection.isAuthenticated()){
                     CredentialsManager.getInstance(context).setValidCredentials(username, password);

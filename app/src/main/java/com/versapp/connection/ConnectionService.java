@@ -69,7 +69,8 @@ public class ConnectionService extends Service {
 
         ConnectionService.getConnection().sendPacket(packet);
 
-        String response = iqPacketCollector.nextResult().toXML().replaceAll("\\r\\n|\\r|\\n", " ");
+        Packet p = iqPacketCollector.nextResult();
+        String response = p.toXML().replaceAll("\\r\\n|\\r|\\n", " ");
 
         Log.d(Logger.EJABBERD_SERVER_REQUESTS_DEBUG, "Sent: " + xml);
         Log.d(Logger.EJABBERD_SERVER_REQUESTS_DEBUG, "Received: " + response);
