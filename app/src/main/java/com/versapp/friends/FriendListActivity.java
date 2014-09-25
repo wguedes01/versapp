@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
@@ -33,6 +34,7 @@ public class FriendListActivity extends Activity {
     ArrayAdapter<FriendListItem> adapter;
     ProgressBar progressBar;
     EditText searchEdit;
+    ImageButton backBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +42,15 @@ public class FriendListActivity extends Activity {
         setContentView(R.layout.activity_friend_list);
 
         friendListItems = new ArrayList<FriendListItem>();
+
+        backBtn = (ImageButton) findViewById(R.id.activity_friend_back_btn);
+
+        backBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
 
         searchEdit = (EditText) findViewById(R.id.search_friend_edit);
 

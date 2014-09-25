@@ -1,6 +1,5 @@
 package com.versapp;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -8,7 +7,6 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 
 import com.versapp.confessions.ConfessionsFragment;
-import com.versapp.friends.FriendListActivity;
 
 
 public class DashboardActivity extends FragmentActivity {
@@ -49,10 +47,6 @@ public class DashboardActivity extends FragmentActivity {
 
     @Override
     public void onBackPressed() {
-
-        Intent intent = new Intent(this, FriendListActivity.class);
-        intent.putExtra(FriendListActivity.LIST_MODE_INTENT_EXTRA, FriendListActivity.OPTS_MODE);
-        startActivity(intent);
 
        // super.onBackPressed();
     }
