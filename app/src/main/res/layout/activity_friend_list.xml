@@ -2,9 +2,21 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.versapp.friends.FriendListActivity">
+    tools:context="com.versapp.friends.FriendListActivity"
+    android:background="@android:color/white"
+    android:paddingTop="5dp">
+
+    <EditText
+        android:id="@+id/search_friend_edit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/search_friend"
+        android:textColor="@color/purpleBeauty"
+        android:textColorHint="@color/purpleBeauty"
+        />
 
     <ListView
+        android:layout_below="@id/search_friend_edit"
         android:id="@+id/activity_friend_list_main_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

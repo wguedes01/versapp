@@ -6,9 +6,12 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
@@ -29,6 +32,7 @@ public class FriendListActivity extends Activity {
     ListView friendList;
     ArrayAdapter<FriendListItem> adapter;
     ProgressBar progressBar;
+    EditText searchEdit;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +40,26 @@ public class FriendListActivity extends Activity {
         setContentView(R.layout.activity_friend_list);
 
         friendListItems = new ArrayList<FriendListItem>();
+
+        searchEdit = (EditText) findViewById(R.id.search_friend_edit);
+
+
+        searchEdit.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                adapter.getFilter().filter(s);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
 
         progressBar = (ProgressBar) findViewById(R.id.activity_friend_list_progress_bar);
         friendList = (ListView) findViewById(R.id.activity_friend_list_main_list);

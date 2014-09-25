@@ -5,32 +5,35 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Filter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.versapp.R;
 
 import java.util.ArrayList;
+import java.util.Collection;
 
 /**
  * Created by william on 24/09/14.
  */
 public class FriendListArrayAdapter extends ArrayAdapter<FriendListItem> {
 
-    private ArrayList<FriendListItem> friends;
+    private ArrayList<FriendListItem> allFriendItems =  new ArrayList<FriendListItem>();
+    private ArrayList<FriendListItem> friendListItems;
     private String listMode;
 
 
     public FriendListArrayAdapter(Context context, ArrayList<FriendListItem> friends, String listMode) {
         super(context, R.layout.friend_list_item, friends);
-        this.friends = friends;
+        this.friendListItems = friends;
         this.listMode = listMode;
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
-        final FriendListItem friendListItem = friends.get(position);
+        final FriendListItem friendListItem = friendListItems.get(position);
         final Friend friend = friendListItem.friend;
 
         LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -67,4 +70,63 @@ public class FriendListArrayAdapter extends ArrayAdapter<FriendListItem> {
         return convertView;
     }
 
+    @Override
+    public Filter getFilter() {
+
+        Filter filter = new Filter() {
+            @Override
+            protected FilterResults performFiltering(CharSequence constraint) {
+
+                ArrayList<FriendListItem> resultItems = new ArrayList<FriendListItem>();
+
+                FilterResults results = new FilterResults();
+
+                if (constraint == null || constraint.length() == 0){
+                    results.count = allFriendItems.size();
+                    results.values = allFriendItems;
+                } else {
+
+                    if (allFriendItems != null){
+
+                        System.out.println("Friends...");
+
+                        for (FriendListItem item : allFriendItems){
+
+                            if (item.friend.getName().toUpperCase().contains(constraint.toString().toUpperCase())){
+                                System.out.println("Friend: " + item.friend.getName().toUpperCase());
+
+                                resultItems.add(item);
+                            }
+                        }
+
+                    }
+
+                    results.count = resultItems.size();
+                    results.values = resultItems;
+
+                }
+
+
+                return results;
+            }
+
+            @Override
+            protected void publishResults(CharSequence constraint, FilterResults results) {
+
+                friendListItems.clear();
+                friendListItems.addAll((java.util.Collection<? extends FriendListItem>) results.values);
+                notifyDataSetChanged();
+
+
+            }
+        };
+
+        return filter;
+    }
+
+    @Override
+    public void addAll(Collection<? extends FriendListItem> collection) {
+        allFriendItems.addAll(collection);
+        super.addAll(collection);
+    }
 }

@@ -67,7 +67,8 @@
         </activity>
         <activity
             android:name=".friends.FriendListActivity"
-            android:label="@string/title_activity_friend_list" >
+            android:label="@string/title_activity_friend_list"
+            android:windowSoftInputMode="stateHidden">
         </activity>
     </application>
 
