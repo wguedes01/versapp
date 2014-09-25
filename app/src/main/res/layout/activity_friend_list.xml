@@ -2,8 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.versapp.friends.FriendListActivity"
-    android:background="@drawable/friends_background">
+    tools:context="com.versapp.friends.FriendListActivity">
 
     <ListView
         android:id="@+id/activity_friend_list_main_list"

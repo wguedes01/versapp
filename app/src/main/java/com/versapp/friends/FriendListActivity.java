@@ -1,6 +1,10 @@
 package com.versapp.friends;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.DialogInterface;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -20,7 +24,6 @@ public class FriendListActivity extends Activity {
     public static final String MULTI_SELECTION_MODE = "MULTI_selection_mode";
     public static final String OPTS_MODE = "opts_mode";
 
-    ArrayList<Friend> friends;
     ArrayList<FriendListItem> friendListItems;
     ArrayList<Friend> blockedFriends;
     ListView friendList;
@@ -32,7 +35,6 @@ public class FriendListActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_friend_list);
 
-        friends = new ArrayList<Friend>();
         friendListItems = new ArrayList<FriendListItem>();
 
         progressBar = (ProgressBar) findViewById(R.id.activity_friend_list_progress_bar);
@@ -47,7 +49,7 @@ public class FriendListActivity extends Activity {
             setOptionMode(friendList);
         }
 
-
+        setOnLongClickListener(friendList);
 
         adapter = new FriendListArrayAdapter(this, friendListItems, listMode);
         friendList.setAdapter(adapter);
@@ -113,4 +115,82 @@ public class FriendListActivity extends Activity {
 
     }
 
+    private void setOnLongClickListener(ListView list) {
+        list.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, final int position, long id) {
+                AlertDialog.Builder dialog = new AlertDialog.Builder(FriendListActivity.this);
+
+                String[] options = { (friendListItems.get(position).friend.isBlocked() ? "Unblock" : "Block"), "Delete" };
+
+                dialog.setItems(options, new Dialog.OnClickListener() {
+
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                        switch (which) {
+                            case 0: // block/unblock
+
+                                new AsyncTask<Void, Void, Void>() {
+
+                                    @Override
+                                    protected Void doInBackground(Void... params) {
+                                        friendListItems.get(position).friend.toggleBlock();
+                                        return null;
+                                    }
+
+                                    protected void onPostExecute(Void result) {
+                                        adapter.notifyDataSetChanged();
+                                    };
+                                }.execute();
+
+                                break;
+                            case 1: // remove
+
+                                AlertDialog.Builder confirmDialog = new AlertDialog.Builder(FriendListActivity.this);
+                                confirmDialog.setTitle("Delete Friend");
+                                confirmDialog.setMessage(String.format("Are you sure you'd like to remove %s from your friends?", friendListItems.get(position).friend.getName()));
+                                confirmDialog.setPositiveButton("Delete Friend", new DialogInterface.OnClickListener() {
+
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+
+                                        new AsyncTask<Void, Void, Void>() {
+
+                                            @Override
+                                            protected Void doInBackground(Void... params) {
+
+                                                FriendsManager.getInstance().removeFriend(FriendListActivity.this, friendListItems.get(position).friend.getUsername());
+
+                                                return null;
+                                            }
+
+                                            protected void onPostExecute(Void result) {
+                                                friendListItems.remove(friendListItems.get(position));
+                                                adapter.notifyDataSetChanged();
+                                            };
+                                        }.execute();
+
+                                    }
+                                }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        // TODO Auto-generated method stub
+
+                                    }
+                                }).show();
+
+                                break;
+
+                        }
+
+                    }
+
+                }).setCancelable(true).show();
+
+                return true;
+            }
+        });
+    }
 }

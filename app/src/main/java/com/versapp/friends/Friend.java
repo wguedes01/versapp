@@ -43,6 +43,17 @@ public class Friend implements Comparable<Friend>{
         this.isBlocked = isBlocked;
     }
 
+    public void toggleBlock() {
+
+        if (isBlocked()) {
+            new Blocker().unblockUserExplicit(getUsername());
+        } else {
+            new Blocker().blockExplicitUser(getUsername());
+        }
+
+        setBlocked(!isBlocked());
+    }
+
     @Override
     public int compareTo(Friend another) {
         return name.compareTo(another.name);
