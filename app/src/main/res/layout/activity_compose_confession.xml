@@ -44,7 +44,7 @@
             android:textColor="@android:color/white"
             android:background="@color/transparent"
             android:maxLength="140"
-            ><requestFocus/></EditText>
+            ></EditText>
 
     </RelativeLayout>
 

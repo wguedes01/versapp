@@ -45,11 +45,11 @@ public class DownloadImageAT extends AsyncTask<Void, Void, Bitmap> {
     @Override
     protected void onPostExecute(Bitmap bitmap) {
 
+        progressBar.setVisibility(View.GONE);
+
         if (!isCancelled()) {
 
             if (imageView != null) {
-
-                progressBar.setVisibility(View.GONE);
 
                 if (bitmap != null) {
 

@@ -18,6 +18,7 @@ import android.support.v4.view.ViewPager;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.Display;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -41,6 +42,8 @@ public class ComposeConfessionActivity extends FragmentActivity {
     ImageButton composeBtn;
     EditText bodyEdit;
     ViewPager pager;
+
+    RelativeLayout frame;
 
     private static String selectedBackgroundColor;
     private static final String[] backgroundColors = {"#008CF4","#3DD8F5","#6913C1","#8D51CB","#FFA319","#F7E200","#6FC10B","#9EDE4F","#F23637","#FF4662" };
@@ -79,12 +82,11 @@ public class ComposeConfessionActivity extends FragmentActivity {
             height = display.getHeight();
         }
 
-        RelativeLayout frame = (RelativeLayout) findViewById(R.id.compose_confession_frame);
+        frame = (RelativeLayout) findViewById(R.id.compose_confession_frame);
 
         RelativeLayout.LayoutParams paramsList = (RelativeLayout.LayoutParams) frame.getLayoutParams();
         paramsList.height = width;
         frame.setLayoutParams(paramsList);
-
 
         TextWatcher watcher = new TextWatcher() {
             @Override
@@ -106,8 +108,31 @@ public class ComposeConfessionActivity extends FragmentActivity {
         };
 
         bodyEdit.addTextChangedListener(watcher);
+        bodyEdit.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+
+                if (keyCode == KeyEvent.KEYCODE_ENTER){
+                    return true;
+                }
+
+                return false;
+            }
+        });
 
 
+        bodyEdit.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+
+                if (hasFocus){
+                    RelativeLayout.LayoutParams paramsList = (RelativeLayout.LayoutParams) frame.getLayoutParams();
+                    paramsList.addRule(RelativeLayout.ALIGN_PARENT_TOP);
+                    frame.setLayoutParams(paramsList);
+                }
+
+            }
+        });
 
     }
 
@@ -159,7 +184,21 @@ public class ComposeConfessionActivity extends FragmentActivity {
 
                             return ConfessionManager.getInstance().createConfession(body, url);
 
-                        } else {
+                        } else {        Display display = getWindowManager().getDefaultDisplay();
+
+        int width = 0;
+        int height = 0;
+
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.HONEYCOMB_MR2) {
+            Point size = new Point();
+            display.getSize(size);
+            width = size.x;
+            height = size.y;
+
+        } else {
+            width = display.getWidth();
+            height = display.getHeight();
+        }
                             return null;
                         }
 
@@ -253,10 +292,27 @@ public class ComposeConfessionActivity extends FragmentActivity {
             @Override
             protected Bitmap doInBackground(Void... params) {
 
+                Display display = getWindowManager().getDefaultDisplay();
+
+                int width = 0;
+                int height = 0;
+
+                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.HONEYCOMB_MR2) {
+                    Point size = new Point();
+                    display.getSize(size);
+                    width = size.x;
+                    height = size.y;
+
+                } else {
+                    width = display.getWidth();
+                    height = display.getHeight();
+                }
+
+
                 ImageManager imageManager = new ImageManager();
                 String selectedImagePath = imageManager.getSelectedImagePath(intent, getApplicationContext());
-                imageManager.setTargetHeight(500);
-                imageManager.setTargetWidth(500);
+                imageManager.setTargetHeight(width);
+                imageManager.setTargetWidth(width);
 
                 return cropBitmap(imageManager.getScaledBitmapImage(selectedImagePath));
 
@@ -304,13 +360,9 @@ public class ComposeConfessionActivity extends FragmentActivity {
 
     protected Bitmap cropBitmap(Bitmap image) {
         if (image.getWidth() >= image.getHeight()) {
-            double width = 1.4 * image.getHeight();
-            // double inset = 0.5 * (image.getWidth() - width);
-            // return Bitmap.createBitmap(image, (int) inset, 0, (int) width,
-            // image.getHeight());
             return Bitmap.createBitmap(image, (int) 0, 0, (int) image.getWidth(), image.getHeight());
         } else {
-            double height = (1 / 1.4) * image.getWidth();
+            double height = image.getWidth();
             double inset = 0.5 * (image.getHeight() - height);
             return Bitmap.createBitmap(image, 0, (int) inset, image.getWidth(), (int) height);
         }
@@ -329,6 +381,8 @@ public class ComposeConfessionActivity extends FragmentActivity {
 
 
     }
+
+
 
 
 }

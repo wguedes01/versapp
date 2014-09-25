@@ -63,7 +63,7 @@
         <activity
             android:name=".confessions.ComposeConfessionActivity"
             android:label="@string/title_activity_compose_confession"
-            android:screenOrientation="portrait" >
+            android:screenOrientation="portrait">
         </activity>
         <activity
             android:name=".friends.FriendListActivity"
@@ -74,11 +74,31 @@
             android:name=".SettingsActivity"
             android:label="@string/title_activity_settings" >
         </activity>
+
+        <receiver
+            android:name=".GCMBroadcastReceiver"
+            android:permission="com.google.android.c2dm.permission.SEND" >
+            <intent-filter>
+
+                <!-- Receives the actual messages. -->
+                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+                <!-- Receives the registration id. -->
+                <action android:name="com.google.android.c2dm.intent.REGISTRATION" />
+
+                <category android:name="ganwill.who.gcm" />
+            </intent-filter>
+        </receiver>
+
+        <service android:name=".GCMIntentService" />
+
     </application>
 
     <!-- To auto-complete the email text field in the login form with the user's emails -->
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
     <uses-permission android:name="android.permission.READ_PROFILE" />
     <uses-permission android:name="android.permission.READ_CONTACTS" />
+
+
+
 
 </manifest>

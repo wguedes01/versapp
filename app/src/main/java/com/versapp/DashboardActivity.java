@@ -8,6 +8,12 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 
 import com.versapp.confessions.ConfessionsFragment;
+import com.versapp.contacts.EfficientContactManager;
+
+import org.json.JSONException;
+
+import java.io.IOException;
+import java.io.InputStream;
 
 
 public class DashboardActivity extends FragmentActivity {
@@ -54,6 +60,18 @@ public class DashboardActivity extends FragmentActivity {
 
             @Override
             protected Void doInBackground(Void... params) {
+
+
+                EfficientContactManager contactsManager = EfficientContactManager.getInstance(getApplicationContext());
+
+                try {
+                    InputStream in = contactsManager.publishContacts();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
 
                 return null;
             }

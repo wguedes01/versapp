@@ -38,6 +38,7 @@ public class SettingsActivity extends Activity {
         setContentView(R.layout.activity_settings);
 
         ArrayList<SettingsButton> buttons = new ArrayList<SettingsButton>();
+        buttons.add(new SettingsButton("Home", new HomeOnClickListener()));
         buttons.add(new SettingsButton("Account", null));
         buttons.add(new SettingsButton("My Thoughts", null));
         buttons.add(new SettingsButton("Friends", new FriendsOnClickListener()));
@@ -209,6 +210,14 @@ public class SettingsActivity extends Activity {
 
             }).setCancelable(true).show();
 
+        }
+    }
+
+    private class HomeOnClickListener implements View.OnClickListener {
+
+        @Override
+        public void onClick(View v) {
+            finish();
         }
     }
 
