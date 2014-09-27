@@ -98,7 +98,7 @@ public class ConfessionListArrayAdapter extends ArrayAdapter<Confession> {
             } else {
 
                 holder.backgroundImage.setImageBitmap(cache.getCachedImage(confession.getImageUrl()));
-
+                holder.progressBar.setVisibility(View.GONE);
                // ConfessionImageCache.setBitmapOnView(activity, holder.backgroundImage, cache.getCachedImage(confession.getImageUrl()));
             }
 

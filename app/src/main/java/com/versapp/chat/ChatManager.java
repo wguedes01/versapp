@@ -7,10 +7,13 @@ import com.versapp.confessions.Confession;
 import com.versapp.confessions.ConfessionDeserializer;
 import com.versapp.connection.ConnectionManager;
 
+import org.apache.http.entity.StringEntity;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -64,6 +67,51 @@ public class ChatManager {
         }
 
         return chats;
+    }
+
+    public Chat createChat(ChatBuilder chatBuilder) throws IOException {
+
+        Chat chat = null;
+
+        try {
+            InputStream in = HTTPRequestManager.getInstance().simpleHTTPPost(CREATE_CHAT_URL, new StringEntity(chatBuilder.toJson()));
+
+            if (in != null) {
+
+                chat = inputStreamToChat(in);
+
+            } else {
+                return null;
+            }
+
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+
+        return chat;
+    }
+
+    private Chat inputStreamToChat(InputStream in){
+
+        GsonBuilder gsonBuilder = new GsonBuilder();
+        gsonBuilder.registerTypeAdapter(Confession.class, new ConfessionDeserializer());
+        Gson gson = gsonBuilder.create();
+
+        Reader reader = new InputStreamReader(in);
+
+        StringBuilder sb = new StringBuilder();
+        int c = -1;
+        try {
+            while((c = reader.read()) != -1){
+                sb.append((char) c);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        Chat chat = gson.fromJson(reader, Chat.class);
+
+        return chat;
     }
 
 

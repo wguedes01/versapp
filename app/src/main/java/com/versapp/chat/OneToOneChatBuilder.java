@@ -9,13 +9,16 @@ import java.util.ArrayList;
  */
 public class OneToOneChatBuilder extends ChatBuilder {
 
+    public OneToOneChatBuilder(String type, String inviteUsername) {
+        super(type, null, "", "");
 
-    protected OneToOneChatBuilder(String type, ArrayList<String> participants) {
-        super(type, participants, "", "");
+        ArrayList<String> participants = new ArrayList<String>();
+        participants.add(inviteUsername);
+        setParticipants(participants);
     }
 
     @Override
     public String toJson() {
-        return String.format("{}", getType(), new JSONArray(getParticipants()));
+        return String.format("{\"%s\": \"%s\", \"%s\": %s}", ChatBuilder.POST_PARAM_CHAT_TYPE, getType(), ChatBuilder.POST_PARAM_CHAT_PARTICIPANTS, new JSONArray(getParticipants()));
     }
 }

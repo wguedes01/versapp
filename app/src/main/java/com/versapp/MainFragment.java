@@ -14,6 +14,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
 import com.versapp.friends.FriendListActivity;
+import com.versapp.settings.SettingsActivity;
 
 /**
  * Created by william on 20/09/14.

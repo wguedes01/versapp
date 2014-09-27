@@ -1,6 +1,5 @@
 package com.versapp;
 
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -8,11 +7,6 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 
 import com.versapp.confessions.ConfessionsFragment;
-import com.versapp.contacts.EfficientContactManager;
-
-import org.json.JSONException;
-
-import java.io.IOException;
 
 
 public class DashboardActivity extends FragmentActivity {
@@ -53,40 +47,6 @@ public class DashboardActivity extends FragmentActivity {
 
     @Override
     public void onBackPressed() {
-
-
-        new AsyncTask<Void, Void, Void>(){
-
-            @Override
-            protected Void doInBackground(Void... params) {
-/*
-                ArrayList<Chat> chats = ChatManager.getInstance().getChatsFromServer();
-
-                for (Chat c : chats) {
-                    System.out.print(c.getUuid() + " - " + c.getName());
-                }
-*/
-
-
-                EfficientContactManager contactsManager = EfficientContactManager.getInstance(getApplicationContext());
-
-                try {
-                    contactsManager.publishContacts();
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-
-
-
-                return null;
-            }
-        }.execute();
-
-
-
-
 
        // super.onBackPressed();
     }

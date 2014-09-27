@@ -83,8 +83,7 @@ public class LoginAT extends AsyncTask<String, Void, Connection>{
 
                 ConnectionService.setConnection(conn);
 
-                if(true){
-               // if (!EfficientContactManager.getInstance(context).areContactsPublished()){
+                if (!EfficientContactManager.getInstance(context).areContactsPublished()){
 
                     new AsyncTask<Void, Void, Void>(){
                         @Override
