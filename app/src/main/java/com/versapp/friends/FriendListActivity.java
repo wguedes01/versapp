@@ -15,10 +15,12 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.versapp.R;
 import com.versapp.chat.CreateChatAT;
+import com.versapp.chat.GroupChatBuilder;
 import com.versapp.chat.OneToOneChat;
 import com.versapp.chat.OneToOneChatBuilder;
 
@@ -38,6 +40,10 @@ public class FriendListActivity extends Activity {
     ProgressBar progressBar;
     EditText searchEdit;
     ImageButton backBtn;
+    TextView createGroupBtn;
+
+    // used to store the username of selected friends when creating groups
+    private ArrayList<String> selectedUsers = new ArrayList<String>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +53,7 @@ public class FriendListActivity extends Activity {
         friendListItems = new ArrayList<FriendListItem>();
 
         backBtn = (ImageButton) findViewById(R.id.activity_friend_back_btn);
+        createGroupBtn = (TextView) findViewById(R.id.activity_friend_create_group_btn);
 
         backBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -125,11 +132,21 @@ public class FriendListActivity extends Activity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
+
+                // If there are 2 or more friends selected, show option to create group.
+                createGroupBtn.setVisibility(View.VISIBLE);
+
                 if (friendListItems.get(position).friend.isBlocked()){
 
                     Toast.makeText(getApplicationContext(), "You can't interact with blocked friends", Toast.LENGTH_SHORT).show();
 
                 } else {
+
+                    if (friendListItems.get(position).isSelected()){
+                        selectedUsers.remove(friendListItems.get(position).friend.getUsername());
+                    } else {
+                        selectedUsers.add(friendListItems.get(position).friend.getUsername());
+                    }
 
                     friendListItems.get(position).setSelected(!friendListItems.get(position).isSelected());
                     adapter.notifyDataSetChanged();
@@ -139,6 +156,49 @@ public class FriendListActivity extends Activity {
 
             }
         });
+
+
+        createGroupBtn.setVisibility(View.VISIBLE);
+        createGroupBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if (selectedUsers.size() > 1){
+
+
+                    final EditText chatNameEdit = (EditText) new EditText(getApplicationContext());
+
+                    AlertDialog.Builder createGroupChatDialog = new AlertDialog.Builder(FriendListActivity.this);
+                    createGroupChatDialog.setView(chatNameEdit);
+                    createGroupChatDialog.setTitle("Group Name");
+                    createGroupChatDialog.setPositiveButton("Create", new DialogInterface.OnClickListener() {
+
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+
+                            final String chatName = chatNameEdit.getText().toString();
+
+                            new CreateChatAT(getApplicationContext(), new GroupChatBuilder(OneToOneChat.TYPE, selectedUsers, chatName)).execute();
+
+                        }
+                    });
+                    createGroupChatDialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+
+                        }
+                    });
+
+                    createGroupChatDialog.show();
+
+                } else {
+                    Toast.makeText(getApplicationContext(), "Select at least 2 friends", Toast.LENGTH_SHORT).show();
+                }
+
+            }
+        });
+
 
     }
 

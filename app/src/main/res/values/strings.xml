@@ -29,5 +29,6 @@
     <string name="search_friend">Search</string>
     <string name="title_activity_settings">SettingsActivity</string>
     <string name="title_activity_account">AccountActivity</string>
+    <string name="create_group_btn">Create Group</string>
 
 </resources>
