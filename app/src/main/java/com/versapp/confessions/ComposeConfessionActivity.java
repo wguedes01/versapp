@@ -20,6 +20,7 @@ import android.text.TextWatcher;
 import android.view.Display;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -44,6 +45,7 @@ public class ComposeConfessionActivity extends FragmentActivity {
     ViewPager pager;
 
     RelativeLayout frame;
+    RelativeLayout buttonsMenu;
 
     private static String selectedBackgroundColor;
     private static final String[] backgroundColors = {"#008CF4","#3DD8F5","#6913C1","#8D51CB","#FFA319","#F7E200","#6FC10B","#9EDE4F","#F23637","#FF4662" };
@@ -62,6 +64,7 @@ public class ComposeConfessionActivity extends FragmentActivity {
         composeBtn = (ImageButton) findViewById(R.id.compose_confession_btn);
         bodyEdit = (EditText) findViewById(R.id.compose_confession_body_edit);
         pager = (ViewPager) findViewById(R.id.compose_confession_color_view_pager);
+        buttonsMenu = (RelativeLayout) findViewById(R.id.activity_compose_confession_menu_opts);
 
         pager.setAdapter(new ColorPagerAdapter(getSupportFragmentManager()));
 
@@ -108,11 +111,12 @@ public class ComposeConfessionActivity extends FragmentActivity {
         };
 
         bodyEdit.addTextChangedListener(watcher);
+
         bodyEdit.setOnKeyListener(new View.OnKeyListener() {
             @Override
             public boolean onKey(View v, int keyCode, KeyEvent event) {
 
-                if (keyCode == KeyEvent.KEYCODE_ENTER){
+                if (keyCode == KeyEvent.KEYCODE_ENTER) {
                     return true;
                 }
 
@@ -121,19 +125,12 @@ public class ComposeConfessionActivity extends FragmentActivity {
         });
 
 
-        bodyEdit.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
+    }
 
-                if (hasFocus){
-                    RelativeLayout.LayoutParams paramsList = (RelativeLayout.LayoutParams) frame.getLayoutParams();
-                    paramsList.addRule(RelativeLayout.ALIGN_PARENT_TOP);
-                    frame.setLayoutParams(paramsList);
-                }
-
-            }
-        });
-
+    @Override
+    protected void onStop() {
+        ((InputMethodManager) getSystemService(INPUT_METHOD_SERVICE)).hideSoftInputFromWindow(bodyEdit.getWindowToken(), 0);
+        super.onStop();
     }
 
     private class ColorPagerAdapter extends FragmentPagerAdapter {
@@ -162,6 +159,27 @@ public class ComposeConfessionActivity extends FragmentActivity {
 
         final String body = bodyEdit.getText().toString();
 
+        if (body.length() <= 0) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(ComposeConfessionActivity.this);
+            builder.setTitle("Confirm");
+            builder.setMessage("Post a thought without text?");
+            builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    compose(body);
+                }
+            }).setNegativeButton("Cancel", null);
+
+            AlertDialog d = builder.create();
+            d.show();
+
+
+        } else {
+            compose(body);
+        }
+    }
+
+    public void compose(final String body){
         new AsyncTask<Void, Void, Confession>(){
 
             @Override
@@ -186,19 +204,19 @@ public class ComposeConfessionActivity extends FragmentActivity {
 
                         } else {        Display display = getWindowManager().getDefaultDisplay();
 
-        int width = 0;
-        int height = 0;
+                            int width = 0;
+                            int height = 0;
 
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.HONEYCOMB_MR2) {
-            Point size = new Point();
-            display.getSize(size);
-            width = size.x;
-            height = size.y;
+                            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.HONEYCOMB_MR2) {
+                                Point size = new Point();
+                                display.getSize(size);
+                                width = size.x;
+                                height = size.y;
 
-        } else {
-            width = display.getWidth();
-            height = display.getHeight();
-        }
+                            } else {
+                                width = display.getWidth();
+                                height = display.getHeight();
+                            }
                             return null;
                         }
 
@@ -230,7 +248,6 @@ public class ComposeConfessionActivity extends FragmentActivity {
                 super.onPostExecute(confession);
             }
         }.execute();
-
 
     }
 

@@ -189,7 +189,7 @@ public class ConfessionsFragment extends Fragment {
 
                 Log.d(Logger.CONFESSIONS_DEBUG, "Got " + result.length + " confessions.");
 
-                if (result.length > 0) {
+                if (result != null && result.length > 0) {
 
                     confessions.addAll(Arrays.asList(result));
                     selectedConfessionPosition = 0;
@@ -198,6 +198,8 @@ public class ConfessionsFragment extends Fragment {
                     updateLayout();
 
                     progressBarHolder.setVisibility(View.GONE);
+                } else {
+                    Toast.makeText(getActivity(), "Oops.. we had a little problem loading the thoughts..", Toast.LENGTH_LONG).show();
                 }
 
                 super.onPostExecute(result);
@@ -216,7 +218,7 @@ public class ConfessionsFragment extends Fragment {
                     if (confessions.get(selectedConfessionPosition).isMine()){
                         deleteConfession();
                     } else if(confessions.get(selectedConfessionPosition).getDegree() == 7) {
-                        Toast.makeText(getActivity(), "This confession is from someone who's not your friend.", Toast.LENGTH_LONG).show();
+                        Toast.makeText(getActivity(), "This thought is from someone who's not your friend.", Toast.LENGTH_LONG).show();
                     } else {
                         Toast.makeText(getActivity(), "Imagine you're startig a convo with whoever posted this...", Toast.LENGTH_LONG).show();
                     }

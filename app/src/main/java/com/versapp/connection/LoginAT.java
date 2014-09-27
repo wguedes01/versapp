@@ -3,6 +3,7 @@ package com.versapp.connection;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.versapp.DashboardActivity;
@@ -10,9 +11,12 @@ import com.versapp.gcm.GCMDeviceRegistration;
 
 import org.jivesoftware.smack.Connection;
 import org.jivesoftware.smack.ConnectionConfiguration;
+import org.jivesoftware.smack.PacketListener;
 import org.jivesoftware.smack.SASLAuthentication;
 import org.jivesoftware.smack.XMPPConnection;
 import org.jivesoftware.smack.XMPPException;
+import org.jivesoftware.smack.filter.PacketFilter;
+import org.jivesoftware.smack.packet.Packet;
 
 /**
  * Created by william on 20/09/14.
@@ -70,6 +74,9 @@ public class LoginAT extends AsyncTask<String, Void, Connection>{
             if (conn.isAuthenticated()){
 
                 context.startService(new Intent(context, ConnectionService.class));
+
+                setAllPacketsListener(conn);
+
                 ConnectionService.setConnection(conn);
 
                 if (!GCMDeviceRegistration.isGCMDeviceIdRegistered(context)) {
@@ -95,6 +102,23 @@ public class LoginAT extends AsyncTask<String, Void, Connection>{
         }
 
         super.onPostExecute(conn);
+    }
+
+    private void setAllPacketsListener(Connection conn) {
+        conn.addPacketListener((PacketListener) new PacketListener() {
+
+            @Override
+            public void processPacket(Packet packet) {
+                Log.d("ALL_PACKETS", packet.toXML());
+            }
+        }, new PacketFilter() {
+
+            @Override
+            public boolean accept(Packet packet) {
+                return true;
+            }
+        });
+
     }
 
 }

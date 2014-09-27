@@ -25,8 +25,8 @@ import java.util.Arrays;
  */
 public class FriendsManager {
 
-    private static final String FRIEND_URL = ConnectionManager.HTTP_PROTOCOL+"://"+ConnectionManager.SERVER_IP_ADDRESS+":8052/friends/active";
-    private static final String PENDING_FRIEND_URL =  ConnectionManager.HTTP_PROTOCOL+"://"+ConnectionManager.SERVER_IP_ADDRESS+":8052/friends/pending";
+    private static final String FRIEND_URL = ConnectionManager.HTTP_PROTOCOL+"://"+ConnectionManager.SERVER_IP_ADDRESS+":"+ConnectionManager.NODE_PORT+"/friends/active";
+    private static final String PENDING_FRIEND_URL =  ConnectionManager.HTTP_PROTOCOL+"://"+ConnectionManager.SERVER_IP_ADDRESS+":"+ConnectionManager.NODE_PORT+"/friends/pending";
 
     private static final String SUBSCRIPTION_NONE = "none";
 

@@ -1,9 +1,11 @@
 package com.versapp.contacts;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.provider.ContactsContract;
 
+import com.versapp.connection.ConnectionManager;
 import com.versapp.connection.ConnectionService;
 
 import org.apache.http.HttpEntity;
@@ -19,7 +21,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.Arrays;
 
 /**
@@ -27,11 +28,19 @@ import java.util.Arrays;
  */
 public class EfficientContactManager {
 
+
+    private static final String BLACK_LIST_URL =  ConnectionManager.HTTP_PROTOCOL+"://"+ConnectionManager.SERVER_IP_ADDRESS+":"+ConnectionManager.NODE_PORT+"/blacklist";
+    private static final String BLACK_LIST_MODEL_FILE = "black_list_model";
+    private static final String BLACK_LIST_MODEL_IS_PUBLISHED_KEY = "is_published_key";
+
     private Context context;
+    private SharedPreferences preferences;
     private static EfficientContactManager instance;
+
 
     private EfficientContactManager(Context context) {
         this.context = context;
+        this.preferences = context.getSharedPreferences(BLACK_LIST_MODEL_FILE, Context.MODE_PRIVATE);
     }
 
     public static EfficientContactManager getInstance(Context context) {
@@ -76,7 +85,7 @@ public class EfficientContactManager {
         return emails;
     }
 
-    public InputStream publishContacts() throws JSONException, IOException {
+    public void publishContacts() throws JSONException, IOException {
 
         //String[] phones = getPhones();
         //String[] emails = getEmails();
@@ -107,10 +116,18 @@ public class EfficientContactManager {
         HttpEntity entity = res.getEntity();
 
         if (res.getStatusLine().getStatusCode() == 200){
-            return entity.getContent();
-        } else {
-            return null;
+            setContactsPushedToServer();
         }
 
+    }
+
+    private void setContactsPushedToServer(){
+        SharedPreferences.Editor edit = preferences.edit();
+        edit.putBoolean(BLACK_LIST_MODEL_IS_PUBLISHED_KEY, true);
+        edit.commit();
+    }
+
+    public boolean areContactsPublished(){
+        return preferences.getBoolean(BLACK_LIST_MODEL_IS_PUBLISHED_KEY, false);
     }
 }

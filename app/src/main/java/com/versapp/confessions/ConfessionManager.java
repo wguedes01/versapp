@@ -27,7 +27,7 @@ import java.util.regex.Pattern;
  */
 public class ConfessionManager {
 
-    public static final String CONFESSIONS_URL =  ConnectionManager.HTTP_PROTOCOL+"://"+ConnectionManager.SERVER_IP_ADDRESS+":8052/thoughts";
+    public static final String CONFESSIONS_URL =  ConnectionManager.HTTP_PROTOCOL+"://"+ConnectionManager.SERVER_IP_ADDRESS+":"+ConnectionManager.NODE_PORT+"/thoughts";
 
     private static ConfessionManager  instance;
 
