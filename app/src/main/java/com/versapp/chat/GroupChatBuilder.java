@@ -9,8 +9,8 @@ import java.util.ArrayList;
  */
 public class GroupChatBuilder extends ChatBuilder {
 
-    public GroupChatBuilder(String type, ArrayList<String> participants, String name) {
-        super(type, participants, "", name);
+    public GroupChatBuilder(ArrayList<String> participants, String name) {
+        super(GroupChat.TYPE, participants, -1, name);
     }
 
     @Override

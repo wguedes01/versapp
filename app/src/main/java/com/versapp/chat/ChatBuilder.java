@@ -14,10 +14,10 @@ public abstract class ChatBuilder {
 
     private String type;
     private ArrayList<String> participants;
-    private String cid;
+    private long cid;
     private String name;
 
-    protected ChatBuilder(String type, ArrayList<String> participants, String cid, String name) {
+    protected ChatBuilder(String type, ArrayList<String> participants, long cid, String name) {
         this.type = type;
         this.participants = participants;
         this.cid = cid;
@@ -32,7 +32,7 @@ public abstract class ChatBuilder {
         this.participants = participants;
     }
 
-    public void setCid(String cid) {
+    public void setCid(long cid) {
         this.cid = cid;
     }
 
@@ -48,7 +48,7 @@ public abstract class ChatBuilder {
         return participants;
     }
 
-    public String getCid() {
+    public long getCid() {
         return cid;
     }
 

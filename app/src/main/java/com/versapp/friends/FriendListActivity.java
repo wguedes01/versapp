@@ -21,7 +21,6 @@ import android.widget.Toast;
 import com.versapp.R;
 import com.versapp.chat.CreateChatAT;
 import com.versapp.chat.GroupChatBuilder;
-import com.versapp.chat.OneToOneChat;
 import com.versapp.chat.OneToOneChatBuilder;
 
 import java.util.ArrayList;
@@ -117,7 +116,7 @@ public class FriendListActivity extends Activity {
 
                 } else {
 
-                    new CreateChatAT(getApplicationContext(), new OneToOneChatBuilder(OneToOneChat.TYPE, friendListItems.get(position).friend.getUsername())).execute();
+                    new CreateChatAT(getApplicationContext(), new OneToOneChatBuilder(friendListItems.get(position).friend.getUsername())).execute();
 
                 }
 
@@ -178,7 +177,7 @@ public class FriendListActivity extends Activity {
 
                             final String chatName = chatNameEdit.getText().toString();
 
-                            new CreateChatAT(getApplicationContext(), new GroupChatBuilder(OneToOneChat.TYPE, selectedUsers, chatName)).execute();
+                            new CreateChatAT(getApplicationContext(), new GroupChatBuilder(selectedUsers, chatName)).execute();
 
                         }
                     });

@@ -9,8 +9,8 @@ import java.util.ArrayList;
  */
 public class OneToOneChatBuilder extends ChatBuilder {
 
-    public OneToOneChatBuilder(String type, String inviteUsername) {
-        super(type, null, "", "");
+    public OneToOneChatBuilder(String inviteUsername) {
+        super(OneToOneChat.TYPE, null, -1, "");
 
         ArrayList<String> participants = new ArrayList<String>();
         participants.add(inviteUsername);

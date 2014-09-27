@@ -27,6 +27,8 @@ import android.widget.Toast;
 
 import com.versapp.Logger;
 import com.versapp.R;
+import com.versapp.chat.ConfessionChatBuilder;
+import com.versapp.chat.CreateChatAT;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -220,7 +222,23 @@ public class ConfessionsFragment extends Fragment {
                     } else if(confessions.get(selectedConfessionPosition).getDegree() == 7) {
                         Toast.makeText(getActivity(), "This thought is from someone who's not your friend.", Toast.LENGTH_LONG).show();
                     } else {
-                        Toast.makeText(getActivity(), "Imagine you're startig a convo with whoever posted this...", Toast.LENGTH_LONG).show();
+
+                        new AlertDialog.Builder(getActivity()).setMessage("Would you like to start an anonymous conversation?")
+                                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+
+                                        new CreateChatAT(getActivity(), new ConfessionChatBuilder(confessions.get(selectedConfessionPosition).getId())).execute();
+
+                                    }
+                                }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) { //
+                                dialog.dismiss();
+                            }
+                        }).show();
                     }
 
                 }
