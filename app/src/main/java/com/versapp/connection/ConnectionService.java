@@ -152,6 +152,4 @@ public class ConnectionService extends Service {
         return jid;
     }
 
-
-
 }

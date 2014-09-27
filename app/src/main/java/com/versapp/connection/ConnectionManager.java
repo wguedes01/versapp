@@ -1,5 +1,8 @@
 package com.versapp.connection;
 
+import android.content.Context;
+import android.content.Intent;
+
 import org.jivesoftware.smack.Connection;
 import org.jivesoftware.smack.ConnectionConfiguration;
 import org.jivesoftware.smack.XMPPConnection;
@@ -19,15 +22,17 @@ public class ConnectionManager {
     public static final String VERIFY_PHONE_URL = "http://harmon.dev.versapp.co/verify/";
     public static final String NUMBER_AVAILABILITY_URL = "http://" + SERVER_IP_ADDRESS + "/validate.php?";
 
+    private Context context;
     private static ConnectionManager instance;
 
-    private ConnectionManager() {
+    private ConnectionManager(Context context) {
+        this.context = context;
     }
 
-    public static ConnectionManager getInstance() {
+    public static ConnectionManager getInstance(Context context) {
 
         if (instance == null){
-            instance = new ConnectionManager();
+            instance = new ConnectionManager(context);
         }
 
         return instance;
@@ -46,8 +51,10 @@ public class ConnectionManager {
 
     }
 
-
-
-
+    public void logout(){
+        CredentialsManager.getInstance(context).unsetValidCredentials();
+        ConnectionService.getConnection().disconnect();
+        context.stopService(new Intent(context, ConnectionService.class));
+    }
 
 }

@@ -43,7 +43,7 @@ public class SettingsActivity extends Activity {
         buttons.add(new SettingsButton("My Thoughts", null));
         buttons.add(new SettingsButton("Friends", new FriendsOnClickListener()));
         buttons.add(new SettingsButton("Support", null));
-        buttons.add(new SettingsButton("Logout", null));
+        buttons.add(new SettingsButton("Logout", new LogoutOnClickListener()));
 
         grid = (GridView) findViewById(R.id.activity_settings_main_grid);
         adapter = new GridAdapter(this, buttons);
@@ -218,6 +218,19 @@ public class SettingsActivity extends Activity {
         @Override
         public void onClick(View v) {
             finish();
+        }
+    }
+
+    private class LogoutOnClickListener implements View.OnClickListener {
+
+        @Override
+        public void onClick(View v) {
+
+            ConnectionManager.getInstance(getApplicationContext()).logout();
+            Intent intent = new  Intent(getApplicationContext(), LoginActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
+
         }
     }
 

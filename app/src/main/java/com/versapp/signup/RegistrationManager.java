@@ -143,7 +143,7 @@ public class RegistrationManager {
         packet.append("</query>");
         packet.append("</iq>");
 
-        String response = ConnectionService.sendUnauthenticatedCustomXMLPacket(packet.toString(), packetID, ConnectionManager.getInstance().anonymousLogin());
+        String response = ConnectionService.sendUnauthenticatedCustomXMLPacket(packet.toString(), packetID, ConnectionManager.getInstance(context).anonymousLogin());
         Log.d("Registration", response);
 
         // THIS IS A HACK.
