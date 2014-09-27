@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.Editable;
@@ -18,13 +17,11 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
-import com.versapp.DashboardActivity;
 import com.versapp.R;
-import com.versapp.chat.Chat;
-import com.versapp.chat.ChatManager;
+import com.versapp.chat.CreateChatAT;
+import com.versapp.chat.OneToOneChat;
 import com.versapp.chat.OneToOneChatBuilder;
 
-import java.io.IOException;
 import java.util.ArrayList;
 
 public class FriendListActivity extends Activity {
@@ -113,43 +110,7 @@ public class FriendListActivity extends Activity {
 
                 } else {
 
-                    new AsyncTask<Void, Void, Chat>(){
-
-                        @Override
-                        protected Chat doInBackground(Void... params) {
-
-                            Chat chat = null;
-                            try {
-                                chat = ChatManager.getInstance().createChat(new OneToOneChatBuilder("121", friendListItems.get(position).friend.getUsername()));
-                            } catch (IOException e) {
-                                e.printStackTrace();
-                            }
-
-                            return chat;
-                        }
-
-                        @Override
-                        protected void onPostExecute(Chat chat) {
-
-                            if (chat == null) {
-                                // error occurred.
-                                Toast.makeText(getApplicationContext(), "Oops.. something went wrong. Please try again.", Toast.LENGTH_LONG).show();
-                            } else {
-                                // go to chat.
-                                Intent intent = new Intent(getApplicationContext(), DashboardActivity.class);
-                                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                                startActivity(intent);
-                            }
-
-                            super.onPostExecute(chat);
-                        }
-
-
-                    }.execute();
-
-
-
-                    // Start one-to-one conversation
+                    new CreateChatAT(getApplicationContext(), new OneToOneChatBuilder(OneToOneChat.TYPE, friendListItems.get(position).friend.getUsername())).execute();
 
                 }
 

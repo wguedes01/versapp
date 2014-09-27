@@ -94,20 +94,10 @@ public class ChatManager {
     private Chat inputStreamToChat(InputStream in){
 
         GsonBuilder gsonBuilder = new GsonBuilder();
-        gsonBuilder.registerTypeAdapter(Confession.class, new ConfessionDeserializer());
+        gsonBuilder.registerTypeAdapter(Chat.class, new ChatDeserializer());
         Gson gson = gsonBuilder.create();
 
         Reader reader = new InputStreamReader(in);
-
-        StringBuilder sb = new StringBuilder();
-        int c = -1;
-        try {
-            while((c = reader.read()) != -1){
-                sb.append((char) c);
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
 
         Chat chat = gson.fromJson(reader, Chat.class);
 

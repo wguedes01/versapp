@@ -5,6 +5,8 @@ package com.versapp.chat;
  */
 public class OneToOneChat extends Chat {
 
+    public static final String TYPE = "121";
+
     protected OneToOneChat(String uuid, String name) {
         super(uuid, name);
     }

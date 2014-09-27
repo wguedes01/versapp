@@ -5,6 +5,8 @@ package com.versapp.chat;
  */
 public class ConfessionChat extends Chat {
 
+    public static final String TYPE = "thought";
+
     private int degree;
 
     protected ConfessionChat(String uuid, String name, int degree) {

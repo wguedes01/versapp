@@ -69,13 +69,12 @@ public class HTTPRequestManager {
         String encoding = Base64Encoder.getInstance().encode(String.format("%s:%s", ConnectionService.getUser(), ConnectionService.getSessionId()));
         httpPost.setHeader("Authorization", "Basic " + encoding);
 
-
         HttpResponse res = httpClient.execute(httpPost);
         HttpEntity entity = res.getEntity();
 
-        InputStream in = entity.getContent();
-
-        if (res.getStatusLine().getStatusCode() == 200) {
+        int code = res.getStatusLine().getStatusCode();
+        if (code == 200) {
+            InputStream in = entity.getContent();
             return in;
         } else {
             return null;

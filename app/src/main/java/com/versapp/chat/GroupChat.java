@@ -7,6 +7,8 @@ import java.util.ArrayList;
  */
 public class GroupChat extends Chat {
 
+    public static final String TYPE = "group";
+
     private String ownerId;
     private ArrayList<Participant> participants;
 
