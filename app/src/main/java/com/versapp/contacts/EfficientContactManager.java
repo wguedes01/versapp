@@ -4,7 +4,9 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.provider.ContactsContract;
+import android.util.Log;
 
+import com.versapp.Logger;
 import com.versapp.connection.ConnectionManager;
 import com.versapp.connection.ConnectionService;
 
@@ -56,13 +58,15 @@ public class EfficientContactManager {
 
         Cursor phonesCursor = context.getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null, null, null, null);
 
-        String[] phones = new String[phonesCursor.getCount()];
+        String[] phones = new String[phonesCursor.getCount()*2]; // multiply by two because we might add a copy with country code.
         int phoneIndex = 0;
 
         while (phonesCursor.moveToNext()) {
             String phone = phonesCursor.getString(phonesCursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
             phone = phone.replaceAll("\\D+", "");
             phones[phoneIndex] = phone;
+            phoneIndex++;
+            phones[phoneIndex] = "1"+phone;
             phoneIndex++;
         }
 
@@ -87,11 +91,8 @@ public class EfficientContactManager {
 
     public void publishContacts() throws JSONException, IOException {
 
-        //String[] phones = getPhones();
-        //String[] emails = getEmails();
-
-        String[] phones = {"5745142948", "1111111111", "15745142948", "11111111111"};
-        String[] emails = {};
+        String[] phones = getPhones();
+        String[] emails = getEmails();
 
         HttpClient httpClient = new DefaultHttpClient();
         HttpPost httpPost = new HttpPost("http://harmon.dev.versapp.co:8052/blacklist");
@@ -115,8 +116,10 @@ public class EfficientContactManager {
         HttpResponse res = httpClient.execute(httpPost);
         HttpEntity entity = res.getEntity();
 
+        Log.d(Logger.BLM_DEBUG, "BLM response code: " + res.getStatusLine().getStatusCode());
         if (res.getStatusLine().getStatusCode() == 200){
             setContactsPushedToServer();
+
         }
 
     }
@@ -125,6 +128,7 @@ public class EfficientContactManager {
         SharedPreferences.Editor edit = preferences.edit();
         edit.putBoolean(BLACK_LIST_MODEL_IS_PUBLISHED_KEY, true);
         edit.commit();
+        Log.d(Logger.BLM_DEBUG, "setContactsPushedToServer()");
     }
 
     public boolean areContactsPublished(){

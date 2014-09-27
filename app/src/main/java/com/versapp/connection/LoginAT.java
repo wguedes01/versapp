@@ -7,6 +7,7 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.versapp.DashboardActivity;
+import com.versapp.contacts.EfficientContactManager;
 import com.versapp.gcm.GCMDeviceRegistration;
 
 import org.jivesoftware.smack.Connection;
@@ -17,6 +18,9 @@ import org.jivesoftware.smack.XMPPConnection;
 import org.jivesoftware.smack.XMPPException;
 import org.jivesoftware.smack.filter.PacketFilter;
 import org.jivesoftware.smack.packet.Packet;
+import org.json.JSONException;
+
+import java.io.IOException;
 
 /**
  * Created by william on 20/09/14.
@@ -79,10 +83,36 @@ public class LoginAT extends AsyncTask<String, Void, Connection>{
 
                 ConnectionService.setConnection(conn);
 
+                if(true){
+               // if (!EfficientContactManager.getInstance(context).areContactsPublished()){
+
+                    new AsyncTask<Void, Void, Void>(){
+                        @Override
+                        protected Void doInBackground(Void... params) {
+
+                            try {
+                                EfficientContactManager.getInstance(context).publishContacts();
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+
+                            return null;
+                        }
+
+                        @Override
+                        protected void onPostExecute(Void aVoid) {
+                            super.onPostExecute(aVoid);
+                        }
+                    }.execute();
+
+
+                }
+
                 if (!GCMDeviceRegistration.isGCMDeviceIdRegistered(context)) {
                     GCMDeviceRegistration.registerDeviceOnBackground(context);
                 }
-
 
                 if (postExecute != null) {
 
