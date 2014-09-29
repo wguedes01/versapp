@@ -3,8 +3,6 @@ package com.versapp.chat;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.versapp.HTTPRequestManager;
-import com.versapp.confessions.Confession;
-import com.versapp.confessions.ConfessionDeserializer;
 import com.versapp.connection.ConnectionManager;
 
 import org.apache.http.entity.StringEntity;
@@ -43,7 +41,7 @@ public class ChatManager {
         ArrayList<Chat> chats = null;
 
         GsonBuilder gsonBuilder = new GsonBuilder();
-        gsonBuilder.registerTypeAdapter(Confession.class, new ConfessionDeserializer());
+        gsonBuilder.registerTypeAdapter(Chat.class, new ChatDeserializer());
         Gson gson = gsonBuilder.create();
 
         Chat[] chatArray = null;
@@ -59,6 +57,8 @@ public class ChatManager {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+
 
         if (chatArray != null){
             chats = new ArrayList<Chat>(Arrays.asList(chatArray));

@@ -7,6 +7,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 
 import java.lang.reflect.Type;
+import java.net.URLDecoder;
 import java.util.ArrayList;
 
 /**
@@ -18,8 +19,12 @@ public class ChatDeserializer implements JsonDeserializer<Chat> {
     private static final String UUID_JSON_KEY = "uuid";
     private static final String CHAT_NAME_JSON_KEY = "name";
 
+    // One to One specific
+    private static final String IS_OWNER_JSON_KEY = "isOwner";
+
     // Thought specific
     private static final String DEGREE_JSON_KEY = "degree";
+    private static final String CID_JSON_KEY = "cid";
 
     // Group chat specific
     private static final String PARTICIPANTS_JSON_KEY = "participants";
@@ -46,15 +51,24 @@ public class ChatDeserializer implements JsonDeserializer<Chat> {
 
         if (type.equals(CHAT_TYPE_ONE_TO_ONE)){
 
-            chat = new OneToOneChat(uuid, name);
+            JsonElement isOwnerElement = jsonObject.get(IS_OWNER_JSON_KEY);
+
+            boolean isOwner = isOwnerElement.getAsBoolean();
+
+            chat = new OneToOneChat(uuid, name, isOwner);
 
         } else if(type.equals(CHAT_TYPE_THOUGHT)){
 
             JsonElement degreeElement = jsonObject.get(DEGREE_JSON_KEY);
+            JsonElement cidElement = jsonObject.get(CID_JSON_KEY);
 
             int degree = degreeElement.getAsInt();
+            long cid = cidElement.getAsLong();
 
-            chat = new ConfessionChat(uuid, name, degree);
+            // name is url encoded when it's a thought.
+            name = URLDecoder.decode(name);
+
+            chat = new ConfessionChat(uuid, name, cid, degree);
 
         } else { // type: group
 

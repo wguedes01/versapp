@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.versapp.HTTPRequestManager;
 import com.versapp.connection.ConnectionManager;
 import com.versapp.connection.ConnectionService;
 
@@ -175,6 +176,29 @@ public class ConfessionManager {
         }
 
         return null;
+    }
+
+    public Confession getConfessionFromServer(Context context, long id){
+
+        Confession confession = null;
+
+        GsonBuilder gsonBuilder = new GsonBuilder();
+        gsonBuilder.registerTypeAdapter(Confession.class, new ConfessionDeserializer());
+        Gson gson = gsonBuilder.create();
+
+        try {
+
+            InputStream in = HTTPRequestManager.getInstance().sendSimpleHttpRequest(CONFESSIONS_URL+"/"+id);
+
+            Reader reader = new InputStreamReader(in);
+
+            confession = gson.fromJson(reader, Confession.class);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return confession;
     }
 
 

@@ -67,7 +67,6 @@
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/go_to_msg_btn"
         android:layout_width="match_parent"
         android:layout_height="300dp"
         android:orientation="vertical"
@@ -78,6 +77,7 @@
         android:layout_above="@id/fragment_main_buttons_holder">
 
         <ImageButton
+            android:id="@+id/go_to_msg_btn"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@drawable/dashboard_btn_bg"/>

@@ -12,5 +12,6 @@ public class Logger {
     public static final String FRIEND_DEBUG = "FRIEND_DEBUG";
     public static final String GCM_DEBUG = "GCM_DEBUG";
     public static final String BLM_DEBUG = "BLM_DEBUG";
+    public static final String CHAT_DEBUG = "CHAT_DEBUG";
 
 }

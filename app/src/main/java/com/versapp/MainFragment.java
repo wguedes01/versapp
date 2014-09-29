@@ -13,6 +13,7 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
+import com.versapp.chat.ChatDashboardActivity;
 import com.versapp.friends.FriendListActivity;
 import com.versapp.settings.SettingsActivity;
 
@@ -21,20 +22,31 @@ import com.versapp.settings.SettingsActivity;
  */
 public class MainFragment extends Fragment {
 
+    View goToMessagesBtn;
     LinearLayout buttonsHolder;
     ImageButton newOneToOneBtn;
     ImageButton newGroupBtn;
     ImageButton settingsBtn;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         View convertView = inflater.inflate(R.layout.fragment_main, container, false);
 
+        goToMessagesBtn = convertView.findViewById(R.id.go_to_msg_btn);
         settingsBtn = (ImageButton) convertView.findViewById(R.id.fragment_main_settings_btn);
         buttonsHolder = (LinearLayout) convertView.findViewById(R.id.fragment_main_buttons_holder);
         newOneToOneBtn = (ImageButton) convertView.findViewById(R.id.fragment_main_new_one_to_one_btn);
         newGroupBtn = (ImageButton) convertView.findViewById(R.id.fragment_main_new_group_btn);
+
+
+        goToMessagesBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getActivity(), ChatDashboardActivity.class));
+            }
+        });
 
         settingsBtn.setOnClickListener(new View.OnClickListener() {
             @Override

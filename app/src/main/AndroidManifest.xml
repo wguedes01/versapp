@@ -96,6 +96,10 @@
             android:name=".settings.AccountActivity"
             android:label="@string/title_activity_account" >
         </activity>
+        <activity
+            android:name=".chat.ChatDashboardActivity"
+            android:label="@string/title_activity_chat_dashboard" >
+        </activity>
     </application>
 
     <!-- To auto-complete the email text field in the login form with the user's emails -->

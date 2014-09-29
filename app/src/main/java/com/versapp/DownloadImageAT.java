@@ -21,7 +21,7 @@ public class DownloadImageAT extends AsyncTask<Void, Void, Bitmap> {
     ProgressBar progressBar;
 
     public DownloadImageAT(Context context, String key, ImageView imageView, ConfessionImageCache cache, ProgressBar progressBar) {
-        this.context = context;
+            this.context = context;
         this.key = key;
         this.imageView = imageView;
         this.cache = cache;
