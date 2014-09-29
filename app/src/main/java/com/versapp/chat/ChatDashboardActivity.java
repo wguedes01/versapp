@@ -2,6 +2,7 @@ package com.versapp.chat;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.Point;
@@ -21,6 +22,7 @@ import android.widget.TextView;
 
 import com.versapp.Logger;
 import com.versapp.R;
+import com.versapp.chat.conversation.ConversationActivity;
 import com.versapp.confessions.Confession;
 import com.versapp.confessions.ConfessionManager;
 
@@ -193,6 +195,16 @@ public class ChatDashboardActivity extends Activity {
             }
 
             adjustTitleSize(convertView);
+
+            convertView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    Intent intent = new Intent(getApplicationContext(), ConversationActivity.class);
+                    intent.putExtra(ConversationActivity.CHAT_UUID_INTENT_EXTRA, currentChatTile.chat.getUuid());
+                    startActivity(intent);
+                }
+            });
 
             return convertView;
         }

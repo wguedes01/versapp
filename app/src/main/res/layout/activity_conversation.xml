@@ -1,0 +1,75 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.versapp.chat.conversation.ConversationActivity"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:id="@+id/message_dashboard"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="@color/confessionBlue"
+        android:orientation="horizontal" >
+
+        <View
+            android:id="@+id/one2one_bottom_divider"
+            android:layout_width="match_parent"
+            android:layout_height="2dip"
+            android:layout_alignParentTop="true"
+            android:background="@android:color/white"
+            android:layout_marginBottom="3dip" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/one2one_bottom_divider"
+            android:layout_centerInParent="true"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:paddingBottom="5dip" >
+
+            <ImageButton
+                android:id="@+id/attach_image_btn"
+                android:layout_width="26dip"
+                android:layout_height="26dip"
+                android:layout_marginLeft="10dip"
+                android:layout_marginRight="10dip"
+                android:src="@android:drawable/ic_menu_camera"
+                android:background="@color/transparent"
+                android:onClick="attachImage" />
+
+            <EditText
+                android:id="@+id/activity_conversation_message_edit_text"
+                android:layout_width="0dip"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.6" >
+            </EditText>
+
+            <ImageButton
+                android:id="@+id/activity_conversation_send_msg_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dip"
+                android:layout_marginRight="10dip"
+                android:background="@android:drawable/ic_menu_send"
+                android:onClick="sendMessage" />
+        </LinearLayout>
+    </RelativeLayout>
+
+    <ListView
+        android:id="@+id/activity_conversation_main_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:cacheColorHint="#00000000"
+        android:divider="@color/transparent"
+        android:dividerHeight="10dip"
+        android:paddingLeft="5dip"
+        android:paddingRight="5dip"
+        android:paddingTop="1dip"
+        android:paddingBottom="5dip"
+        android:stackFromBottom="true"
+        android:transcriptMode="alwaysScroll"></ListView>
+
+</RelativeLayout>

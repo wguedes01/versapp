@@ -19,7 +19,15 @@ public class DBHelper extends SQLiteOpenHelper {
     private static final String SQL_CREATE_FRIENDS_TABLE = "CREATE TABLE " + DBContract.FriendsTable.TABLE_NAME + " (" + DBContract.FriendsTable.COLUMN_NAME_USERNAME
             + " TEXT PRIMARY KEY, " + DBContract.FriendsTable.COLUMN_NAME_NAME + TEXT_TYPE + ", " + DBContract.FriendsTable.COLUMN_NAME_STATUS + INTEGER_TYPE + ")";
 
+    private static final String SQL_CREATE_MESSAGES_TABLE = "CREATE TABLE " +  DBContract.MessagesTable.TABLE_NAME + " (" + DBContract.MessagesTable.COLUMN_NAME_MESSAGE_ID
+            + " INTEGER PRIMARY KEY AUTOINCREMENT, " + DBContract.MessagesTable.COLUMN_NAME_TIMESTAMP + TEXT_TYPE + COMMA_SEP
+            + DBContract.MessagesTable.COLUMN_NAME_MESSAGE_BODY + TEXT_TYPE + COMMA_SEP + DBContract.MessagesTable.COLUMN_NAME_IMAGE_URL + TEXT_TYPE + COMMA_SEP
+            + DBContract.MessagesTable.COLUMN_NAME_THREAD + TEXT_TYPE + COMMA_SEP + DBContract.MessagesTable.COLUMN_NAME_IS_MINE + INTEGER_TYPE + ")";
+
+
     private static final String SQL_DELETE_FRIENDS = "DROP TABLE IF EXISTS " + DBContract.FriendsTable.TABLE_NAME;
+
+    private static final String SQL_DELETE_MESSAGES = "DROP TABLE IF EXISTS " + DBContract.MessagesTable.TABLE_NAME;
 
     private static DBHelper instance;
 
@@ -39,12 +47,13 @@ public class DBHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(SQL_CREATE_FRIENDS_TABLE);
+        db.execSQL(SQL_CREATE_MESSAGES_TABLE);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL(SQL_DELETE_FRIENDS);
-
+        db.execSQL(SQL_DELETE_MESSAGES);
         onCreate(db);
     }
 

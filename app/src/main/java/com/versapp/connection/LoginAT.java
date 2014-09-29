@@ -7,12 +7,14 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.versapp.DashboardActivity;
+import com.versapp.chat.ChatMessageListener;
 import com.versapp.contacts.EfficientContactManager;
 import com.versapp.gcm.GCMDeviceRegistration;
 
 import org.jivesoftware.smack.Connection;
 import org.jivesoftware.smack.ConnectionConfiguration;
 import org.jivesoftware.smack.PacketListener;
+import org.jivesoftware.smack.Roster;
 import org.jivesoftware.smack.SASLAuthentication;
 import org.jivesoftware.smack.XMPPConnection;
 import org.jivesoftware.smack.XMPPException;
@@ -49,7 +51,9 @@ public class LoginAT extends AsyncTask<String, Void, Connection>{
         config.setCompressionEnabled(true);
         config.setSASLAuthenticationEnabled(true);
 
+
         Connection connection = new XMPPConnection(config);
+        connection.getRoster().setSubscriptionMode(Roster.SubscriptionMode.manual);
 
         try {
             connection.connect();
@@ -80,6 +84,7 @@ public class LoginAT extends AsyncTask<String, Void, Connection>{
                 context.startService(new Intent(context, ConnectionService.class));
 
                 setAllPacketsListener(conn);
+                setMessageListener(conn);
 
                 ConnectionService.setConnection(conn);
 
@@ -152,6 +157,18 @@ public class LoginAT extends AsyncTask<String, Void, Connection>{
             }
         });
 
+    }
+
+    private void setMessageListener(Connection conn){
+        conn.addPacketListener(new ChatMessageListener(context), new PacketFilter() {
+
+            @Override
+            public boolean accept(Packet packet) {
+                // return if it's not confession packet and IT is message
+                // packet.
+                return packet.getClass() == org.jivesoftware.smack.packet.Message.class;
+            }
+        });
     }
 
 }
