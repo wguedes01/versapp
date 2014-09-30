@@ -89,6 +89,7 @@ public class ConversationActivity extends Activity {
             @Override
             protected void onPostExecute(ArrayList<Message> msgs) {
                 messages.addAll(msgs);
+                adapter.notifyDataSetChanged();
                 super.onPostExecute(msgs);
             }
         }.execute();

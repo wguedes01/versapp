@@ -11,15 +11,16 @@ import com.versapp.chat.ChatMessageListener;
 import com.versapp.contacts.EfficientContactManager;
 import com.versapp.gcm.GCMDeviceRegistration;
 
-import org.jivesoftware.smack.Connection;
+import org.apache.harmony.javax.security.sasl.SaslException;
 import org.jivesoftware.smack.ConnectionConfiguration;
 import org.jivesoftware.smack.PacketListener;
 import org.jivesoftware.smack.Roster;
 import org.jivesoftware.smack.SASLAuthentication;
-import org.jivesoftware.smack.XMPPConnection;
+import org.jivesoftware.smack.SmackException;
 import org.jivesoftware.smack.XMPPException;
 import org.jivesoftware.smack.filter.PacketFilter;
 import org.jivesoftware.smack.packet.Packet;
+import org.jivesoftware.smack.tcp.XMPPTCPConnection;
 import org.json.JSONException;
 
 import java.io.IOException;
@@ -27,7 +28,7 @@ import java.io.IOException;
 /**
  * Created by william on 20/09/14.
  */
-public class LoginAT extends AsyncTask<String, Void, Connection>{
+public class LoginAT extends AsyncTask<String, Void, XMPPTCPConnection>{
 
 
     private Context context;
@@ -39,7 +40,7 @@ public class LoginAT extends AsyncTask<String, Void, Connection>{
     }
 
     @Override
-    protected Connection doInBackground(String... strings) {
+    protected XMPPTCPConnection doInBackground(String... strings) {
 
         String username = strings[0];
         String password = strings[1];
@@ -49,10 +50,10 @@ public class LoginAT extends AsyncTask<String, Void, Connection>{
         ConnectionConfiguration config = new ConnectionConfiguration(ConnectionManager.SERVER_IP_ADDRESS, ConnectionManager.PORT);
         config.setSecurityMode(ConnectionConfiguration.SecurityMode.disabled);
         config.setCompressionEnabled(true);
-        config.setSASLAuthenticationEnabled(true);
+        //config.setSASLAuthenticationEnabled(true);
 
 
-        Connection connection = new XMPPConnection(config);
+        XMPPTCPConnection connection = new XMPPTCPConnection(config);
         connection.getRoster().setSubscriptionMode(Roster.SubscriptionMode.manual);
 
         try {
@@ -71,11 +72,19 @@ public class LoginAT extends AsyncTask<String, Void, Connection>{
         } catch (XMPPException e) {
             e.printStackTrace();
             return null;
+        } catch (SaslException e) {
+            e.printStackTrace();
+        } catch (SmackException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
+
+        return null;
     }
 
     @Override
-    protected void onPostExecute(Connection conn) {
+    protected void onPostExecute(XMPPTCPConnection conn) {
 
         if (conn != null){
 
@@ -142,12 +151,12 @@ public class LoginAT extends AsyncTask<String, Void, Connection>{
         super.onPostExecute(conn);
     }
 
-    private void setAllPacketsListener(Connection conn) {
+    private void setAllPacketsListener(XMPPTCPConnection conn) {
         conn.addPacketListener((PacketListener) new PacketListener() {
 
             @Override
             public void processPacket(Packet packet) {
-                Log.d("ALL_PACKETS", packet.toXML());
+                Log.d("ALL_PACKETS", packet.toXML().toString());
             }
         }, new PacketFilter() {
 
@@ -159,7 +168,7 @@ public class LoginAT extends AsyncTask<String, Void, Connection>{
 
     }
 
-    private void setMessageListener(Connection conn){
+    private void setMessageListener(XMPPTCPConnection conn){
         conn.addPacketListener(new ChatMessageListener(context), new PacketFilter() {
 
             @Override

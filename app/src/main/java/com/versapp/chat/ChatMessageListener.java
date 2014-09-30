@@ -3,14 +3,14 @@ package com.versapp.chat;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v4.content.LocalBroadcastManager;
-import android.util.Log;
 
-import com.versapp.Logger;
 import com.versapp.chat.conversation.Message;
 import com.versapp.database.MessagesDAO;
 
 import org.jivesoftware.smack.PacketListener;
 import org.jivesoftware.smack.packet.Packet;
+import org.jivesoftware.smackx.delay.packet.DelayInformation;
+import org.jivesoftware.smackx.jiveproperties.JivePropertiesManager;
 
 /**
  * Created by william on 29/09/14.
@@ -34,24 +34,24 @@ public class ChatMessageListener implements PacketListener {
 
         org.jivesoftware.smack.packet.Message smackMessage = (org.jivesoftware.smack.packet.Message) packet;
 
-        Log.d(Logger.CHAT_DEBUG, "Received chat message:"+ packet.toXML());
-        Object o = packet.getExtension("x","jabber:x:delay");
-
-        Log.d(Logger.CHAT_DEBUG, "Received chat message:" +  " - " + packet.toXML());
-
-
         String thread = smackMessage.getFrom().split("@")[0];
 
         String body = smackMessage.getBody();
 
         String imageUrl = null;
-        if (smackMessage.getProperty(Message.IMAGE_URL_PROPERTY) != null){
-            imageUrl = smackMessage.getProperty(Message.IMAGE_URL_PROPERTY).toString();
+        if (JivePropertiesManager.getProperty(smackMessage, Message.IMAGE_URL_PROPERTY) != null){
+            imageUrl = JivePropertiesManager.getProperty(smackMessage, Message.IMAGE_URL_PROPERTY).toString();
         } else {
             imageUrl = "";
         }
 
-        Message message = new Message(thread, body, imageUrl, Message.getCurrentEpochTime(), false);
+        long timestamp = Message.getCurrentEpochTime();
+        DelayInformation delayInfo = packet.getExtension("x", "jabber:x:delay");
+        if (delayInfo != null) {
+            timestamp = delayInfo.getStamp().getTime();
+        }
+
+        Message message = new Message(thread, body, imageUrl, timestamp, false);
 
         // Add to database.
         long messageId = messagesDAO.insert(message);

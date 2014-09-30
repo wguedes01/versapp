@@ -26,6 +26,8 @@ import com.versapp.connection.ConnectionManager;
 import com.versapp.friends.FriendListActivity;
 import com.versapp.friends.FriendsManager;
 
+import org.jivesoftware.smack.SmackException;
+
 import java.util.ArrayList;
 
 
@@ -228,7 +230,12 @@ public class SettingsActivity extends Activity {
         @Override
         public void onClick(View v) {
 
-            ConnectionManager.getInstance(getApplicationContext()).logout();
+            try {
+                ConnectionManager.getInstance(getApplicationContext()).logout();
+            } catch (SmackException.NotConnectedException e) {
+                e.printStackTrace();
+            }
+
             Intent intent = new  Intent(getApplicationContext(), LoginActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(intent);
@@ -240,8 +247,6 @@ public class SettingsActivity extends Activity {
 
         @Override
         public void onClick(View v) {
-
-            ConnectionManager.getInstance(getApplicationContext()).logout();
             Intent intent = new  Intent(getApplicationContext(), AccountActivity.class);
             startActivity(intent);
 

@@ -5,6 +5,8 @@ import android.content.Context;
 import com.versapp.connection.ConnectionService;
 import com.versapp.database.MessagesDAO;
 
+import org.jivesoftware.smack.SmackException;
+
 /**
  * Created by william on 29/09/14.
  */
@@ -38,6 +40,10 @@ public class ConversationManager {
         org.jivesoftware.smack.packet.Message msg = message.getSmackMessage();
         msg.setFrom(ConnectionService.getJid());
         msg.setTo(to);
-        ConnectionService.getConnection().sendPacket(msg);
+        try {
+            ConnectionService.getConnection().sendPacket(msg);
+        } catch (SmackException.NotConnectedException e) {
+            e.printStackTrace();
+        }
     }
 }

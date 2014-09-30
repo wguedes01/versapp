@@ -4,10 +4,22 @@ import android.util.Log;
 
 import com.versapp.Logger;
 
+import org.jivesoftware.smack.XMPPConnection;
+
 /**
  * Created by william on 20/09/14.
  */
 public class ConnectionListener implements org.jivesoftware.smack.ConnectionListener {
+
+    @Override
+    public void connected(XMPPConnection xmppConnection) {
+        Log.d(Logger.CONNECTION_DEBUG, "Connected.");
+    }
+
+    @Override
+    public void authenticated(XMPPConnection xmppConnection) {
+        Log.d(Logger.CONNECTION_DEBUG, "Authenticated.");
+    }
 
     @Override
     public void connectionClosed() {

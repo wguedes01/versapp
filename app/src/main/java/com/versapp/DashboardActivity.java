@@ -8,10 +8,6 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 
 import com.versapp.confessions.ConfessionsFragment;
-import com.versapp.connection.ConnectionManager;
-import com.versapp.connection.ConnectionService;
-
-import org.jivesoftware.smack.packet.Message;
 
 
 public class DashboardActivity extends FragmentActivity {
@@ -57,13 +53,6 @@ public class DashboardActivity extends FragmentActivity {
 
             @Override
             protected Void doInBackground(Void... params) {
-
-                Message message = new Message();
-                message.setType(Message.Type.chat);
-                message.setFrom(ConnectionService.getJid());
-                message.setTo("7eb56d21-e512-4fbf-ab16-b14b9b6e5552@"+ ConnectionManager.SERVER_IP_ADDRESS); // with G.
-                message.setBody("Hello, World!");
-                ConnectionService.getConnection().sendPacket(message);
 
                 return null;
             }

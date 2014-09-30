@@ -7,10 +7,11 @@ import android.util.Log;
 
 import com.versapp.Logger;
 
-import org.jivesoftware.smack.Connection;
 import org.jivesoftware.smack.PacketCollector;
+import org.jivesoftware.smack.SmackException;
 import org.jivesoftware.smack.filter.PacketFilter;
 import org.jivesoftware.smack.packet.Packet;
+import org.jivesoftware.smack.tcp.XMPPTCPConnection;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -20,7 +21,7 @@ import java.util.regex.Pattern;
  */
 public class ConnectionService extends Service {
 
-    private static Connection connection;
+    private static XMPPTCPConnection connection;
     private static String user;
     private static String jid;
 
@@ -34,11 +35,11 @@ public class ConnectionService extends Service {
         return null;
     }
 
-    public static Connection getConnection(){
+    public static XMPPTCPConnection getConnection(){
         return connection;
     }
 
-    public static void setConnection(Connection conn) {
+    public static void setConnection(XMPPTCPConnection conn) {
         connection = conn;
     }
 
@@ -53,7 +54,7 @@ public class ConnectionService extends Service {
 
             @Override
             public boolean accept(Packet packet) {
-                if (packet.toXML().contains(packetId)) {
+                if (packet.toXML().toString().contains(packetId)) {
                     return true;
                 }
                 return false;
@@ -67,10 +68,14 @@ public class ConnectionService extends Service {
             }
         };
 
-        ConnectionService.getConnection().sendPacket(packet);
+        try {
+            ConnectionService.getConnection().sendPacket(packet);
+        } catch (SmackException.NotConnectedException e) {
+            e.printStackTrace();
+        }
 
         Packet p = iqPacketCollector.nextResult();
-        String response = p.toXML().replaceAll("\\r\\n|\\r|\\n", " ");
+        String response = p.toXML().toString().replaceAll("\\r\\n|\\r|\\n", " ");
 
         Log.d(Logger.EJABBERD_SERVER_REQUESTS_DEBUG, "Sent: " + xml);
         Log.d(Logger.EJABBERD_SERVER_REQUESTS_DEBUG, "Received: " + response);
@@ -98,7 +103,7 @@ public class ConnectionService extends Service {
         return sessionId;
     }
 
-    public static String sendUnauthenticatedCustomXMLPacket(final String xml, final String packetId, Connection conn) {
+    public static String sendUnauthenticatedCustomXMLPacket(final String xml, final String packetId, XMPPTCPConnection conn) {
 
         // we should change this to throwing exceptions..
         if (!conn.isConnected()) {
@@ -109,7 +114,7 @@ public class ConnectionService extends Service {
 
             @Override
             public boolean accept(Packet packet) {
-                if (packet.toXML().contains(packetId)) {
+                if (packet.toXML().toString().contains(packetId)) {
                     return true;
                 }
                 return false;
@@ -123,9 +128,13 @@ public class ConnectionService extends Service {
             }
         };
 
-        conn.sendPacket(packet);
+        try {
+            conn.sendPacket(packet);
+        } catch (SmackException.NotConnectedException e) {
+            e.printStackTrace();
+        }
 
-        String response = iqPacketCollector.nextResult().toXML().replaceAll("\\r\\n|\\r|\\n", " ");
+        String response = iqPacketCollector.nextResult().toXML().toString().replaceAll("\\r\\n|\\r|\\n", " ");
 
         Log.d(Logger.EJABBERD_SERVER_REQUESTS_DEBUG, "Sent (Unauthenticated): " + xml);
         Log.d(Logger.EJABBERD_SERVER_REQUESTS_DEBUG, "Received (Unauthenticated): " + response);

@@ -1,5 +1,7 @@
 package com.versapp.chat.conversation;
 
+import org.jivesoftware.smackx.jiveproperties.JivePropertiesManager;
+
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -19,7 +21,7 @@ public class Message {
         this.smackMessage = new org.jivesoftware.smack.packet.Message();
         this.smackMessage.setType(org.jivesoftware.smack.packet.Message.Type.chat);
         this.smackMessage.setBody(body);
-        this.smackMessage.setProperty(IMAGE_URL_PROPERTY, (imageUrl == null ? "" : imageUrl));
+        JivePropertiesManager.addProperty(smackMessage, IMAGE_URL_PROPERTY, imageUrl);
         this.isMine = isMine;
         this.thread = thread;
         this.timestmap = timestamp;
@@ -38,7 +40,7 @@ public class Message {
     }
 
     public String getImageUrl(){
-        return smackMessage.getProperty(IMAGE_URL_PROPERTY).toString();
+        return JivePropertiesManager.getProperty(this.smackMessage, IMAGE_URL_PROPERTY).toString();
     }
 
     public boolean isMine() {
@@ -66,10 +68,10 @@ public class Message {
     }
 
     public static long getCurrentEpochTime(){
-        return System.currentTimeMillis() / 1000L;
+        return System.currentTimeMillis();
     }
 
     public String getReadableTime(long epoch){
-        return new SimpleDateFormat("HH:mm").format(new Date(epoch*1000));
+        return new SimpleDateFormat("HH:mm").format(new Date(epoch));
     }
 }

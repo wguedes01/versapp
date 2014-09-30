@@ -44,7 +44,7 @@ public class ConversationListArrayAdapter extends ArrayAdapter<Message> {
             holder = (ViewHolder) convertView.getTag();
         }
 
-        holder.body.setText(currentMessage.getBody());
+        holder.body.setText(currentMessage.getReadableTime(currentMessage.getTimestmap()));
 
         return convertView;
     }

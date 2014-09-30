@@ -10,8 +10,9 @@ import com.versapp.confessions.ConfessionDeserializer;
 import com.versapp.connection.ConnectionManager;
 import com.versapp.connection.ConnectionService;
 
-import org.jivesoftware.smack.Connection;
+import org.jivesoftware.smack.SmackException;
 import org.jivesoftware.smack.packet.Presence;
+import org.jivesoftware.smack.tcp.XMPPTCPConnection;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -126,11 +127,15 @@ public class FriendsManager {
             toJID = toJID + "@" + ConnectionManager.SERVER_IP_ADDRESS;
         }
 
-        Connection connection = ConnectionService.getConnection();
+        XMPPTCPConnection connection = ConnectionService.getConnection();
 
         Presence presenceResponse = new Presence(Presence.Type.subscribe);
         presenceResponse.setTo(toJID);
-        connection.sendPacket(presenceResponse);
+        try {
+            connection.sendPacket(presenceResponse);
+        } catch (SmackException.NotConnectedException e) {
+            e.printStackTrace();
+        }
 
         return true;
     }

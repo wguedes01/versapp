@@ -16,6 +16,7 @@ import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
+import org.jivesoftware.smack.SmackException;
 import org.jivesoftware.smack.XMPPException;
 
 import java.io.IOException;
@@ -143,7 +144,14 @@ public class RegistrationManager {
         packet.append("</query>");
         packet.append("</iq>");
 
-        String response = ConnectionService.sendUnauthenticatedCustomXMLPacket(packet.toString(), packetID, ConnectionManager.getInstance(context).anonymousLogin());
+        String response = null;
+        try {
+            response = ConnectionService.sendUnauthenticatedCustomXMLPacket(packet.toString(), packetID, ConnectionManager.getInstance(context).anonymousLogin());
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (SmackException e) {
+            e.printStackTrace();
+        }
         Log.d("Registration", response);
 
         // THIS IS A HACK.
