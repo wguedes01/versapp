@@ -34,7 +34,24 @@ public class ChatMessageListener implements PacketListener {
 
         org.jivesoftware.smack.packet.Message smackMessage = (org.jivesoftware.smack.packet.Message) packet;
 
-        Message message = new Message(smackMessage.getFrom().split("@")[0], smackMessage.getBody(), smackMessage.getProperty(Message.IMAGE_URL_PROPERTY).toString(), Message.getCurrentEpochTime(), false);
+        Log.d(Logger.CHAT_DEBUG, "Received chat message:"+ packet.toXML());
+        Object o = packet.getExtension("x","jabber:x:delay");
+
+        Log.d(Logger.CHAT_DEBUG, "Received chat message:" +  " - " + packet.toXML());
+
+
+        String thread = smackMessage.getFrom().split("@")[0];
+
+        String body = smackMessage.getBody();
+
+        String imageUrl = null;
+        if (smackMessage.getProperty(Message.IMAGE_URL_PROPERTY) != null){
+            imageUrl = smackMessage.getProperty(Message.IMAGE_URL_PROPERTY).toString();
+        } else {
+            imageUrl = "";
+        }
+
+        Message message = new Message(thread, body, imageUrl, Message.getCurrentEpochTime(), false);
 
         // Add to database.
         long messageId = messagesDAO.insert(message);
@@ -44,7 +61,5 @@ public class ChatMessageListener implements PacketListener {
         intent.putExtra(CHAT_ID_ON_MESSAGE_INTENT_EXTRA, message.getThread());
         intent.putExtra(MESSAGE_ID_INTENT_EXTRA, messageId);
         LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
-
-        Log.d(Logger.CHAT_DEBUG, "Received chat message: " + smackMessage.toXML());
     }
 }
