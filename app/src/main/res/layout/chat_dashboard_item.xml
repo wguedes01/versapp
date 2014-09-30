@@ -17,11 +17,18 @@
         android:layout_marginTop="30dp">
 
         <ImageView
-            android:id="@+id/activity_chat_dashboard_one_to_one_tile_icon"
+            android:id="@+id/activity_chat_dashboard_one_to_one_tile_icon_unknown"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:visibility="gone"
             android:src="@drawable/ic_anonymous_chat"/>
+
+        <ImageView
+            android:id="@+id/activity_chat_dashboard_one_to_one_tile_icon_owner"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:visibility="gone"
+            android:src="@drawable/ic_one_to_one_owner"/>
 
         <ImageView
             android:id="@+id/activity_chat_dashboard_group_tile_icon"

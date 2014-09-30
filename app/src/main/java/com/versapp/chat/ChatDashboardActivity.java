@@ -140,7 +140,8 @@ public class ChatDashboardActivity extends Activity {
                 holder.nameText = (TextView) convertView.findViewById(R.id.activity_chat_dashboard_chat_name);
                 holder.lastMsgText = (TextView) convertView.findViewById(R.id.activity_chat_dashboard_last_message);
                 holder.progressBar = convertView.findViewById(R.id.activity_chat_dashboard_progress_bar);
-                holder.oneToOneIcon = (ImageView) convertView.findViewById(R.id.activity_chat_dashboard_one_to_one_tile_icon);
+                holder.oneToOneUnknownIcon = (ImageView) convertView.findViewById(R.id.activity_chat_dashboard_one_to_one_tile_icon_unknown);
+                holder.oneToOneOwnerIcon = (ImageView) convertView.findViewById(R.id.activity_chat_dashboard_one_to_one_tile_icon_owner);
                 holder.groupIcon = (ImageView) convertView.findViewById(R.id.activity_chat_dashboard_group_tile_icon);
                 holder.backgroundImageView = (ImageView) convertView.findViewById(R.id.activity_chat_dashboard_background_image_view);
 
@@ -152,7 +153,8 @@ public class ChatDashboardActivity extends Activity {
 
             holder.nameText.setText(currentChat.getName());
 
-            holder.oneToOneIcon.setVisibility(View.GONE);
+            holder.oneToOneOwnerIcon.setVisibility(View.GONE);
+            holder.oneToOneUnknownIcon.setVisibility(View.GONE);
             holder.groupIcon.setVisibility(View.GONE);
 
 
@@ -186,7 +188,12 @@ public class ChatDashboardActivity extends Activity {
                 holder.task.execute();
 
             } else if(currentChat instanceof OneToOneChat) {
-                holder.oneToOneIcon.setVisibility(View.VISIBLE);
+
+                if (((OneToOneChat) currentChat).isOwner()){
+                    holder.oneToOneOwnerIcon.setVisibility(View.VISIBLE);
+                } else {
+                    holder.oneToOneUnknownIcon.setVisibility(View.VISIBLE);
+                }
 
             } else {
                 holder.groupIcon.setVisibility(View.VISIBLE);
@@ -223,7 +230,8 @@ public class ChatDashboardActivity extends Activity {
        TextView lastMsgText;
        ImageView backgroundImageView;
        View progressBar;
-       ImageView oneToOneIcon;
+       ImageView oneToOneUnknownIcon;
+        ImageView oneToOneOwnerIcon;
        ImageView groupIcon;
        AsyncTask<Void, Void, Void> task;
     }

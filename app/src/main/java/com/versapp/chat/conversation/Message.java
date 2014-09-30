@@ -21,10 +21,14 @@ public class Message {
         this.smackMessage = new org.jivesoftware.smack.packet.Message();
         this.smackMessage.setType(org.jivesoftware.smack.packet.Message.Type.chat);
         this.smackMessage.setBody(body);
-        JivePropertiesManager.addProperty(smackMessage, IMAGE_URL_PROPERTY, imageUrl);
         this.isMine = isMine;
         this.thread = thread;
         this.timestmap = timestamp;
+
+        if (imageUrl != null){
+            JivePropertiesManager.addProperty(smackMessage, IMAGE_URL_PROPERTY, imageUrl);
+        }
+
     }
 
     public org.jivesoftware.smack.packet.Message getSmackMessage(){
@@ -40,7 +44,10 @@ public class Message {
     }
 
     public String getImageUrl(){
-        return JivePropertiesManager.getProperty(this.smackMessage, IMAGE_URL_PROPERTY).toString();
+        if (JivePropertiesManager.getProperty(this.smackMessage, IMAGE_URL_PROPERTY) != null){
+            return JivePropertiesManager.getProperty(this.smackMessage, IMAGE_URL_PROPERTY).toString();
+        }
+        return null;
     }
 
     public boolean isMine() {
