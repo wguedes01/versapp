@@ -1,5 +1,8 @@
 package com.versapp.chat.conversation;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 /**
  * Created by william on 29/09/14.
  */
@@ -9,10 +12,10 @@ public class Message {
 
     private boolean isMine;
     private String thread;
-    private String timestmap;
+    private long timestmap;
     private org.jivesoftware.smack.packet.Message smackMessage;
 
-    public Message(String thread, String body, String imageUrl, String timestamp, boolean isMine) {
+    public Message(String thread, String body, String imageUrl, long timestamp, boolean isMine) {
         this.smackMessage = new org.jivesoftware.smack.packet.Message();
         this.smackMessage.setType(org.jivesoftware.smack.packet.Message.Type.chat);
         this.smackMessage.setBody(body);
@@ -54,11 +57,19 @@ public class Message {
         this.thread = thread;
     }
 
-    public String getTimestmap() {
+    public long getTimestmap() {
         return timestmap;
     }
 
-    public void setTimestmap(String timestmap) {
+    public void setTimestmap(long timestmap) {
         this.timestmap = timestmap;
+    }
+
+    public static long getCurrentEpochTime(){
+        return System.currentTimeMillis() / 1000L;
+    }
+
+    public String getReadableTime(long epoch){
+        return new SimpleDateFormat("HH:mm").format(new Date(epoch*1000));
     }
 }

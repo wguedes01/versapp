@@ -60,7 +60,7 @@ public class MessagesDAO {
             String thread = cursor.getString(cursor.getColumnIndex(DBContract.MessagesTable.COLUMN_NAME_THREAD));
             String imageUrl = cursor.getString(cursor.getColumnIndex(DBContract.MessagesTable.COLUMN_NAME_IMAGE_URL));
             String body = cursor.getString(cursor.getColumnIndex(DBContract.MessagesTable.COLUMN_NAME_MESSAGE_BODY));
-            String timestamp = cursor.getString(cursor.getColumnIndex(DBContract.MessagesTable.COLUMN_NAME_TIMESTAMP));
+            long timestamp = cursor.getLong(cursor.getColumnIndex(DBContract.MessagesTable.COLUMN_NAME_TIMESTAMP));
 
             message = new Message(thread, body, imageUrl, timestamp, isMine);
         }
@@ -99,7 +99,7 @@ public class MessagesDAO {
             String thread = cursor.getString(cursor.getColumnIndex(DBContract.MessagesTable.COLUMN_NAME_THREAD));
             String imageUrl = cursor.getString(cursor.getColumnIndex(DBContract.MessagesTable.COLUMN_NAME_IMAGE_URL));
             String body = cursor.getString(cursor.getColumnIndex(DBContract.MessagesTable.COLUMN_NAME_MESSAGE_BODY));
-            String timestamp = cursor.getString(cursor.getColumnIndex(DBContract.MessagesTable.COLUMN_NAME_TIMESTAMP));
+            long timestamp = cursor.getLong(cursor.getColumnIndex(DBContract.MessagesTable.COLUMN_NAME_TIMESTAMP));
 
             messages.add(new Message(thread, body, imageUrl, timestamp, isMine));
 
@@ -141,7 +141,7 @@ public class MessagesDAO {
             String thread = cursor.getString(cursor.getColumnIndex(DBContract.MessagesTable.COLUMN_NAME_THREAD));
             String imageUrl = cursor.getString(cursor.getColumnIndex(DBContract.MessagesTable.COLUMN_NAME_IMAGE_URL));
             String body = cursor.getString(cursor.getColumnIndex(DBContract.MessagesTable.COLUMN_NAME_MESSAGE_BODY));
-            String timestamp = cursor.getString(cursor.getColumnIndex(DBContract.MessagesTable.COLUMN_NAME_TIMESTAMP));
+            long timestamp = cursor.getLong(cursor.getColumnIndex(DBContract.MessagesTable.COLUMN_NAME_TIMESTAMP));
 
             message = new Message(thread, body, imageUrl, timestamp, isMine);
         }

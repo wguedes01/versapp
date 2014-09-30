@@ -115,4 +115,28 @@ public class ChatManager {
 
         return chats;
     }
+
+    public void moveToTop(String chatId){
+        Chat chat =  remove(chatId);
+        chats.add(0, chat);
+    }
+
+    private Chat remove(String chatId){
+
+        if (chats.size() <= 0){
+            return null;
+        }
+
+        int i = 0;
+        while(i < chats.size()){
+
+            if (chats.get(i).getUuid().equals(chatId)){
+                return chats.remove(i);
+            }
+
+            i++;
+        }
+
+        return null;
+    }
 }

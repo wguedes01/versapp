@@ -34,7 +34,7 @@ public class ChatMessageListener implements PacketListener {
 
         org.jivesoftware.smack.packet.Message smackMessage = (org.jivesoftware.smack.packet.Message) packet;
 
-        Message message = new Message(smackMessage.getFrom().split("@")[0], smackMessage.getBody(), smackMessage.getProperty(Message.IMAGE_URL_PROPERTY).toString(), null, false);
+        Message message = new Message(smackMessage.getFrom().split("@")[0], smackMessage.getBody(), smackMessage.getProperty(Message.IMAGE_URL_PROPERTY).toString(), Message.getCurrentEpochTime(), false);
 
         // Add to database.
         long messageId = messagesDAO.insert(message);

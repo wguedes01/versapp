@@ -55,7 +55,9 @@ public class ConversationActivity extends Activity {
             @Override
             public void onClick(View v) {
 
-                final Message message = new Message(chatUUID, messageEditText.getText().toString(), null, null, true);
+                String imageUrl = "";
+
+                final Message message = new Message(chatUUID, messageEditText.getText().toString(), imageUrl, Message.getCurrentEpochTime(), true);
                 messages.add(message);
                 adapter.notifyDataSetChanged();
 

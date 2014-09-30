@@ -1,12 +1,15 @@
 package com.versapp.chat;
 
 import android.app.Activity;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Bitmap;
 import android.graphics.Point;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.util.LruCache;
 import android.view.Display;
 import android.view.LayoutInflater;
@@ -31,6 +34,8 @@ public class ChatDashboardActivity extends Activity {
 
     private MessagesDAO messagesDAO;
 
+    private NewMessageOnDashboardBR newMessageBR;
+
     GridView mainGrid;
     BaseAdapter adapter;
 
@@ -43,6 +48,8 @@ public class ChatDashboardActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat_dashboard);
+
+        newMessageBR = new NewMessageOnDashboardBR();
 
         messagesDAO = new MessagesDAO(getApplicationContext());
 
@@ -222,9 +229,31 @@ public class ChatDashboardActivity extends Activity {
     }
 
     @Override
-    protected void onResume() {
+    protected void onResume()
+    {
+        LocalBroadcastManager.getInstance(getApplicationContext()).registerReceiver(newMessageBR, new IntentFilter(ChatMessageListener.NEW_MESSAGE_ACTION));
         adapter.notifyDataSetChanged();
         super.onResume();
     }
 
+    @Override
+    protected void onPause() {
+        LocalBroadcastManager.getInstance(getApplicationContext()).unregisterReceiver(newMessageBR);
+        super.onPause();
+    }
+
+    private class NewMessageOnDashboardBR extends BroadcastReceiver {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+
+            String chatIdOnMessage = intent.getStringExtra(ChatMessageListener.CHAT_ID_ON_MESSAGE_INTENT_EXTRA);
+
+            if (chatIdOnMessage != null){
+                ChatManager.getInstance().moveToTop(chatIdOnMessage);
+                adapter.notifyDataSetChanged();
+            }
+
+        }
+    }
 }
