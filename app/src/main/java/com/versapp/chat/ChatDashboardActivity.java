@@ -4,12 +4,10 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.Color;
 import android.graphics.Point;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.util.LruCache;
-import android.util.Log;
 import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,21 +15,21 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.versapp.Logger;
 import com.versapp.R;
 import com.versapp.chat.conversation.ConversationActivity;
-import com.versapp.confessions.Confession;
-import com.versapp.confessions.ConfessionManager;
+import com.versapp.chat.conversation.Message;
+import com.versapp.database.MessagesDAO;
 
 import java.util.ArrayList;
 
 public class ChatDashboardActivity extends Activity {
 
     private LruCache<String, Bitmap> imageCache;
-    ArrayList<ChatTile> chatTiles;
+    private ArrayList<Chat> chats;
+
+    private MessagesDAO messagesDAO;
 
     GridView mainGrid;
     BaseAdapter adapter;
@@ -45,6 +43,8 @@ public class ChatDashboardActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat_dashboard);
+
+        messagesDAO = new MessagesDAO(getApplicationContext());
 
         imageCache = new LruCache<String, Bitmap>(5);
 
@@ -61,37 +61,30 @@ public class ChatDashboardActivity extends Activity {
         }
 
 
-        chatTiles = new ArrayList<ChatTile>();
+        chats = ChatManager.getInstance().getChats();
 
         mainGrid = (GridView) findViewById(R.id.activity_chat_dashboard_main_grid);
 
-        adapter = new GridAdapter(getApplicationContext(), chatTiles);
+        adapter = new GridAdapter(getApplicationContext(), chats, messagesDAO);
 
         mainGrid.setAdapter((android.widget.ListAdapter) adapter);
 
-        new AsyncTask<Void, Void, ArrayList<ChatTile>>(){
+        // This here will make chats reload every time the activity is opened.
+        new AsyncTask<Void, Void, ArrayList<Chat>>(){
 
             @Override
-            protected ArrayList<ChatTile> doInBackground(Void... params) {
+            protected ArrayList<Chat> doInBackground(Void... params) {
 
-                ArrayList<Chat> chats = ChatManager.getInstance().getChatsFromServer();
-
-                ArrayList<ChatTile> tiles = new ArrayList<ChatTile>();
-
-                Log.d(Logger.CHAT_DEBUG, "Got chats. Count: " + chats.size());
-                for(Chat c : chats){
-                    tiles.add(new ChatTile(c));
-                }
-
-                return tiles;
+                return ChatManager.getInstance().getChatsFromServer();
             }
 
             @Override
-            protected void onPostExecute(ArrayList<ChatTile> tiles) {
+            protected void onPostExecute(ArrayList<Chat> result) {
 
-                chatTiles.addAll(tiles);
+                chats.clear();
+                chats.addAll(result);
                 adapter.notifyDataSetChanged();
-                super.onPostExecute(tiles);
+                super.onPostExecute(result);
             }
         }.execute();
 
@@ -100,21 +93,23 @@ public class ChatDashboardActivity extends Activity {
     private class GridAdapter extends BaseAdapter {
 
         private Context context;
-        private ArrayList<ChatTile> tiles;
+        private ArrayList<Chat> chats;
+        private MessagesDAO msgDb;
 
-        private GridAdapter(Context context, ArrayList<ChatTile> tiles) {
+        private GridAdapter(Context context, ArrayList<Chat> chats, MessagesDAO db) {
             this.context = context;
-            this.tiles = tiles;
+            this.chats = chats;
+            this.msgDb = db;
         }
 
         @Override
         public int getCount() {
-            return tiles.size();
+            return chats.size();
         }
 
         @Override
         public Object getItem(int position) {
-            return tiles.get(position);
+            return chats.get(position);
         }
 
         @Override
@@ -125,69 +120,65 @@ public class ChatDashboardActivity extends Activity {
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
 
-            final ChatTile currentChatTile = chatTiles.get(position);
+            final Chat currentChat = ChatDashboardActivity.this.chats.get(position);
 
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(LAYOUT_INFLATER_SERVICE);
 
             final ViewHolder holder;
-            if (convertView == null){
+            //if (convertView == null){
 
                 convertView = inflater.inflate(R.layout.chat_dashboard_item, parent, false);
 
                 holder = new ViewHolder();
                 holder.nameText = (TextView) convertView.findViewById(R.id.activity_chat_dashboard_chat_name);
                 holder.lastMsgText = (TextView) convertView.findViewById(R.id.activity_chat_dashboard_last_message);
-                holder.backgroundImageView = (ImageView) convertView.findViewById(R.id.activity_chat_dashboard_background_image_view);
-                holder.progressBar = (ProgressBar) convertView.findViewById(R.id.activity_chat_dashboard_progress_bar);
+                holder.progressBar = convertView.findViewById(R.id.activity_chat_dashboard_progress_bar);
                 holder.oneToOneIcon = (ImageView) convertView.findViewById(R.id.activity_chat_dashboard_one_to_one_tile_icon);
                 holder.groupIcon = (ImageView) convertView.findViewById(R.id.activity_chat_dashboard_group_tile_icon);
+                holder.backgroundImageView = (ImageView) convertView.findViewById(R.id.activity_chat_dashboard_background_image_view);
 
                 convertView.setTag(holder);
-            } else {
-                holder = (ViewHolder) convertView.getTag();
-            }
 
-            holder.nameText.setText(currentChatTile.chat.getName());
-            holder.lastMsgText.setText("Stub..");
+            // Ensures old image is not used when recycling a view.
+            //holder.backgroundImageView.setImageBitmap(null);
+            //holder.progressBar.setVisibility(View.GONE);
+
+            holder.nameText.setText(currentChat.getName());
 
             holder.oneToOneIcon.setVisibility(View.GONE);
             holder.groupIcon.setVisibility(View.GONE);
 
-            if (currentChatTile.chat instanceof ConfessionChat){
 
-                Confession confession = null;
+            new AsyncTask<Void, Void, Message>(){
 
-                new AsyncTask<Void, Void, Confession>(){
+                @Override
+                protected Message doInBackground(Void... params) {
+                    return msgDb.getLastMessageByChat(currentChat.getUuid());
+                }
 
-                    @Override
-                    protected Confession doInBackground(Void... params) {
+                @Override
+                protected void onPostExecute(Message msg) {
 
-                        return ConfessionManager.getInstance().getConfessionFromServer(getApplicationContext(), ((ConfessionChat) currentChatTile.chat).getCid());
+                    String lastMsg = "";
 
+                    if (msg != null){
+                        lastMsg = msg.getBody();
                     }
 
-                    @Override
-                    protected void onPostExecute(Confession confession) {
+                    holder.lastMsgText.setText(lastMsg);
 
-                        if (confession != null) {
+                    super.onPostExecute(msg);
+                }
 
-                            if (confession.getImageUrl().startsWith("#")) {
-                                holder.backgroundImageView.setBackgroundColor(Color.parseColor(confession.getImageUrl()));
-                            } else {
-                                new LoadChatTileBackground(getApplicationContext(), imageCache,  confession.getImageUrl(), holder.backgroundImageView, holder.progressBar).execute();
-                            }
-
-                        } else {
-
-                        }
-
-                        super.onPostExecute(confession);
-                    }
-
-                }.execute();
+            }.execute();
 
 
-            } else if(currentChatTile.chat instanceof OneToOneChat) {
+            if (currentChat instanceof ConfessionChat){
+
+                holder.task = new LoadChatTileBackground(getApplicationContext(), (ConfessionChat) currentChat, imageCache, holder.backgroundImageView, holder.progressBar);
+                holder.task.execute();
+
+            } else if(currentChat instanceof OneToOneChat) {
                 holder.oneToOneIcon.setVisibility(View.VISIBLE);
 
             } else {
@@ -201,7 +192,7 @@ public class ChatDashboardActivity extends Activity {
                 public void onClick(View v) {
 
                     Intent intent = new Intent(getApplicationContext(), ConversationActivity.class);
-                    intent.putExtra(ConversationActivity.CHAT_UUID_INTENT_EXTRA, currentChatTile.chat.getUuid());
+                    intent.putExtra(ConversationActivity.CHAT_UUID_INTENT_EXTRA, currentChat.getUuid());
                     startActivity(intent);
                 }
             });
@@ -210,8 +201,8 @@ public class ChatDashboardActivity extends Activity {
         }
     }
 
-    private void adjustTitleSize(View tile){
 
+    private void adjustTitleSize(View tile){
 
         GridView.LayoutParams params = (GridView.LayoutParams) tile.getLayoutParams();
         params.height = width/2;
@@ -219,26 +210,21 @@ public class ChatDashboardActivity extends Activity {
 
     }
 
-    private class ChatTile {
-
-        public Chat chat;
-
-        private ChatTile(Chat chat) {
-            this.chat = chat;
-        }
-    }
-
     private class ViewHolder {
 
        TextView nameText;
        TextView lastMsgText;
        ImageView backgroundImageView;
-       ProgressBar progressBar;
+       View progressBar;
        ImageView oneToOneIcon;
        ImageView groupIcon;
-
+       AsyncTask<Void, Void, Void> task;
     }
 
-
+    @Override
+    protected void onResume() {
+        adapter.notifyDataSetChanged();
+        super.onResume();
+    }
 
 }

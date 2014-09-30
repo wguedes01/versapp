@@ -10,10 +10,10 @@ import android.support.v4.util.LruCache;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
 
 import com.versapp.GCSManager;
 import com.versapp.Logger;
+import com.versapp.confessions.ConfessionManager;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -23,17 +23,20 @@ import java.io.IOException;
 /**
  * Created by william on 27/09/14.
  */
-public class LoadChatTileBackground extends AsyncTask<Void, Void, Bitmap> {
+public class LoadChatTileBackground extends AsyncTask<Void, Void, Void> {
 
     private Context context;
     private LruCache<String, Bitmap> cache;
     private ImageView backgroundView;
-    private String imageUrl;
-    private ProgressBar progressBar;
+    private ConfessionChat chat;
+    private View progressBar;
 
-    public LoadChatTileBackground(Context context, LruCache<String, Bitmap> cache, String imageUrl, ImageView backgroundView, ProgressBar progressBar) {
+    private Bitmap bitmap;
+    private String colorBackground;
+
+    public LoadChatTileBackground(Context context, ConfessionChat chat, LruCache<String, Bitmap> cache, ImageView backgroundView, View progressBar) {
         this.context = context;
-        this.imageUrl = imageUrl;
+        this.chat = chat;
         this.backgroundView = backgroundView;
         this.progressBar = progressBar;
         this.cache = cache;
@@ -49,37 +52,68 @@ public class LoadChatTileBackground extends AsyncTask<Void, Void, Bitmap> {
 
 
     @Override
-    protected Bitmap doInBackground(Void... params) {
+    protected Void doInBackground(Void... params) {
 
-        if (cache.get(imageUrl) != null) {
-            Log.d(Logger.CHAT_DEBUG, "Got image from cache. Url: " + imageUrl);
-            return cache.get(imageUrl);
+        // Ensure variables don't carry any value before this method is executed.
+        bitmap = null;
+        colorBackground = null;
+
+        // Get confession
+        if (chat.getConfession() == null){
+           chat.setConfession(ConfessionManager.getInstance().getConfessionFromServer(context, chat.getCid()));
+        }
+
+
+
+        if (chat.getConfession() != null){
+
+            if (chat.getConfession().getImageUrl().startsWith("#")){
+                // color
+                colorBackground = chat.getConfession().getImageUrl();
+            } else {
+                if (cache.get(chat.getConfession().getImageUrl()) != null) {
+                    Log.d(Logger.CHAT_DEBUG, "Got image from cache. Url: " + chat.getConfession().getImageUrl());
+                    bitmap = cache.get(chat.getConfession().getImageUrl());
+                } else {
+                    Log.d(Logger.CHAT_DEBUG, "Downloaded image for tile: " + chat.getConfession().getImageUrl());
+                    Bitmap image = GCSManager.getInstance(context).downloadImage(chat.getConfession().getImageUrl(), backgroundView.getWidth(), backgroundView.getHeight());
+                    cache.put(chat.getConfession().getImageUrl(), image);
+                    bitmap = image;
+                }
+            }
+
         } else {
-            Log.d(Logger.CHAT_DEBUG, "Downloaded image for tile: " + imageUrl);
-            Bitmap image = GCSManager.getInstance(context).downloadImage(imageUrl, backgroundView.getWidth(), backgroundView.getHeight());
-            cache.put(imageUrl, image);
-            return image;
+
         }
 
             // save bitmap on device.
             //saveOnDevice(image);
-
+        return null;
     }
 
     @Override
-    protected void onPostExecute(Bitmap bitmap) {
+    protected void onPostExecute(Void aVoid) {
 
         progressBar.setVisibility(View.GONE);
 
-        if (bitmap != null){
-            ColorFilter filter = new ColorFilter();
-            backgroundView.setColorFilter(Color.rgb(130, 130, 130), android.graphics.PorterDuff.Mode.MULTIPLY);
-            backgroundView.setImageBitmap(bitmap);
-        } else {
+        if (!isCancelled()){
+
+            if (backgroundView != null) {
+                if (bitmap != null){
+                    ColorFilter filter = new ColorFilter();
+                    backgroundView.setColorFilter(Color.rgb(130, 130, 130), android.graphics.PorterDuff.Mode.MULTIPLY);
+                    backgroundView.setImageBitmap(bitmap);
+                } else if(colorBackground != null) {
+                    backgroundView.setBackgroundColor(Color.parseColor(colorBackground));
+                } else {
+
+                }
+            }
 
         }
 
-        super.onPostExecute(bitmap);
+
+        super.onPostExecute(aVoid);
     }
 
     private void saveOnDevice(Bitmap image){
@@ -96,6 +130,5 @@ public class LoadChatTileBackground extends AsyncTask<Void, Void, Bitmap> {
             e.printStackTrace();
         }
     }
-
 
 }

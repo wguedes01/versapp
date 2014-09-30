@@ -24,14 +24,17 @@ public class ChatManager {
     private static final String JOINED_CHATS_URL = ConnectionManager.HTTP_PROTOCOL+"://"+ConnectionManager.SERVER_IP_ADDRESS+":"+ConnectionManager.NODE_PORT+"/chat/joined";
 
     private static ChatManager instance;
+    private static ArrayList<Chat> chats;
 
     private ChatManager() {
     }
 
     public static ChatManager getInstance() {
 
-        if (instance == null)
+        if (instance == null){
             instance = new ChatManager();
+        }
+
 
         return instance;
     }
@@ -104,8 +107,12 @@ public class ChatManager {
         return chat;
     }
 
+    public ArrayList<Chat> getChats() {
 
+        if (chats == null){
+            chats = new ArrayList<Chat>();
+        }
 
-
-
+        return chats;
+    }
 }

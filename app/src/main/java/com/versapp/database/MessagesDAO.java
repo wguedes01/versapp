@@ -111,4 +111,44 @@ public class MessagesDAO {
         return messages;
     }
 
+    public Message getLastMessageByChat(String chatUUID){
+
+        String[] projection = { DBContract.MessagesTable.COLUMN_NAME_IS_MINE,
+                DBContract.MessagesTable.COLUMN_NAME_THREAD,
+                DBContract.MessagesTable.COLUMN_NAME_IMAGE_URL,
+                DBContract.MessagesTable.COLUMN_NAME_MESSAGE_BODY,
+                DBContract.MessagesTable.COLUMN_NAME_TIMESTAMP};
+
+        String selection = DBContract.MessagesTable.COLUMN_NAME_THREAD + " = ? ";
+
+        String[] selectionArgs = { chatUUID };
+
+        SQLiteDatabase dbReadable = this.helper.getReadableDatabase();
+
+        Cursor cursor = dbReadable.query(DBContract.MessagesTable.TABLE_NAME, projection, selection, selectionArgs, null, null, DBContract.MessagesTable.COLUMN_NAME_MESSAGE_ID + " DESC", "1");
+
+        if (cursor.getCount() > 0){
+            cursor.moveToFirst();
+        }
+
+        Message message = null;
+
+        if(cursor.getCount() > 0) {
+
+            cursor.moveToFirst();
+
+            boolean isMine = (cursor.getInt(cursor.getColumnIndex(DBContract.MessagesTable.COLUMN_NAME_IS_MINE)) == 1) ? true : false;
+            String thread = cursor.getString(cursor.getColumnIndex(DBContract.MessagesTable.COLUMN_NAME_THREAD));
+            String imageUrl = cursor.getString(cursor.getColumnIndex(DBContract.MessagesTable.COLUMN_NAME_IMAGE_URL));
+            String body = cursor.getString(cursor.getColumnIndex(DBContract.MessagesTable.COLUMN_NAME_MESSAGE_BODY));
+            String timestamp = cursor.getString(cursor.getColumnIndex(DBContract.MessagesTable.COLUMN_NAME_TIMESTAMP));
+
+            message = new Message(thread, body, imageUrl, timestamp, isMine);
+        }
+
+        cursor.close();
+
+        return message;
+    }
+
 }
