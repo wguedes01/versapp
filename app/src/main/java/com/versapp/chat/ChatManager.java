@@ -139,4 +139,22 @@ public class ChatManager {
 
         return null;
     }
+
+    public Chat getChat(String chatUUID){
+        if (chats.size() <= 0){
+            return null;
+        }
+
+        int i = 0;
+        while(i < chats.size()){
+
+            if (chats.get(i).getUuid().equals(chatUUID)){
+                return chats.get(i);
+            }
+
+            i++;
+        }
+
+        return null;
+    }
 }

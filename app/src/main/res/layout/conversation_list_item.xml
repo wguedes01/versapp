@@ -1,12 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingTop="3dp">
+
 
     <TextView
-        android:id="@+id/conversation_list_item_message_content"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:id="@+id/conversation_list_item_message_content_theirs"
+        android:layout_alignParentLeft="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="20dp"
+        android:background="@drawable/bubble_theirs"
+        android:padding="10dp"
+        android:visibility="gone"
+        android:textColor="@android:color/black"
+        android:gravity="center"/>
 
-</LinearLayout>
+    <TextView
+        android:id="@+id/conversation_list_item_message_content_mine"
+        android:layout_alignParentRight="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:background="@drawable/bubble_mine"
+        android:padding="10dp"
+        android:visibility="gone"
+        android:textColor="@android:color/black"
+        android:gravity="center"/>
+
+</RelativeLayout>

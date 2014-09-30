@@ -3,7 +3,43 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.versapp.chat.conversation.ConversationActivity"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="@color/confessionBlue">
+
+    <RelativeLayout
+        android:id="@+id/activity_conversation_header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageButton
+            android:id="@+id/activity_conversation_back_btn"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_centerVertical="true"
+            android:layout_margin="5dp"
+            android:layout_alignParentLeft="true"
+            android:src="@drawable/ic_back_arrow"
+            android:background="@color/transparent"/>
+
+        <TextView
+            android:id="@+id/activity_conversation_chat_name"
+            android:layout_centerInParent="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:paddingBottom="5dp"
+            android:paddingTop="5dp"
+            android:textColor="@android:color/white"
+            android:textSize="26sp"/>
+
+        </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dip"
+        android:layout_below="@id/activity_conversation_header"
+        android:background="@android:color/white" />
 
     <RelativeLayout
         android:id="@+id/message_dashboard"
@@ -61,15 +97,15 @@
     <ListView
         android:id="@+id/activity_conversation_main_list"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:cacheColorHint="#00000000"
         android:divider="@color/transparent"
         android:dividerHeight="10dip"
         android:paddingLeft="5dip"
         android:paddingRight="5dip"
-        android:paddingTop="1dip"
         android:paddingBottom="5dip"
-        android:stackFromBottom="true"
-        android:transcriptMode="alwaysScroll"></ListView>
+        android:transcriptMode="alwaysScroll"
+        android:layout_above="@id/message_dashboard"
+        android:layout_below="@id/activity_conversation_header"></ListView>
 
 </RelativeLayout>

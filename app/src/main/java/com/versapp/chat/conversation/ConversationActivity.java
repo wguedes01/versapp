@@ -11,8 +11,10 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.versapp.R;
+import com.versapp.chat.ChatManager;
 import com.versapp.chat.ChatMessageListener;
 import com.versapp.connection.ConnectionManager;
 import com.versapp.database.MessagesDAO;
@@ -33,6 +35,9 @@ public class ConversationActivity extends Activity {
     private EditText messageEditText;
     private ImageButton sendMessageBtn;
 
+    private TextView chatName;
+    private ImageButton backBtn;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,6 +53,17 @@ public class ConversationActivity extends Activity {
 
         adapter = new ConversationListArrayAdapter(getApplicationContext(), messages);
         messagesListView.setAdapter(adapter);
+
+        chatName = (TextView) findViewById(R.id.activity_conversation_chat_name);
+        chatName.setText(ChatManager.getInstance().getChat(chatUUID).getName());
+
+        backBtn = (ImageButton) findViewById(R.id.activity_conversation_back_btn);
+        backBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
 
         newMessageBR = new MessageReceivedBR(chatUUID, adapter);
 

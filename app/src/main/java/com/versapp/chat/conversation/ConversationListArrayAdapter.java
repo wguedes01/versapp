@@ -31,20 +31,25 @@ public class ConversationListArrayAdapter extends ArrayAdapter<Message> {
         final Message currentMessage = messages.get(position);
 
         ViewHolder holder;
-        if (convertView == null) {
+        //if (convertView == null) {
             holder = new ViewHolder();
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
             convertView = inflater.inflate(R.layout.conversation_list_item, parent, false);
 
-            holder.body = (TextView) convertView.findViewById(R.id.conversation_list_item_message_content);
-
             convertView.setTag(holder);
+        //} else {
+           // holder = (ViewHolder) convertView.getTag();
+       // }
+
+        if (currentMessage.isMine()){
+            holder.body = (TextView) convertView.findViewById(R.id.conversation_list_item_message_content_mine);
         } else {
-            holder = (ViewHolder) convertView.getTag();
+            holder.body = (TextView) convertView.findViewById(R.id.conversation_list_item_message_content_theirs);
         }
 
-        holder.body.setText(currentMessage.getReadableTime(currentMessage.getTimestmap()));
+        holder.body.setVisibility(View.VISIBLE);
+        holder.body.setText(currentMessage.getBody());
 
         return convertView;
     }
