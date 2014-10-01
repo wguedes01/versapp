@@ -2,6 +2,7 @@ package com.versapp.chat.conversation;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.BroadcastReceiver;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -24,8 +25,11 @@ import android.widget.Toast;
 
 import com.versapp.GCSManager;
 import com.versapp.R;
+import com.versapp.chat.Chat;
 import com.versapp.chat.ChatManager;
 import com.versapp.chat.ChatMessageListener;
+import com.versapp.chat.GroupChat;
+import com.versapp.chat.Participant;
 import com.versapp.connection.ConnectionManager;
 import com.versapp.database.MessagesDAO;
 import com.versapp.util.ImageManager;
@@ -50,6 +54,7 @@ public class ConversationActivity extends Activity {
 
     private TextView chatName;
     private ImageButton backBtn;
+    private ImageButton settingsBtn;
 
     private Bitmap imageAttachment;
     private LruCache<String, Bitmap> cache;
@@ -58,6 +63,8 @@ public class ConversationActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_conversation);
+
+        final Chat currentChat = ChatManager.getInstance().getChat(chatUUID);
 
         cache = new LruCache<String, Bitmap>(3);
 
@@ -75,6 +82,8 @@ public class ConversationActivity extends Activity {
         chatName = (TextView) findViewById(R.id.activity_conversation_chat_name);
         chatName.setText(ChatManager.getInstance().getChat(chatUUID).getName());
 
+        settingsBtn = (ImageButton) findViewById(R.id.activity_conversation_opts_btn);
+
         backBtn = (ImageButton) findViewById(R.id.activity_conversation_back_btn);
         backBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -91,12 +100,13 @@ public class ConversationActivity extends Activity {
             @Override
             public void onClick(View v) {
 
-                if (messageEditText.getText().length() <= 0 ){
+                if (messageEditText.getText().length() <= 0 && attachImageBtn == null){
                     Toast.makeText(getApplicationContext(), "Message may not be blank", Toast.LENGTH_SHORT).show();
                 } else {
 
                     final String messageBody = messageEditText.getText().toString();
                     messageEditText.setText("");
+                    attachImageBtn.setImageResource((android.R.drawable.ic_menu_camera));
 
                     new AsyncTask<Void, Void, Message>(){
 
@@ -110,6 +120,7 @@ public class ConversationActivity extends Activity {
                             if (imageAttachment != null) {
                                 try {
                                     imageUrl = GCSManager.getInstance(getApplicationContext()).upload(imageAttachment);
+                                    imageAttachment = null;
                                 } catch (IOException e) {
                                     e.printStackTrace();
                                 }
@@ -302,6 +313,113 @@ public class ConversationActivity extends Activity {
     protected void setMessagePicture(final Bitmap scaledImage) {
         attachImageBtn.setImageBitmap(scaledImage);
         imageAttachment = scaledImage;
+    }
+
+    public void openSettings(View view){
+
+        final Chat chat = ChatManager.getInstance().getChat(chatUUID);
+
+        if (chat.getType().equals(GroupChat.TYPE)){
+
+            AlertDialog.Builder dialog = new AlertDialog.Builder(ConversationActivity.this);
+
+            String[] options = { "Participants", "Leave", "Block" };
+
+            dialog.setItems(options, new Dialog.OnClickListener() {
+
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+
+                    switch (which) {
+                        case 0:
+
+                            AlertDialog.Builder participantsDialog = new AlertDialog.Builder(ConversationActivity.this);
+                            String[] options = null;
+
+                            if (((GroupChat) chat).getParticipants().size() == 0){
+                                options = new String[1];
+                                options[0] = "No participants";
+
+                            } else {
+
+                                options =  new String[((GroupChat) chat).getParticipants().size()];
+
+                                int i = 0;
+                                for (Participant p : ((GroupChat) chat).getParticipants()){
+                                    options[i] = p.getUsername();
+                                    i++;
+                                }
+                            }
+
+                            participantsDialog.setItems(options, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+
+                                }
+                            }).setCancelable(true).setTitle("Participants").show();
+
+
+                            break;
+                        case 1:
+                            Toast.makeText(getApplicationContext(), "Leaving group..", Toast.LENGTH_SHORT).show();
+
+                            new AsyncTask<Void, Void, Void>(){
+
+                                @Override
+                                protected Void doInBackground(Void... params) {
+                                    chat.leave();
+                                    return null;
+                                }
+                            }.execute();
+
+                            break;
+                        case 2: //block
+                            Toast.makeText(getApplicationContext(), "Blocking..", Toast.LENGTH_SHORT).show();
+                            break;
+                    }
+
+                }
+
+            }).setCancelable(true).show();
+
+        } else {
+
+            AlertDialog.Builder dialog = new AlertDialog.Builder(ConversationActivity.this);
+
+            String[] options = { "Leave", "Block" };
+
+            dialog.setItems(options, new Dialog.OnClickListener() {
+
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+
+                    switch (which) {
+                        case 0:
+
+                            new AsyncTask<Void, Void, Void>(){
+
+                                @Override
+                                protected Void doInBackground(Void... params) {
+                                    chat.leave();
+                                    return null;
+                                }
+                            }.execute();
+
+                            break;
+                        case 1:
+                            Toast.makeText(getApplicationContext(), "Blocking..", Toast.LENGTH_SHORT).show();
+                            break;
+                    }
+
+                }
+
+            }).setCancelable(true).show();
+
+        }
+
+
+
+
     }
 
 

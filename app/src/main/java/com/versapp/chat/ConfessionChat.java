@@ -42,4 +42,9 @@ public class ConfessionChat extends Chat {
     public void setConfession(Confession confession) {
         this.confession = confession;
     }
+
+    @Override
+    public String getType() {
+        return TYPE;
+    }
 }

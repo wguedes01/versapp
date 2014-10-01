@@ -57,8 +57,10 @@ public class ConversationListArrayAdapter extends ArrayAdapter<Message> {
             holder.body = (TextView) convertView.findViewById(R.id.conversation_list_item_message_content_theirs);
         }
 
-        holder.body.setVisibility(View.VISIBLE);
-        holder.body.setText(currentMessage.getBody());
+        if (currentMessage.getBody() != null && !currentMessage.getBody().trim().equals("")){
+            holder.body.setVisibility(View.VISIBLE);
+            holder.body.setText(currentMessage.getBody());
+        }
 
         String imageUrl = currentMessage.getImageUrl();
 

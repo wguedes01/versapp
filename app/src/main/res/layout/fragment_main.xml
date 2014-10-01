@@ -24,20 +24,75 @@
         android:orientation="horizontal"
         android:layout_marginBottom="1dp">
 
-        <ImageButton
-            android:id="@+id/fragment_main_new_one_to_one_btn"
+        <RelativeLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="0.5"
-            android:background="@drawable/dashboard_btn_bg"
-            android:layout_marginRight="1dp"/>
-        <ImageButton
-            android:id="@+id/fragment_main_new_group_btn"
+            android:layout_marginLeft="1dp"
+            android:background="@color/confessionBlue">
+
+
+            <ImageView
+                android:id="@+id/fragment_main_one_to_one_image"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:src="@drawable/dashboard_start_one_to_one_image"
+                android:paddingBottom="10dp"/>
+
+            <TextView
+                android:id="@+id/fragment_main_one_to_one_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/dashboard_start_one_to_one"
+                android:textColor="@android:color/white"
+                android:textSize="20sp"
+                android:layout_centerHorizontal="true"
+                android:layout_below="@id/fragment_main_one_to_one_image"/>
+
+            <ImageButton
+                android:id="@+id/fragment_main_new_one_to_one_btn"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/transparent"/>
+
+        </RelativeLayout>
+
+        <RelativeLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="0.5"
-            android:background="@drawable/dashboard_btn_bg"
-            android:layout_marginLeft="1dp"/>
+            android:layout_marginLeft="1dp"
+            android:background="@color/confessionBlue">
+
+
+            <ImageView
+                android:id="@+id/fragment_group_image"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:src="@drawable/dashboard_start_group_image"
+                android:paddingBottom="10dp"/>
+
+            <TextView
+                android:id="@+id/fragment_main_group_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/dashboard_start_group"
+                android:textColor="@android:color/white"
+                android:textSize="20sp"
+                android:layout_centerHorizontal="true"
+                android:layout_below="@id/fragment_group_image"/>
+
+
+            <ImageButton
+                android:id="@+id/fragment_main_new_group_btn"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/transparent"/>
+
+        </RelativeLayout>
+
 
     </LinearLayout>
 
@@ -48,25 +103,83 @@
             android:orientation="horizontal"
             android:layout_marginTop="1dp">
 
-            <ImageButton
+            <RelativeLayout
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="0.5"
-                android:background="@drawable/dashboard_btn_bg"
-                android:layout_marginRight="1dp"/>
-            <ImageButton
-                android:id="@+id/fragment_main_settings_btn"
+                android:layout_marginRight="1dp"
+                android:background="@color/confessionBlue">
+
+                <ImageView
+                    android:id="@+id/fragment_main_notifications_image"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:src="@drawable/dashboard_notification_ic_0"
+                    android:paddingBottom="10dp"/>
+
+                <TextView
+                    android:id="@+id/fragment_main_notification_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/dashboard_notifications"
+                    android:textColor="@android:color/white"
+                    android:textSize="20sp"
+                    android:layout_centerHorizontal="true"
+                    android:layout_below="@id/fragment_main_notifications_image"/>
+
+
+                <ImageButton
+                    android:id="@+id/fragment_main_notifications_label"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/transparent"
+                    />
+
+
+
+            </RelativeLayout>
+
+            <RelativeLayout
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="0.5"
-                android:background="@drawable/dashboard_btn_bg"
-                android:layout_marginLeft="1dp"/>
+                android:layout_marginLeft="1dp"
+                android:background="@color/confessionBlue">
+
+
+                <ImageView
+                    android:id="@+id/fragment_main_settings_image"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:src="@drawable/dashboard_settings_icon"
+                    android:paddingBottom="10dp"/>
+
+                <TextView
+                    android:id="@+id/fragment_main_settings_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/dashboard_settings"
+                    android:textColor="@android:color/white"
+                    android:textSize="20sp"
+                    android:layout_centerHorizontal="true"
+                    android:layout_below="@id/fragment_main_settings_image"/>
+
+                <ImageButton
+                    android:id="@+id/fragment_main_settings_btn"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/transparent"/>
+
+            </RelativeLayout>
+
 
         </LinearLayout>
 
     </LinearLayout>
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="300dp"
         android:orientation="vertical"
@@ -74,15 +187,37 @@
         android:layout_marginTop="2dp"
         android:layout_marginLeft="2dp"
         android:layout_marginRight="2dp"
-        android:layout_above="@id/fragment_main_buttons_holder">
+        android:layout_above="@id/fragment_main_buttons_holder"
+        android:background="@color/confessionBlue">
+
+        <TextView
+            android:id="@+id/fragment_main_go_to_msg_image_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/dashboard_messages"
+            android:textColor="@android:color/white"
+            android:textSize="30sp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="5dp"
+            android:layout_alignParentBottom="true"/>
+
+        <ImageView
+            android:id="@+id/fragment_main_go_to_msg_image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_owl_happy_tilt"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="5dp"
+            android:layout_above="@id/fragment_main_go_to_msg_image_label"/>
+
 
         <ImageButton
             android:id="@+id/go_to_msg_btn"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@drawable/dashboard_btn_bg"/>
+            android:background="@color/transparent"/>
 
-    </LinearLayout>
+    </RelativeLayout>
 
 
 

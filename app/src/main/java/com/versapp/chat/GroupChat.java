@@ -34,4 +34,8 @@ public class GroupChat extends Chat {
         this.participants = participants;
     }
 
+    @Override
+    public String getType() {
+        return TYPE;
+    }
 }

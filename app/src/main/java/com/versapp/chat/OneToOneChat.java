@@ -21,4 +21,9 @@ public class OneToOneChat extends Chat {
     public void setOwner(boolean isOwner) {
         this.isOwner = isOwner;
     }
+
+    @Override
+    public String getType() {
+        return TYPE;
+    }
 }

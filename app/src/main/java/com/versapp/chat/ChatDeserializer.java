@@ -1,5 +1,6 @@
 package com.versapp.chat;
 
+import com.google.gson.JsonArray;
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
@@ -76,9 +77,19 @@ public class ChatDeserializer implements JsonDeserializer<Chat> {
             JsonElement participantsElement = jsonObject.get(PARTICIPANTS_JSON_KEY);
 
             String ownerId = ownerIdElement.getAsString();
-            //String participants = participantsElement.getAs
+            JsonArray participantsJsonArray = participantsElement.getAsJsonArray();
+            String[] parts = new String[participantsJsonArray.size()];
+            for (int i = 0; i < participantsJsonArray.size(); i++){
+                parts[i] = participantsJsonArray.get(i).getAsString();
+            }
 
-            chat = new GroupChat(uuid, name, ownerId, new ArrayList<Participant>());
+            ArrayList<Participant> participants = new ArrayList<Participant>();
+            for (String s : parts){
+                participants.add(new Participant(s.trim(), s.trim() + " name"));
+            }
+
+
+            chat = new GroupChat(uuid, name, ownerId, participants);
 
         }
 
