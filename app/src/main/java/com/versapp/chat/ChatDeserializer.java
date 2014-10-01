@@ -31,9 +31,6 @@ public class ChatDeserializer implements JsonDeserializer<Chat> {
     private static final String PARTICIPANTS_JSON_KEY = "participants";
     private static final String OWNER_ID_JSON_KEY = "owner";
 
-    private static final String CHAT_TYPE_ONE_TO_ONE = "121";
-    private static final String CHAT_TYPE_THOUGHT = "thought";
-    private static final String CHAT_TYPE_GROUP = "group";
 
     @Override
     public Chat deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
@@ -50,7 +47,7 @@ public class ChatDeserializer implements JsonDeserializer<Chat> {
         String uuid = uuidElement.getAsString();
         String name = nameElement.getAsString();
 
-        if (type.equals(CHAT_TYPE_ONE_TO_ONE)){
+        if (type.equals(OneToOneChat.TYPE)){
 
             JsonElement isOwnerElement = jsonObject.get(IS_OWNER_JSON_KEY);
 
@@ -58,7 +55,7 @@ public class ChatDeserializer implements JsonDeserializer<Chat> {
 
             chat = new OneToOneChat(uuid, name, isOwner);
 
-        } else if(type.equals(CHAT_TYPE_THOUGHT)){
+        } else if(type.equals(ConfessionChat.TYPE)){
 
             JsonElement degreeElement = jsonObject.get(DEGREE_JSON_KEY);
             JsonElement cidElement = jsonObject.get(CID_JSON_KEY);

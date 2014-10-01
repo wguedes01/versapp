@@ -28,6 +28,19 @@ public class DBContract {
 
     }
 
+    public static abstract class ChatsTable implements BaseColumns {
+
+        public static final String TABLE_NAME = "chats";
+        public static final String COLUMN_NAME_UUID = "chat_uuid";
+        public static final String COLUMN_NAME_TYPE = "type";
+        public static final String COLUMN_NAME_NAME = "name";
+        public static final String COLUMN_NAME_IS_OWNER = "is_owner";
+        public static final String COLUMN_NAME_OWNER_ID = "owner_id";
+        public static final String COLUMN_NAME_DEGREE = "degree";
+        public static final String COLUMN_NAME_CID = "cid";
+
+    }
+
 
 
 }

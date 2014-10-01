@@ -7,6 +7,7 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 
+import com.versapp.chat.SynchronizeChatDB;
 import com.versapp.confessions.ConfessionsFragment;
 
 
@@ -42,7 +43,7 @@ public class DashboardActivity extends FragmentActivity {
 
 
 
-        System.out.println(getFilesDir());
+        new SynchronizeChatDB(getApplicationContext()).execute();
 
     }
 

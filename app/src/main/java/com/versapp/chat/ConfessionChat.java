@@ -13,7 +13,7 @@ public class ConfessionChat extends Chat {
     private int degree;
     private Confession confession;
 
-    protected ConfessionChat(String uuid, String name, long cid, int degree) {
+    public ConfessionChat(String uuid, String name, long cid, int degree) {
         super(uuid, name);
         this.cid = cid;
         this.degree = degree;

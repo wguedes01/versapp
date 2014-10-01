@@ -9,7 +9,7 @@ public class OneToOneChat extends Chat {
 
     private boolean isOwner;
 
-    protected OneToOneChat(String uuid, String name, boolean isOwner) {
+    public OneToOneChat(String uuid, String name, boolean isOwner) {
         super(uuid, name);
         this.isOwner = isOwner;
     }

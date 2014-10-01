@@ -24,10 +24,21 @@ public class DBHelper extends SQLiteOpenHelper {
             + DBContract.MessagesTable.COLUMN_NAME_MESSAGE_BODY + TEXT_TYPE + COMMA_SEP + DBContract.MessagesTable.COLUMN_NAME_IMAGE_URL + TEXT_TYPE + COMMA_SEP
             + DBContract.MessagesTable.COLUMN_NAME_THREAD + TEXT_TYPE + COMMA_SEP + DBContract.MessagesTable.COLUMN_NAME_IS_MINE + INTEGER_TYPE + ")";
 
+    private static final String SQL_CREATE_CHATS_TABLE = "CREATE TABLE " + DBContract.ChatsTable.TABLE_NAME + " (" +
+            DBContract.ChatsTable.COLUMN_NAME_UUID + TEXT_TYPE + " PRIMARY KEY " + COMMA_SEP +
+            DBContract.ChatsTable.COLUMN_NAME_TYPE + TEXT_TYPE + COMMA_SEP +
+            DBContract.ChatsTable.COLUMN_NAME_NAME + TEXT_TYPE + COMMA_SEP +
+            DBContract.ChatsTable.COLUMN_NAME_IS_OWNER + INTEGER_TYPE + COMMA_SEP +
+            DBContract.ChatsTable.COLUMN_NAME_OWNER_ID + TEXT_TYPE + COMMA_SEP +
+            DBContract.ChatsTable.COLUMN_NAME_DEGREE + INTEGER_TYPE + COMMA_SEP +
+            DBContract.ChatsTable.COLUMN_NAME_CID + INTEGER_TYPE + ")";
+
 
     private static final String SQL_DELETE_FRIENDS = "DROP TABLE IF EXISTS " + DBContract.FriendsTable.TABLE_NAME;
 
     private static final String SQL_DELETE_MESSAGES = "DROP TABLE IF EXISTS " + DBContract.MessagesTable.TABLE_NAME;
+
+    private static final String SQL_DELETE_CHATS = "DROP TABLE IF EXISTS " + DBContract.ChatsTable.TABLE_NAME;
 
     private static DBHelper instance;
 
@@ -48,12 +59,14 @@ public class DBHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(SQL_CREATE_FRIENDS_TABLE);
         db.execSQL(SQL_CREATE_MESSAGES_TABLE);
+        db.execSQL(SQL_CREATE_CHATS_TABLE);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL(SQL_DELETE_FRIENDS);
         db.execSQL(SQL_DELETE_MESSAGES);
+        db.execSQL(SQL_DELETE_CHATS);
         onCreate(db);
     }
 

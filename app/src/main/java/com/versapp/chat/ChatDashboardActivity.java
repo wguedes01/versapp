@@ -23,6 +23,7 @@ import android.widget.TextView;
 import com.versapp.R;
 import com.versapp.chat.conversation.ConversationActivity;
 import com.versapp.chat.conversation.Message;
+import com.versapp.database.ChatsDAO;
 import com.versapp.database.MessagesDAO;
 
 import java.util.ArrayList;
@@ -33,6 +34,7 @@ public class ChatDashboardActivity extends Activity {
     private ArrayList<Chat> chats;
 
     private MessagesDAO messagesDAO;
+    private ChatsDAO chatsDAO;
 
     private NewMessageOnDashboardBR newMessageBR;
 
@@ -52,6 +54,7 @@ public class ChatDashboardActivity extends Activity {
         newMessageBR = new NewMessageOnDashboardBR();
 
         messagesDAO = new MessagesDAO(getApplicationContext());
+        chatsDAO = new ChatsDAO(getApplicationContext());
 
         imageCache = new LruCache<String, Bitmap>(5);
 
@@ -75,25 +78,6 @@ public class ChatDashboardActivity extends Activity {
         adapter = new GridAdapter(getApplicationContext(), chats, messagesDAO);
 
         mainGrid.setAdapter((android.widget.ListAdapter) adapter);
-
-        // This here will make chats reload every time the activity is opened.
-        new AsyncTask<Void, Void, ArrayList<Chat>>(){
-
-            @Override
-            protected ArrayList<Chat> doInBackground(Void... params) {
-
-                return ChatManager.getInstance().getChatsFromServer();
-            }
-
-            @Override
-            protected void onPostExecute(ArrayList<Chat> result) {
-
-                chats.clear();
-                chats.addAll(result);
-                adapter.notifyDataSetChanged();
-                super.onPostExecute(result);
-            }
-        }.execute();
 
     }
 
@@ -239,6 +223,27 @@ public class ChatDashboardActivity extends Activity {
     @Override
     protected void onResume()
     {
+        // This here will make chats reload every time the activity is opened.
+        new AsyncTask<Void, Void, ArrayList<Chat>>(){
+
+            @Override
+            protected ArrayList<Chat> doInBackground(Void... params) {
+
+                //return ChatManager.getInstance().getChatsFromServer();
+                return chatsDAO.getAll();
+            }
+
+            @Override
+            protected void onPostExecute(ArrayList<Chat> result) {
+
+                chats.clear();
+                chats.addAll(result);
+                adapter.notifyDataSetChanged();
+                super.onPostExecute(result);
+            }
+        }.execute();
+
+
         LocalBroadcastManager.getInstance(getApplicationContext()).registerReceiver(newMessageBR, new IntentFilter(ChatMessageListener.NEW_MESSAGE_ACTION));
         adapter.notifyDataSetChanged();
         super.onResume();

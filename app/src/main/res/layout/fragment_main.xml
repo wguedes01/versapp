@@ -28,7 +28,7 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="0.5"
-            android:layout_marginLeft="1dp"
+            android:layout_marginRight="1dp"
             android:background="@color/confessionBlue">
 
 
@@ -46,8 +46,9 @@
                 android:layout_height="wrap_content"
                 android:text="@string/dashboard_start_one_to_one"
                 android:textColor="@android:color/white"
-                android:textSize="20sp"
+                android:textSize="16sp"
                 android:layout_centerHorizontal="true"
+                android:gravity="center_horizontal"
                 android:layout_below="@id/fragment_main_one_to_one_image"/>
 
             <ImageButton
@@ -80,8 +81,9 @@
                 android:layout_height="wrap_content"
                 android:text="@string/dashboard_start_group"
                 android:textColor="@android:color/white"
-                android:textSize="20sp"
+                android:textSize="16sp"
                 android:layout_centerHorizontal="true"
+                android:gravity="center_horizontal"
                 android:layout_below="@id/fragment_group_image"/>
 
 
@@ -124,7 +126,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/dashboard_notifications"
                     android:textColor="@android:color/white"
-                    android:textSize="20sp"
+                    android:textSize="16sp"
                     android:layout_centerHorizontal="true"
                     android:layout_below="@id/fragment_main_notifications_image"/>
 
@@ -162,7 +164,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/dashboard_settings"
                     android:textColor="@android:color/white"
-                    android:textSize="20sp"
+                    android:textSize="16sp"
                     android:layout_centerHorizontal="true"
                     android:layout_below="@id/fragment_main_settings_image"/>
 

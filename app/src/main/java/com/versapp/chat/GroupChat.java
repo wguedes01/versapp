@@ -12,7 +12,7 @@ public class GroupChat extends Chat {
     private String ownerId;
     private ArrayList<Participant> participants;
 
-    protected GroupChat(String uuid, String name, String ownerId, ArrayList<Participant> participants) {
+    public GroupChat(String uuid, String name, String ownerId, ArrayList<Participant> participants) {
         super(uuid, name);
         this.ownerId = ownerId;
         this.participants = participants;

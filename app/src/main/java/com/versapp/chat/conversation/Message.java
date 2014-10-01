@@ -10,7 +10,7 @@ import java.util.Date;
  */
 public class Message {
 
-    public static final String IMAGE_URL_PROPERTY = "image_url";
+    public static final String IMAGE_URL_PROPERTY = "image_link";
 
     private boolean isMine;
     private String thread;

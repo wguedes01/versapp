@@ -35,7 +35,7 @@
     <string name="dashboard_messages">Messages</string>
     <string name="dashboard_settings">Profile</string>
     <string name="dashboard_notifications">Notifications</string>
-    <string name="dashboard_start_group">Start Group Chat</string>
-    <string name="dashboard_start_one_to_one">Start Chat</string>
+    <string name="dashboard_start_group">Start Anonymous\n Group</string>
+    <string name="dashboard_start_one_to_one">Send Anonymous\n Message</string>
 
 </resources>
