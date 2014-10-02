@@ -128,6 +128,7 @@ public class ChatDashboardActivity extends Activity {
                 holder.oneToOneOwnerIcon = (ImageView) convertView.findViewById(R.id.activity_chat_dashboard_one_to_one_tile_icon_owner);
                 holder.groupIcon = (ImageView) convertView.findViewById(R.id.activity_chat_dashboard_group_tile_icon);
                 holder.backgroundImageView = (ImageView) convertView.findViewById(R.id.activity_chat_dashboard_background_image_view);
+            holder.newMsgIcon = convertView.findViewById(R.id.activity_chat_dashboard_new_message_icon);
 
                 convertView.setTag(holder);
 
@@ -135,13 +136,11 @@ public class ChatDashboardActivity extends Activity {
             //holder.backgroundImageView.setImageBitmap(null);
             //holder.progressBar.setVisibility(View.GONE);
 
-           // holder.nameText.setText(currentChat.getName());
-            holder.nameText.setText(currentChat.getLastOpenedTimestamp()+"");
+            holder.nameText.setText(currentChat.getName());
 
             holder.oneToOneOwnerIcon.setVisibility(View.GONE);
             holder.oneToOneUnknownIcon.setVisibility(View.GONE);
             holder.groupIcon.setVisibility(View.GONE);
-
 
             new AsyncTask<Void, Void, Message>(){
 
@@ -153,13 +152,21 @@ public class ChatDashboardActivity extends Activity {
                 @Override
                 protected void onPostExecute(Message msg) {
 
-                    String lastMsg = "";
 
                     if (msg != null){
-                        lastMsg = msg.getBody();
-                    }
 
-                    holder.lastMsgText.setText(lastMsg);
+                        holder.lastMsgText.setText(msg.getBody());
+
+                        // if last message timestamp is larger than last time opened. Highlight
+                        if (currentChat.hasNewMessage(msg)){
+                            holder.newMsgIcon.setVisibility(View.VISIBLE);
+                        } else {
+                            holder.newMsgIcon.setVisibility(View.GONE);
+                        }
+
+                    } else {
+                        holder.lastMsgText.setText("");
+                    }
 
                     super.onPostExecute(msg);
                 }
@@ -219,6 +226,7 @@ public class ChatDashboardActivity extends Activity {
         ImageView oneToOneOwnerIcon;
        ImageView groupIcon;
        AsyncTask<Void, Void, Void> task;
+       View newMsgIcon;
     }
 
     @Override

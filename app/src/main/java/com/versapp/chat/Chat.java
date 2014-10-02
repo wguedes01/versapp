@@ -1,5 +1,6 @@
 package com.versapp.chat;
 
+import com.versapp.chat.conversation.Message;
 import com.versapp.connection.ConnectionManager;
 import com.versapp.connection.ConnectionService;
 
@@ -54,5 +55,15 @@ public abstract class Chat {
 
     public void setLastOpenedTimestamp(long lastOpenedTimestamp) {
         this.lastOpenedTimestamp = lastOpenedTimestamp;
+    }
+
+
+    public boolean hasNewMessage(Message message){
+
+        if (message != null) {
+            return  message.getTimestmap() > lastOpenedTimestamp;
+        }
+
+        return false;
     }
 }

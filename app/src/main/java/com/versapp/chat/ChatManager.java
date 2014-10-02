@@ -1,9 +1,12 @@
 package com.versapp.chat;
 
+import android.content.Context;
+
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.versapp.HTTPRequestManager;
 import com.versapp.connection.ConnectionManager;
+import com.versapp.database.ChatsDAO;
 
 import org.apache.http.entity.StringEntity;
 
@@ -156,5 +159,23 @@ public class ChatManager {
         }
 
         return null;
+    }
+
+    public void syncLocalChatDB(Context context){
+
+        ChatsDAO chatsDb = new ChatsDAO(context);
+
+        ArrayList<Chat> chats = ChatManager.getInstance().getChatsFromServer();
+
+        for (Chat c : chats){
+
+            if (chatsDb.get(c.getUuid()) == null){
+                chatsDb.insert(c);
+            } else {
+                chatsDb.update(c);
+            }
+
+        }
+
     }
 }

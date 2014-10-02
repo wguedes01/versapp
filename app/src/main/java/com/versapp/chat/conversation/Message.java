@@ -66,9 +66,7 @@ public class Message {
         this.thread = thread;
     }
 
-    public long getTimestmap() {
-        return timestmap;
-    }
+    public long getTimestmap() { return timestmap; }
 
     public void setTimestmap(long timestmap) {
         this.timestmap = timestmap;

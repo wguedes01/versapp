@@ -8,7 +8,6 @@
     android:layout_height="match_parent"
     android:background="@drawable/dashboard_btn_bg">
 
-
     <RelativeLayout
         android:id="@+id/activity_chat_dashboard_ic_holder"
         android:layout_width="wrap_content"
@@ -84,5 +83,14 @@
             android:layout_centerInParent="true"/>
     </RelativeLayout>
 
+    <ImageView
+        android:id="@+id/activity_chat_dashboard_new_message_icon"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:src="@drawable/chat_daschboard_new_message_icon"
+        android:layout_margin="5dp"
+        android:visibility="gone"/>
 
 </RelativeLayout>

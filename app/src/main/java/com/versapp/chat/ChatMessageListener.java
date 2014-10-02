@@ -53,6 +53,9 @@ public class ChatMessageListener implements PacketListener {
 
         Message message = new Message(thread, body, imageUrl, timestamp, false);
 
+        // If message is from new chat (not on local db), SYNC local db.
+        ChatManager.getInstance().syncLocalChatDB(context);
+
         // Add to database.
         long messageId = messagesDAO.insert(message);
 

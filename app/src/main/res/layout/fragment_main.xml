@@ -212,6 +212,14 @@
             android:layout_marginTop="5dp"
             android:layout_above="@id/fragment_main_go_to_msg_image_label"/>
 
+        <ImageView
+            android:id="@+id/fragment_main_new_message_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/fragment_main_go_to_msg_image"
+            android:layout_margin="10dp"
+            android:visibility="gone"/>
+
 
         <ImageButton
             android:id="@+id/go_to_msg_btn"

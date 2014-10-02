@@ -1,19 +1,29 @@
 package com.versapp;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Point;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.LocalBroadcastManager;
 import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
+import com.versapp.chat.Chat;
 import com.versapp.chat.ChatDashboardActivity;
+import com.versapp.chat.ChatMessageListener;
+import com.versapp.chat.SynchronizeChatDB;
+import com.versapp.database.ChatsDAO;
+import com.versapp.database.MessagesDAO;
 import com.versapp.friends.FriendListActivity;
 import com.versapp.settings.SettingsActivity;
 
@@ -27,10 +37,23 @@ public class MainFragment extends Fragment {
     ImageButton newOneToOneBtn;
     ImageButton newGroupBtn;
     ImageButton settingsBtn;
+    ImageView newMessageIcon;
+
+    MessagesDAO messagesDAO;
+
+    private BroadcastReceiver updateNotificationCountBR = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            System.out.println("Received not br");
+            displayNotificationCount();
+        }
+    };
 
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+
+        messagesDAO = new MessagesDAO(getActivity().getApplicationContext());
 
         View convertView = inflater.inflate(R.layout.fragment_main, container, false);
 
@@ -39,7 +62,7 @@ public class MainFragment extends Fragment {
         buttonsHolder = (LinearLayout) convertView.findViewById(R.id.fragment_main_buttons_holder);
         newOneToOneBtn = (ImageButton) convertView.findViewById(R.id.fragment_main_new_one_to_one_btn);
         newGroupBtn = (ImageButton) convertView.findViewById(R.id.fragment_main_new_group_btn);
-
+        newMessageIcon = (ImageView) convertView.findViewById(R.id.fragment_main_new_message_icon);
 
         goToMessagesBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -95,6 +118,61 @@ public class MainFragment extends Fragment {
         params.height = width;
         buttonsHolder.setLayoutParams(params);
 
+
         return convertView;
     }
+
+    @Override
+    public void onResume() {
+        LocalBroadcastManager.getInstance(getActivity()).registerReceiver(updateNotificationCountBR, new IntentFilter(ChatMessageListener.NEW_MESSAGE_ACTION));
+        LocalBroadcastManager.getInstance(getActivity()).registerReceiver(updateNotificationCountBR, new IntentFilter(SynchronizeChatDB.CHAT_SYNCED_INTENT_ACTION));
+        displayNotificationCount();
+
+        super.onResume();
+    }
+
+    @Override
+    public void onPause() {
+        LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(updateNotificationCountBR);
+        super.onPause();
+    }
+
+    private void displayNotificationCount(){
+
+
+        int newMsgCount = 0;
+        for(Chat chat : new ChatsDAO(getActivity()).getAll()){
+            if (chat.hasNewMessage(messagesDAO.getLastMessageByChat(chat.getUuid()))){
+                newMsgCount++;
+            }
+        }
+
+        newMessageIcon.setVisibility(View.VISIBLE);
+        switch (newMsgCount){
+            case 0:
+                newMessageIcon.setVisibility(View.GONE);
+                break;
+            case 1:
+                newMessageIcon.setImageResource(R.drawable.new_message_icon_1);
+                break;
+            case 2:
+                newMessageIcon.setImageResource(R.drawable.new_message_icon_2);
+                break;
+            case 3:
+                newMessageIcon.setImageResource(R.drawable.new_message_icon_3);
+                break;
+            case 4:
+                newMessageIcon.setImageResource(R.drawable.new_message_icon_4);
+                break;
+            case 5:
+                newMessageIcon.setImageResource(R.drawable.new_message_icon_5);
+                break;
+            default:
+                newMessageIcon.setImageResource(R.drawable.new_message_icon_5_plus);
+                break;
+        }
+
+    }
+
+
 }
