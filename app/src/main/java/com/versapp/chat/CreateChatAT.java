@@ -5,7 +5,8 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.widget.Toast;
 
-import com.versapp.DashboardActivity;
+import com.versapp.chat.conversation.ConversationActivity;
+import com.versapp.database.ChatsDAO;
 
 import java.io.IOException;
 
@@ -29,6 +30,12 @@ public class CreateChatAT extends AsyncTask<Void, Void, Chat>{
         Chat chat = null;
         try {
             chat = ChatManager.getInstance().createChat(builder);
+
+            if (chat != null) {
+                new ChatsDAO(context).insert(chat);
+                ChatManager.getInstance().getChats().add(0, chat);
+            }
+
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -44,7 +51,8 @@ public class CreateChatAT extends AsyncTask<Void, Void, Chat>{
             Toast.makeText(context, "Oops.. something went wrong. Please try again.", Toast.LENGTH_LONG).show();
         } else {
             // go to chat.
-            Intent intent = new Intent(context, DashboardActivity.class);
+            Intent intent = new Intent(context, ConversationActivity.class);
+            intent.putExtra(ConversationActivity.CHAT_UUID_INTENT_EXTRA, chat.getUuid());
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
             context.startActivity(intent);
         }

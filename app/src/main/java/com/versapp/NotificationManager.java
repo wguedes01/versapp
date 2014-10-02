@@ -66,15 +66,9 @@ public class NotificationManager {
 
                 Intent intent = new Intent(context, ConversationActivity.class);
                 intent.putExtra(ConversationActivity.CHAT_UUID_INTENT_EXTRA, chatId);
-
-                //TaskStackBuilder stackBuilder = TaskStackBuilder.create(context);
-                //stackBuilder.addParentStack(ChatDashboardActivity.class);
-                //stackBuilder.addNextIntent(intent);
-
-                //PendingIntent pendingIntent = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
+                intent.putExtra(ConversationActivity.FROM_NOTIFICATION_INTENT_EXTRA, true);
 
                 PendingIntent pendingIntent = PendingIntent.getActivities(context, 0, new Intent[] {homeIntent, backIntent, intent}, PendingIntent.FLAG_ONE_SHOT);
-
 
                 mBuilder.setContentIntent(pendingIntent);
 

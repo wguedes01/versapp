@@ -41,6 +41,7 @@ import java.util.ArrayList;
 public class ConversationActivity extends Activity {
 
     public static final String CHAT_UUID_INTENT_EXTRA = "CHAT_UUID_INTENT_EXTRA";
+    public static final String FROM_NOTIFICATION_INTENT_EXTRA = "FROM_NOTIFICATION_INTENT_EXTRA";
     private String chatUUID;
 
     private Chat currentChat;
