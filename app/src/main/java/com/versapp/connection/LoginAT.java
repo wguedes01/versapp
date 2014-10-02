@@ -7,6 +7,7 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.versapp.DashboardActivity;
+import com.versapp.chat.ChatManager;
 import com.versapp.chat.ChatMessageListener;
 import com.versapp.contacts.EfficientContactManager;
 import com.versapp.gcm.GCMDeviceRegistration;
@@ -65,6 +66,15 @@ public class LoginAT extends AsyncTask<String, Void, XMPPTCPConnection>{
 
                 if (connection.isAuthenticated()){
                     CredentialsManager.getInstance(context).setValidCredentials(username, password);
+
+                    setAllPacketsListener(connection);
+                    setMessageListener(connection);
+
+                    ConnectionService.setConnection(connection);
+
+                    // Sync chat
+                    ChatManager.getInstance().getChats().addAll(ChatManager.getInstance().syncLocalChatDB(context));
+
                 }
 
                 return connection;
@@ -91,11 +101,6 @@ public class LoginAT extends AsyncTask<String, Void, XMPPTCPConnection>{
             if (conn.isAuthenticated()){
 
                 context.startService(new Intent(context, ConnectionService.class));
-
-                setAllPacketsListener(conn);
-                setMessageListener(conn);
-
-                ConnectionService.setConnection(conn);
 
                 if (!EfficientContactManager.getInstance(context).areContactsPublished()){
 

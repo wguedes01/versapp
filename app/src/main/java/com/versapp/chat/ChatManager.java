@@ -39,6 +39,7 @@ public class ChatManager {
 
         if (instance == null){
             instance = new ChatManager();
+            chats = new ArrayList<Chat>();
         }
 
 
@@ -129,7 +130,7 @@ public class ChatManager {
 
     private Chat remove(String chatId){
 
-        if (chats.size() <= 0){
+        if (chats == null || chats.size() <= 0){
             return null;
         }
 
@@ -164,7 +165,7 @@ public class ChatManager {
         return null;
     }
 
-    public void syncLocalChatDB(Context context){
+    public ArrayList<Chat> syncLocalChatDB(Context context){
 
         ChatsDAO chatsDb = new ChatsDAO(context);
 
@@ -180,6 +181,7 @@ public class ChatManager {
 
         }
 
+        return chats;
     }
 
     public void leaveChat(Context context, Chat chat){

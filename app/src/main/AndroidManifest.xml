@@ -102,7 +102,11 @@
         </activity>
         <activity
             android:name=".chat.conversation.ConversationActivity"
+            android:parentActivityName=".chat.ChatDashboardActivity"
             android:label="@string/title_activity_conversation" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".chat.ChatDashboardActivity"/>
         </activity>
     </application>
 

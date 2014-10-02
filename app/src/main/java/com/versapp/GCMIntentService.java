@@ -5,6 +5,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 
+import com.versapp.connection.CredentialsManager;
+import com.versapp.connection.LoginAT;
+
 /**
  * Created by william on 25/09/14.
  */
@@ -36,6 +39,23 @@ public class GCMIntentService extends IntentService {
         } else if (pushType.equals(PUSH_TYPE_CONFESSION)) {
             Log.d(Logger.GCM_DEBUG, "Received Confession Push. Type:" + pushType);
         } else if(pushType.equals(PUSH_TYPE_MESSAGE)) {
+
+
+            if (CredentialsManager.getInstance(getApplicationContext()).getValidUsername() != null){
+
+                String username = CredentialsManager.getInstance(getApplicationContext()).getValidUsername();
+                String password = CredentialsManager.getInstance(getApplicationContext()).getValidPassword();
+
+                new LoginAT(getApplicationContext(), new Runnable() {
+                    @Override
+                    public void run() {
+
+                    }
+                }).execute(username, password);
+
+            }
+
+
 
             String body = intent.getStringExtra("body");
 

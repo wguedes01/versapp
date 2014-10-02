@@ -57,7 +57,6 @@ public class ConversationActivity extends Activity {
     private ImageButton attachImageBtn;
 
     private TextView chatName;
-    private ImageButton backBtn;
     private ImageButton settingsBtn;
 
     private Bitmap imageAttachment;
@@ -86,17 +85,9 @@ public class ConversationActivity extends Activity {
         messagesListView.setAdapter(adapter);
 
         chatName = (TextView) findViewById(R.id.activity_conversation_chat_name);
-        chatName.setText(ChatManager.getInstance().getChat(chatUUID).getName());
+        chatName.setText(currentChat.getName());
 
         settingsBtn = (ImageButton) findViewById(R.id.activity_conversation_opts_btn);
-
-        backBtn = (ImageButton) findViewById(R.id.activity_conversation_back_btn);
-        backBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
 
         newMessageBR = new MessageReceivedBR(chatUUID, adapter);
 
@@ -427,10 +418,10 @@ public class ConversationActivity extends Activity {
 
         }
 
-
-
-
     }
 
+    public void back(View view){
+        super.onBackPressed();
+    }
 
 }

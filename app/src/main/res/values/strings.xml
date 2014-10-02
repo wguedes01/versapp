@@ -37,5 +37,6 @@
     <string name="dashboard_notifications">Notifications</string>
     <string name="dashboard_start_group">Start Anonymous\n Group</string>
     <string name="dashboard_start_one_to_one">Send Anonymous\n Message</string>
+    <string name="title_activity_open_chat_from_notification">OpenChatFromNotificationActivity</string>
 
 </resources>

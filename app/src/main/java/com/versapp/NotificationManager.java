@@ -1,7 +1,14 @@
 package com.versapp;
 
+import android.app.PendingIntent;
 import android.content.Context;
+import android.content.Intent;
+import android.os.AsyncTask;
 import android.support.v4.app.NotificationCompat;
+
+import com.versapp.chat.ChatDashboardActivity;
+import com.versapp.chat.ChatManager;
+import com.versapp.chat.conversation.ConversationActivity;
 
 import java.util.HashMap;
 
@@ -30,13 +37,55 @@ public class NotificationManager {
         return instance;
     }
 
-    public void displayNewMessageNotification(String chatId, String body) {
+    public void displayNewMessageNotification(final String chatId, String body) {
 
-        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context).setSmallIcon(R.drawable.ic_new_message_owl).setContentTitle("New message").setContentText(body).setAutoCancel(true);
+        final NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context).setSmallIcon(R.drawable.ic_new_message_owl).setContentTitle("New message").setContentText(body).setAutoCancel(true);
 
-        int notificationId = chatUUIDNotificaitonIdMap.size();
-        chatUUIDNotificaitonIdMap.put(chatId, notificationId);
-        manager.notify(notificationId, mBuilder.build());
+
+        new AsyncTask<Void, Void, Void>(){
+
+            @Override
+            protected Void doInBackground(Void... params) {
+
+                if (ChatManager.getInstance().getChats() == null | ChatManager.getInstance().getChats().size() == 0){
+                    ChatManager.getInstance().getChats().addAll(ChatManager.getInstance().syncLocalChatDB(context));
+                } else {
+
+                }
+
+                return null;
+            }
+
+            @Override
+            protected void onPostExecute(Void aVoid) {
+
+                Intent homeIntent = new Intent(context, DashboardActivity.class);
+
+                Intent backIntent = new Intent(context, ChatDashboardActivity.class);
+                backIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TOP);
+
+                Intent intent = new Intent(context, ConversationActivity.class);
+                intent.putExtra(ConversationActivity.CHAT_UUID_INTENT_EXTRA, chatId);
+
+                //TaskStackBuilder stackBuilder = TaskStackBuilder.create(context);
+                //stackBuilder.addParentStack(ChatDashboardActivity.class);
+                //stackBuilder.addNextIntent(intent);
+
+                //PendingIntent pendingIntent = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
+
+                PendingIntent pendingIntent = PendingIntent.getActivities(context, 0, new Intent[] {homeIntent, backIntent, intent}, PendingIntent.FLAG_ONE_SHOT);
+
+
+                mBuilder.setContentIntent(pendingIntent);
+
+                int notificationId = chatUUIDNotificaitonIdMap.size();
+                chatUUIDNotificaitonIdMap.put(chatId, notificationId);
+                manager.notify(notificationId, mBuilder.build());
+
+                super.onPostExecute(aVoid);
+            }
+        }.execute();
+
     }
 
     public boolean hasNotification(String uuid) {
