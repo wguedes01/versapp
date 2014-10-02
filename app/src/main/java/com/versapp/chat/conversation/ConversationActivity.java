@@ -172,14 +172,14 @@ public class ConversationActivity extends Activity {
 
     @Override
     protected void onPause() {
-        chatsDAO.updateLastOpenedTimestamp(currentChat.getUuid());
+        ChatManager.getInstance().setChatClosed(getApplicationContext(), currentChat);
         LocalBroadcastManager.getInstance(getApplicationContext()).unregisterReceiver(newMessageBR);
         super.onPause();
     }
 
     @Override
     protected void onResume() {
-        chatsDAO.updateLastOpenedTimestamp(currentChat.getUuid());
+        ChatManager.getInstance().setChatOpen(getApplicationContext(), currentChat);
         LocalBroadcastManager.getInstance(getApplicationContext()).registerReceiver(newMessageBR, new IntentFilter(ChatMessageListener.NEW_MESSAGE_ACTION));
         super.onResume();
     }
@@ -375,7 +375,8 @@ public class ConversationActivity extends Activity {
 
                                 @Override
                                 protected Void doInBackground(Void... params) {
-                                    chat.leave();
+                                    ChatManager.getInstance().leaveChat(getApplicationContext(), chat);
+                                    finish();
                                     return null;
                                 }
                             }.execute();
@@ -408,7 +409,8 @@ public class ConversationActivity extends Activity {
 
                                 @Override
                                 protected Void doInBackground(Void... params) {
-                                    chat.leave();
+                                    ChatManager.getInstance().leaveChat(getApplicationContext(), chat);
+                                    finish();
                                     return null;
                                 }
                             }.execute();

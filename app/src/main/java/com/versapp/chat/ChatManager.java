@@ -5,6 +5,7 @@ import android.content.Context;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.versapp.HTTPRequestManager;
+import com.versapp.NotificationManager;
 import com.versapp.connection.ConnectionManager;
 import com.versapp.database.ChatsDAO;
 
@@ -28,6 +29,8 @@ public class ChatManager {
 
     private static ChatManager instance;
     private static ArrayList<Chat> chats;
+
+    private static Chat openChat;
 
     private ChatManager() {
     }
@@ -177,5 +180,31 @@ public class ChatManager {
 
         }
 
+    }
+
+    public void leaveChat(Context context, Chat chat){
+
+        new ChatsDAO(context).delete(chat.getUuid());
+
+        chat.leave();
+    }
+
+    public void setChatOpen(Context context, Chat chat){
+        new ChatsDAO(context).updateLastOpenedTimestamp(chat.getUuid());
+
+        if (NotificationManager.getInstance(context).hasNotification(chat.getUuid())){
+            NotificationManager.getInstance(context).removeNotification(chat.getUuid());
+        }
+
+        openChat = chat;
+    }
+
+    public void setChatClosed(Context context, Chat chat){
+        new ChatsDAO(context).updateLastOpenedTimestamp(chat.getUuid());
+        openChat = null;
+    }
+
+    public Chat getCurrentOpenChat(){
+        return openChat;
     }
 }

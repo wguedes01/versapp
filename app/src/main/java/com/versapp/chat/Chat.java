@@ -38,6 +38,7 @@ public abstract class Chat {
     }
 
     public void leave(){
+
         // send inactive request to server.
         String packetId = "leave_chat";
         String xml = "<iq type='set' to='" + ConnectionManager.SERVER_IP_ADDRESS + "' id='" + packetId + "' from='"

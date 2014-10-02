@@ -29,7 +29,7 @@
                 android:padding="30dp"
                 android:scaleType="fitCenter"
                 android:background="@color/confessionBlue"
-                android:src="@drawable/start_conversation_btn_bg" />
+                android:src="@drawable/confession_start_chat_btn" />
         </RelativeLayout>
 
         <RelativeLayout

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v4.content.LocalBroadcastManager;
 
+import com.versapp.NotificationManager;
 import com.versapp.chat.conversation.Message;
 import com.versapp.database.MessagesDAO;
 
@@ -64,5 +65,10 @@ public class ChatMessageListener implements PacketListener {
         intent.putExtra(CHAT_ID_ON_MESSAGE_INTENT_EXTRA, message.getThread());
         intent.putExtra(MESSAGE_ID_INTENT_EXTRA, messageId);
         LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
+
+        // Show notification if user is not currently looking at the chat.
+        if (ChatManager.getInstance().getCurrentOpenChat() == null || !ChatManager.getInstance().getCurrentOpenChat().getUuid().equals(message.getThread())){
+            NotificationManager.getInstance(context).displayNewMessageNotification(message.getThread(), message.getBody());
+        }
     }
 }

@@ -46,18 +46,12 @@ public class ChatsDAO {
 
     public void delete(String chatUUID){
 
+        SQLiteDatabase dbWritable = this.helper.getWritableDatabase();
+        dbWritable.delete(DBContract.ChatsTable.TABLE_NAME, DBContract.ChatsTable.COLUMN_NAME_UUID + " = ? ", new String[] { chatUUID });
+
     }
 
     public Chat get(String chatUUID){
-
-
-
-        return null;
-    }
-
-    public ArrayList<Chat> getAll(){
-
-        ArrayList<Chat> chats = new ArrayList<Chat>();
 
         String[] projection = {
                 DBContract.ChatsTable.COLUMN_NAME_UUID,
@@ -66,8 +60,29 @@ public class ChatsDAO {
                 DBContract.ChatsTable.COLUMN_NAME_IS_OWNER,
                 DBContract.ChatsTable.COLUMN_NAME_OWNER_ID,
                 DBContract.ChatsTable.COLUMN_NAME_DEGREE,
-                DBContract.ChatsTable.COLUMN_NAME_CID
+                DBContract.ChatsTable.COLUMN_NAME_CID,
+                DBContract.ChatsTable.COLUMN_NAME_LAST_OPENED_TIMESTAMP
         };
+
+        String selection = DBContract.ChatsTable.COLUMN_NAME_UUID + " = ? ";
+
+        String[] selectionArgs = { chatUUID };
+
+        SQLiteDatabase dbReadable = this.helper.getReadableDatabase();
+        Cursor cursor = dbReadable.query(DBContract.ChatsTable.TABLE_NAME, projection, selection, selectionArgs, null, null, null);
+
+        if (cursor.getCount() <= 0){
+            return null;
+        } else {
+            cursor.moveToFirst();
+            return cursorToChat(cursor);
+        }
+
+    }
+
+    public ArrayList<Chat> getAll(){
+
+        ArrayList<Chat> chats = new ArrayList<Chat>();
 
         SQLiteDatabase dbReadable = this.helper.getReadableDatabase();
 

@@ -154,8 +154,6 @@ public class ConfessionsFragment extends Fragment {
 
                 }
 
-
-
             }
         }));
 
@@ -278,14 +276,14 @@ public class ConfessionsFragment extends Fragment {
 
     private static void updateLayout() {
 
-        startMessageBtn.setImageResource(R.drawable.big_confession_start_conversation_btn);
+        startMessageBtn.setImageResource(R.drawable.confession_start_chat_btn);
         //startMessageBtn.setBackgroundColor(ConfessionsFragment.getResources().getColor(R.color.confessionBlue));
 
         // Always update favorite and message icon
         if (confessions.get(selectedConfessionPosition).isMine()) {
 
             //startMessageBtn.setImageResource(R.color.transparent);
-            startMessageBtn.setImageResource(R.drawable.delete_confession_btn);
+            startMessageBtn.setImageResource(R.drawable.delete_confession);
 
         } else if(confessions.get(selectedConfessionPosition).getDegree() == 1){ // friend
             startMessageBtn.setImageResource(R.drawable.confession_start_chat_btn);
