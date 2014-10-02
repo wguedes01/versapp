@@ -66,7 +66,7 @@ public class ChatsDAO {
                 DBContract.ChatsTable.COLUMN_NAME_IS_OWNER,
                 DBContract.ChatsTable.COLUMN_NAME_OWNER_ID,
                 DBContract.ChatsTable.COLUMN_NAME_DEGREE,
-                DBContract.ChatsTable.COLUMN_NAME_CID,
+                DBContract.ChatsTable.COLUMN_NAME_CID
         };
 
         SQLiteDatabase dbReadable = this.helper.getReadableDatabase();
@@ -109,10 +109,12 @@ public class ChatsDAO {
         int ownerIdIndex = cursor.getColumnIndex(DBContract.ChatsTable.COLUMN_NAME_OWNER_ID);
         int degreeIndex = cursor.getColumnIndex(DBContract.ChatsTable.COLUMN_NAME_DEGREE);
         int cidIndex = cursor.getColumnIndex(DBContract.ChatsTable.COLUMN_NAME_CID);
+        int lastOpenedTimestampIndex = cursor.getColumnIndex(DBContract.ChatsTable.COLUMN_NAME_LAST_OPENED_TIMESTAMP);
 
         String uuid = cursor.getString(uuidIndex);
         String type = cursor.getString(typeIndex);
         String name = cursor.getString(nameIndex);
+        long lastOpenedTimestamp = cursor.getLong(lastOpenedTimestampIndex);
 
         Chat chat = null;
 
@@ -137,6 +139,7 @@ public class ChatsDAO {
             Log.d(Logger.CHAT_DEBUG, "Trying to get chat of invalid type.");
         }
 
+        chat.setLastOpenedTimestamp(lastOpenedTimestamp);
         return chat;
     }
 
@@ -167,6 +170,16 @@ public class ChatsDAO {
         }
 
         return chatValues;
+    }
+
+    public int updateLastOpenedTimestamp(String chatUUID){
+
+        ContentValues values = new ContentValues();
+
+        values.put(DBContract.ChatsTable.COLUMN_NAME_LAST_OPENED_TIMESTAMP, System.currentTimeMillis());
+
+        SQLiteDatabase dbWritable = this.helper.getWritableDatabase();
+        return dbWritable.update(DBContract.ChatsTable.TABLE_NAME, values, DBContract.ChatsTable.COLUMN_NAME_UUID + " = ?", new String[] { chatUUID });
     }
 
 }

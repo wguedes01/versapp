@@ -31,6 +31,7 @@ import com.versapp.chat.ChatMessageListener;
 import com.versapp.chat.GroupChat;
 import com.versapp.chat.Participant;
 import com.versapp.connection.ConnectionManager;
+import com.versapp.database.ChatsDAO;
 import com.versapp.database.MessagesDAO;
 import com.versapp.util.ImageManager;
 
@@ -41,6 +42,9 @@ public class ConversationActivity extends Activity {
 
     public static final String CHAT_UUID_INTENT_EXTRA = "CHAT_UUID_INTENT_EXTRA";
     private String chatUUID;
+
+    private Chat currentChat;
+    private ChatsDAO chatsDAO;
 
     BroadcastReceiver newMessageBR;
 
@@ -64,13 +68,15 @@ public class ConversationActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_conversation);
 
-        final Chat currentChat = ChatManager.getInstance().getChat(chatUUID);
+        chatUUID = getIntent().getStringExtra(CHAT_UUID_INTENT_EXTRA);
+
+        chatsDAO = new ChatsDAO(getApplicationContext());
+
+        currentChat = ChatManager.getInstance().getChat(chatUUID);
 
         cache = new LruCache<String, Bitmap>(3);
 
         messages = new ArrayList<Message>();
-
-        chatUUID = getIntent().getStringExtra(CHAT_UUID_INTENT_EXTRA);
 
         messagesListView = (ListView) findViewById(R.id.activity_conversation_main_list);
         messageEditText = (EditText) findViewById(R.id.activity_conversation_message_edit_text);
@@ -166,12 +172,14 @@ public class ConversationActivity extends Activity {
 
     @Override
     protected void onPause() {
+        chatsDAO.updateLastOpenedTimestamp(currentChat.getUuid());
         LocalBroadcastManager.getInstance(getApplicationContext()).unregisterReceiver(newMessageBR);
         super.onPause();
     }
 
     @Override
     protected void onResume() {
+        chatsDAO.updateLastOpenedTimestamp(currentChat.getUuid());
         LocalBroadcastManager.getInstance(getApplicationContext()).registerReceiver(newMessageBR, new IntentFilter(ChatMessageListener.NEW_MESSAGE_ACTION));
         super.onResume();
     }

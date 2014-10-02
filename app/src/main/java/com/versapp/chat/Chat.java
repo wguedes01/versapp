@@ -13,6 +13,7 @@ public abstract class Chat {
 
     private String uuid;
     private String name;
+    private long lastOpenedTimestamp;
 
     protected Chat(String uuid, String name) {
         this.uuid = uuid;
@@ -47,4 +48,11 @@ public abstract class Chat {
 
     public abstract String getType();
 
+    public long getLastOpenedTimestamp() {
+        return lastOpenedTimestamp;
+    }
+
+    public void setLastOpenedTimestamp(long lastOpenedTimestamp) {
+        this.lastOpenedTimestamp = lastOpenedTimestamp;
+    }
 }

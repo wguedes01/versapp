@@ -135,7 +135,8 @@ public class ChatDashboardActivity extends Activity {
             //holder.backgroundImageView.setImageBitmap(null);
             //holder.progressBar.setVisibility(View.GONE);
 
-            holder.nameText.setText(currentChat.getName());
+           // holder.nameText.setText(currentChat.getName());
+            holder.nameText.setText(currentChat.getLastOpenedTimestamp()+"");
 
             holder.oneToOneOwnerIcon.setVisibility(View.GONE);
             holder.oneToOneUnknownIcon.setVisibility(View.GONE);

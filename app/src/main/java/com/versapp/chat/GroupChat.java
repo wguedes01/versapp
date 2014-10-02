@@ -18,6 +18,14 @@ public class GroupChat extends Chat {
         this.participants = participants;
     }
 
+    /*
+    public GroupChat(String uuid, String name, String ownerId, ArrayList<Participant> participants, long lastOpenedTimestamp) {
+        super(uuid, name, lastOpenedTimestamp);
+        this.ownerId = ownerId;
+        this.participants = participants;
+    }
+    */
+
     public String getOwnerId() {
         return ownerId;
     }

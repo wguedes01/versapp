@@ -14,6 +14,13 @@ public class OneToOneChat extends Chat {
         this.isOwner = isOwner;
     }
 
+    /*
+    public OneToOneChat(String uuid, String name, boolean isOwner, long lastOpenedTimestamp) {
+        super(uuid, name, lastOpenedTimestamp);
+        this.isOwner = isOwner;
+    }
+    */
+
     public boolean isOwner() {
         return isOwner;
     }

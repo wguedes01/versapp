@@ -38,6 +38,7 @@ public class DBContract {
         public static final String COLUMN_NAME_OWNER_ID = "owner_id";
         public static final String COLUMN_NAME_DEGREE = "degree";
         public static final String COLUMN_NAME_CID = "cid";
+        public static final String COLUMN_NAME_LAST_OPENED_TIMESTAMP = "last_opened_timestamp";
 
     }
 

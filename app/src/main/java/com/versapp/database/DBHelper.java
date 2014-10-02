@@ -31,7 +31,8 @@ public class DBHelper extends SQLiteOpenHelper {
             DBContract.ChatsTable.COLUMN_NAME_IS_OWNER + INTEGER_TYPE + COMMA_SEP +
             DBContract.ChatsTable.COLUMN_NAME_OWNER_ID + TEXT_TYPE + COMMA_SEP +
             DBContract.ChatsTable.COLUMN_NAME_DEGREE + INTEGER_TYPE + COMMA_SEP +
-            DBContract.ChatsTable.COLUMN_NAME_CID + INTEGER_TYPE + ")";
+            DBContract.ChatsTable.COLUMN_NAME_CID + INTEGER_TYPE + COMMA_SEP +
+            DBContract.ChatsTable.COLUMN_NAME_LAST_OPENED_TIMESTAMP + INTEGER_TYPE + " DEFAULT 0" + ")";
 
 
     private static final String SQL_DELETE_FRIENDS = "DROP TABLE IF EXISTS " + DBContract.FriendsTable.TABLE_NAME;

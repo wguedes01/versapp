@@ -19,6 +19,14 @@ public class ConfessionChat extends Chat {
         this.degree = degree;
     }
 
+    /*
+    public ConfessionChat(String uuid, String name, long cid, int degree, long lastOpenedTimestamp) {
+        super(uuid, name, lastOpenedTimestamp);
+        this.cid = cid;
+        this.degree = degree;
+    }
+    */
+
     public int getDegree() {
         return degree;
     }
