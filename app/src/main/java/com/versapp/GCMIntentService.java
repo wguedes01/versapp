@@ -55,8 +55,6 @@ public class GCMIntentService extends IntentService {
 
             }
 
-
-
             String body = intent.getStringExtra("body");
 
             Log.d(Logger.GCM_DEBUG, "Received Message Push. Type:" + pushType + ". Body: " + body);

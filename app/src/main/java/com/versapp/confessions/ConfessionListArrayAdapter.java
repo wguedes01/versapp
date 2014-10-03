@@ -88,6 +88,7 @@ public class ConfessionListArrayAdapter extends ArrayAdapter<Confession> {
         holder.backgroundImage.setBackgroundColor(activity.getResources().getColor(android.R.color.white));
 
         if (confessions.get(position).getImageUrl().charAt(0) == '#') {
+            holder.progressBar.setVisibility(View.GONE);
             holder.backgroundImage.setBackgroundColor(Color.parseColor(confessions.get(position).getImageUrl()));
         } else {
 

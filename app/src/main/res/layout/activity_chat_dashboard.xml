@@ -2,10 +2,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingLeft="1dp"
-    android:paddingRight="1dp"
-    android:paddingTop="1dp"
-    android:paddingBottom="1dp"
+    android:paddingLeft="2dp"
+    android:paddingRight="2dp"
+    android:paddingTop="2dp"
+    android:paddingBottom="2dp"
     tools:context="com.versapp.chat.ChatDashboardActivity"
     android:background="@android:color/white">
 
@@ -14,8 +14,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:numColumns="2"
-        android:verticalSpacing="2dp"
-        android:horizontalSpacing="2dp"
+        android:verticalSpacing="4dp"
+        android:horizontalSpacing="4dp"
         android:layout_margin="2dp"></GridView>
 
 

@@ -6,6 +6,7 @@ import android.support.v4.content.LocalBroadcastManager;
 
 import com.versapp.NotificationManager;
 import com.versapp.chat.conversation.Message;
+import com.versapp.database.ChatsDAO;
 import com.versapp.database.MessagesDAO;
 
 import org.jivesoftware.smack.PacketListener;
@@ -24,10 +25,12 @@ public class ChatMessageListener implements PacketListener {
 
     private Context context;
     private MessagesDAO messagesDAO;
+    private ChatsDAO chatsDAO;
 
     public ChatMessageListener(Context context) {
         this.context = context;
         this.messagesDAO = new MessagesDAO(context);
+        this.chatsDAO = new ChatsDAO(context);
     }
 
     @Override
@@ -55,7 +58,17 @@ public class ChatMessageListener implements PacketListener {
         Message message = new Message(thread, body, imageUrl, timestamp, false);
 
         // If message is from new chat (not on local db), SYNC local db.
-        ChatManager.getInstance().syncLocalChatDB(context);
+        if (ChatManager.getInstance().getChat(message.getThread()) == null){
+
+            // Check if chat is on local db. If not, reload chat from server.
+            if (chatsDAO.get(message.getThread()) == null) {
+                ChatManager.getInstance().syncLocalChatDB(context);
+            } else {
+                ChatManager.getInstance().getChats().clear();
+                ChatManager.getInstance().getChats().addAll(chatsDAO.getAll());
+            }
+
+        }
 
         // Add to database.
         long messageId = messagesDAO.insert(message);

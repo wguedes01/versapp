@@ -103,6 +103,7 @@
         <activity
             android:name=".chat.conversation.ConversationActivity"
             android:parentActivityName=".chat.ChatDashboardActivity"
+            android:windowSoftInputMode="stateHidden"
             android:label="@string/title_activity_conversation" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"

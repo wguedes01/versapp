@@ -96,6 +96,7 @@
                 android:id="@+id/activity_conversation_message_edit_text"
                 android:layout_width="0dip"
                 android:layout_height="wrap_content"
+                android:inputType="textCapSentences"
                 android:layout_weight="0.6" >
             </EditText>
 

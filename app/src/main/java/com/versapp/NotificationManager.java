@@ -3,6 +3,7 @@ package com.versapp;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.media.RingtoneManager;
 import android.os.AsyncTask;
 import android.support.v4.app.NotificationCompat;
 
@@ -71,6 +72,8 @@ public class NotificationManager {
                 PendingIntent pendingIntent = PendingIntent.getActivities(context, 0, new Intent[] {homeIntent, backIntent, intent}, PendingIntent.FLAG_ONE_SHOT);
 
                 mBuilder.setContentIntent(pendingIntent);
+                mBuilder.setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION));
+                mBuilder.setVibrate(new long[] { 0, 100, 200, 300 });
 
                 int notificationId = chatUUIDNotificaitonIdMap.size();
                 chatUUIDNotificaitonIdMap.put(chatId, notificationId);

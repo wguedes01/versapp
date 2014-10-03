@@ -129,12 +129,23 @@ public class ChatDashboardActivity extends Activity {
                 holder.groupIcon = (ImageView) convertView.findViewById(R.id.activity_chat_dashboard_group_tile_icon);
                 holder.backgroundImageView = (ImageView) convertView.findViewById(R.id.activity_chat_dashboard_background_image_view);
             holder.newMsgIcon = convertView.findViewById(R.id.activity_chat_dashboard_new_message_icon);
+            holder.iconHolder = convertView.findViewById(R.id.activity_chat_dashboard_ic_holder);
 
                 convertView.setTag(holder);
 
             // Ensures old image is not used when recycling a view.
             //holder.backgroundImageView.setImageBitmap(null);
             //holder.progressBar.setVisibility(View.GONE);
+
+            if (currentChat.getName().length() <= 20){
+                holder.nameText.setTextSize(25);
+            } else if((currentChat.getName().length() > 20) && (currentChat.getName().length() <= 35)) {
+                holder.nameText.setTextSize(18);
+            } else if((currentChat.getName().length() > 35) && (currentChat.getName().length() <= 50)) {
+                holder.nameText.setTextSize(15);
+            } else {
+                holder.nameText.setTextSize(12);
+            }
 
             holder.nameText.setText(currentChat.getName());
 
@@ -173,9 +184,11 @@ public class ChatDashboardActivity extends Activity {
 
             }.execute();
 
+            holder.iconHolder.setVisibility(View.VISIBLE);
 
             if (currentChat instanceof ConfessionChat){
 
+                holder.iconHolder.setVisibility(View.GONE);
                 holder.task = new LoadChatTileBackground(getApplicationContext(), (ConfessionChat) currentChat, imageCache, holder.backgroundImageView, holder.progressBar);
                 holder.task.execute();
 
@@ -223,10 +236,11 @@ public class ChatDashboardActivity extends Activity {
        ImageView backgroundImageView;
        View progressBar;
        ImageView oneToOneUnknownIcon;
-        ImageView oneToOneOwnerIcon;
+       ImageView oneToOneOwnerIcon;
        ImageView groupIcon;
        AsyncTask<Void, Void, Void> task;
        View newMsgIcon;
+       View iconHolder;
     }
 
     @Override
