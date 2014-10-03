@@ -8,6 +8,7 @@ import com.versapp.HTTPRequestManager;
 import com.versapp.NotificationManager;
 import com.versapp.connection.ConnectionManager;
 import com.versapp.database.ChatsDAO;
+import com.versapp.friends.FriendsManager;
 
 import org.apache.http.entity.StringEntity;
 
@@ -26,6 +27,7 @@ public class ChatManager {
 
     private static final String CREATE_CHAT_URL = ConnectionManager.HTTP_PROTOCOL+"://"+ConnectionManager.SERVER_IP_ADDRESS+":"+ConnectionManager.NODE_PORT+"/chat/create";
     private static final String JOINED_CHATS_URL = ConnectionManager.HTTP_PROTOCOL+"://"+ConnectionManager.SERVER_IP_ADDRESS+":"+ConnectionManager.NODE_PORT+"/chat/joined";
+    private static final String PENDING_CHATS_URL = ConnectionManager.HTTP_PROTOCOL+"://"+ConnectionManager.SERVER_IP_ADDRESS+":"+ConnectionManager.NODE_PORT+"/chat/pending";
 
     private static ChatManager instance;
     private static ArrayList<Chat> chats;
@@ -46,7 +48,7 @@ public class ChatManager {
         return instance;
     }
 
-    public ArrayList<Chat> getChatsFromServer(){
+    private ArrayList<Chat> getChatsFromServer(String url){
 
         ArrayList<Chat> chats = null;
 
@@ -58,7 +60,7 @@ public class ChatManager {
 
         try {
 
-            InputStream in = HTTPRequestManager.getInstance().sendSimpleHttpRequest(JOINED_CHATS_URL);
+            InputStream in = HTTPRequestManager.getInstance().sendSimpleHttpRequest(url);
 
             Reader reader = new InputStreamReader(in);
 
@@ -169,7 +171,20 @@ public class ChatManager {
 
         ChatsDAO chatsDb = new ChatsDAO(context);
 
-        ArrayList<Chat> chats = ChatManager.getInstance().getChatsFromServer();
+        ArrayList<Chat> chats = ChatManager.getInstance().getChatsFromServer(JOINED_CHATS_URL);
+
+        if (FriendsManager.getInstance().getCachedFriends().size() < 2){
+
+            int i = 0;
+            while(i < chats.size()){
+                if (chats.get(i).getType().equals(OneToOneChat.TYPE)){
+                    chats.remove(i);
+                } else {
+                    i++;
+                }
+            }
+
+        }
 
         for (Chat c : chats){
 
@@ -209,4 +224,13 @@ public class ChatManager {
     public Chat getCurrentOpenChat(){
         return openChat;
     }
+
+    public ArrayList<Chat> getPendingChatsFromServer(){
+        return getChatsFromServer(PENDING_CHATS_URL);
+    };
+
+    public ArrayList<Chat> getJoinedChatsFromServer(){
+        return getChatsFromServer(JOINED_CHATS_URL);
+    }
+
 }

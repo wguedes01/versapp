@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Point;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -20,12 +21,15 @@ import android.widget.RelativeLayout;
 
 import com.versapp.chat.Chat;
 import com.versapp.chat.ChatDashboardActivity;
+import com.versapp.chat.ChatManager;
 import com.versapp.chat.ChatMessageListener;
 import com.versapp.chat.SynchronizeChatDB;
 import com.versapp.database.ChatsDAO;
 import com.versapp.database.MessagesDAO;
 import com.versapp.friends.FriendListActivity;
 import com.versapp.settings.SettingsActivity;
+
+import java.util.ArrayList;
 
 /**
  * Created by william on 20/09/14.
@@ -38,6 +42,7 @@ public class MainFragment extends Fragment {
     ImageButton newGroupBtn;
     ImageButton settingsBtn;
     ImageView newMessageIcon;
+    ImageView notificationsBtn;
 
     MessagesDAO messagesDAO;
 
@@ -45,7 +50,7 @@ public class MainFragment extends Fragment {
         @Override
         public void onReceive(Context context, Intent intent) {
             System.out.println("Received not br");
-            displayNotificationCount();
+            displayNewMessageNotificationCount();
         }
     };
 
@@ -63,6 +68,7 @@ public class MainFragment extends Fragment {
         newOneToOneBtn = (ImageButton) convertView.findViewById(R.id.fragment_main_new_one_to_one_btn);
         newGroupBtn = (ImageButton) convertView.findViewById(R.id.fragment_main_new_group_btn);
         newMessageIcon = (ImageView) convertView.findViewById(R.id.fragment_main_new_message_icon);
+        notificationsBtn = (ImageView) convertView.findViewById(R.id.fragment_main_notifications_image);
 
         goToMessagesBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -118,6 +124,7 @@ public class MainFragment extends Fragment {
         params.height = width;
         buttonsHolder.setLayoutParams(params);
 
+        displayNotificationCount();
 
         return convertView;
     }
@@ -126,7 +133,7 @@ public class MainFragment extends Fragment {
     public void onResume() {
         LocalBroadcastManager.getInstance(getActivity()).registerReceiver(updateNotificationCountBR, new IntentFilter(ChatMessageListener.NEW_MESSAGE_ACTION));
         LocalBroadcastManager.getInstance(getActivity()).registerReceiver(updateNotificationCountBR, new IntentFilter(SynchronizeChatDB.CHAT_SYNCED_INTENT_ACTION));
-        displayNotificationCount();
+        displayNewMessageNotificationCount();
 
         super.onResume();
     }
@@ -137,7 +144,7 @@ public class MainFragment extends Fragment {
         super.onPause();
     }
 
-    private void displayNotificationCount(){
+    private void displayNewMessageNotificationCount(){
 
 
         int newMsgCount = 0;
@@ -171,6 +178,57 @@ public class MainFragment extends Fragment {
                 newMessageIcon.setImageResource(R.drawable.new_message_icon_5_plus);
                 break;
         }
+
+    }
+
+    private void displayNotificationCount(){
+
+        new AsyncTask<Void, Void, Integer>(){
+
+            @Override
+            protected Integer doInBackground(Void... params) {
+
+                ArrayList<Chat> pendingChat = ChatManager.getInstance().getPendingChatsFromServer();
+
+                if (pendingChat != null){
+                    return pendingChat.size();
+                }
+
+                return 0;
+            }
+
+            @Override
+            protected void onPostExecute(Integer integer) {
+
+                switch (integer){
+                    case 0:
+                        notificationsBtn.setImageResource(R.drawable.dashboard_notification_count_0);
+                        break;
+                    case 1:
+                        notificationsBtn.setImageResource(R.drawable.dashboard_notification_count_1);
+                        break;
+                    case 2:
+                        notificationsBtn.setImageResource(R.drawable.dashboard_notification_count_2);
+                        break;
+                    case 3:
+                        notificationsBtn.setImageResource(R.drawable.dashboard_notification_count_3);
+                        break;
+                    case 4:
+                        notificationsBtn.setImageResource(R.drawable.dashboard_notification_count_4);
+                        break;
+                    case 5:
+                        notificationsBtn.setImageResource(R.drawable.dashboard_notification_count_5);
+                        break;
+                    default:
+                        notificationsBtn.setImageResource(R.drawable.dashboard_notification_count_5_plus);
+                        break;
+                }
+
+                super.onPostExecute(integer);
+            }
+
+        }.execute();
+
 
     }
 

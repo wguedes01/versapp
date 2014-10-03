@@ -8,6 +8,7 @@ import com.versapp.NotificationManager;
 import com.versapp.chat.conversation.Message;
 import com.versapp.database.ChatsDAO;
 import com.versapp.database.MessagesDAO;
+import com.versapp.friends.FriendsManager;
 
 import org.jivesoftware.smack.PacketListener;
 import org.jivesoftware.smack.packet.Packet;
@@ -35,6 +36,11 @@ public class ChatMessageListener implements PacketListener {
 
     @Override
     public void processPacket(Packet packet) {
+
+        // If user only has 1 friend, drop message.
+        if (FriendsManager.getInstance().getFriends().size() < 2){
+            return;
+        }
 
         org.jivesoftware.smack.packet.Message smackMessage = (org.jivesoftware.smack.packet.Message) packet;
 

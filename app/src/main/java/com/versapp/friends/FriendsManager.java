@@ -32,6 +32,7 @@ public class FriendsManager {
     private static final String SUBSCRIPTION_NONE = "none";
 
     private static FriendsManager instance;
+    private ArrayList<Friend> friends;
 
     private FriendsManager() {}
 
@@ -139,6 +140,17 @@ public class FriendsManager {
 
         return true;
     }
+
+    public ArrayList<Friend> getCachedFriends(){
+        if (friends == null) {
+            friends = new ArrayList<Friend>();
+            friends = getFriends();
+        }
+
+        return friends;
+    }
+
+
 
 
 }
