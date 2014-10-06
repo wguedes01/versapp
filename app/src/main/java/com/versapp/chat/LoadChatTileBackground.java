@@ -42,6 +42,8 @@ public class LoadChatTileBackground extends AsyncTask<Void, Void, Void> {
         this.cache = cache;
     }
 
+
+
     @Override
     protected void onPreExecute() {
         progressBar.setVisibility(View.VISIBLE);

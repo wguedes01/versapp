@@ -110,4 +110,34 @@
         android:visibility="gone" >
     </TextView>
 
+    <TextView
+        android:id="@+id/click_plus_to_create_confession_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:padding="10dp"
+        android:layout_marginBottom="50dp"
+        android:text="Click the + sign"
+        android:background="@color/orangeBeauty"
+        android:textColor="@android:color/white"
+        android:textSize="25sp"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true">
+    </TextView>
+
+    <TextView
+        android:id="@+id/swipe_down_to_view_thoughts"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:padding="10dp"
+        android:layout_marginBottom="50dp"
+        android:text="Swipe Up or Down"
+        android:background="@color/orangeBeauty"
+        android:textColor="@android:color/white"
+        android:textSize="25sp"
+        android:layout_centerInParent="true"
+        android:visibility="gone">
+    </TextView>
+
 </RelativeLayout>

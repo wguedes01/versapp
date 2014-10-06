@@ -27,6 +27,7 @@ import android.widget.Toast;
 
 import com.versapp.Logger;
 import com.versapp.R;
+import com.versapp.TutorialManager;
 import com.versapp.chat.ConfessionChatBuilder;
 import com.versapp.chat.CreateChatAT;
 
@@ -246,6 +247,37 @@ public class ConfessionsFragment extends Fragment {
         }));
 
         confessionsListView.setOnTouchListener(new ConfessionListOnTouchListener());
+
+        if (!TutorialManager.getInstance(getActivity().getApplicationContext()).isTutorialComplete()){
+
+            final View swipeUpLabel = convertView.findViewById(R.id.swipe_down_to_view_thoughts);
+
+            // Create thought.
+            final View clickPlusLabel = convertView.findViewById(R.id.click_plus_to_create_confession_text_view);
+            clickPlusLabel.setVisibility(View.VISIBLE);
+
+            composeConfessionBtn.setOnTouchListener(new View.OnTouchListener() {
+                @Override
+                public boolean onTouch(View v, MotionEvent event) {
+
+                    clickPlusLabel.setVisibility(View.GONE);
+                    swipeUpLabel.setVisibility(View.VISIBLE);
+
+                    return false;
+                }
+            });
+
+
+            // Swipe down.
+
+
+            // If 3 or more friends, make friend's thought easily reachable, make user start a chat.
+
+
+
+
+        }
+
 
         return convertView;
     }
