@@ -269,7 +269,17 @@ public class ConfessionsFragment extends Fragment {
 
 
             // Swipe down.
+            confessionsListView.setOnScrollListener(new AbsListView.OnScrollListener() {
+                @Override
+                public void onScrollStateChanged(AbsListView view, int scrollState) {
+                    swipeUpLabel.setVisibility(View.GONE);
+                }
 
+                @Override
+                public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+
+                }
+            });
 
             // If 3 or more friends, make friend's thought easily reachable, make user start a chat.
 
