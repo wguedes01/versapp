@@ -27,6 +27,7 @@ import com.versapp.chat.SynchronizeChatDB;
 import com.versapp.database.ChatsDAO;
 import com.versapp.database.MessagesDAO;
 import com.versapp.friends.FriendListActivity;
+import com.versapp.requests.RequestsActivity;
 import com.versapp.settings.SettingsActivity;
 
 import java.util.ArrayList;
@@ -42,6 +43,7 @@ public class MainFragment extends Fragment {
     ImageButton newGroupBtn;
     ImageButton settingsBtn;
     ImageView newMessageIcon;
+    ImageView notificationsBtnBackground;
     ImageView notificationsBtn;
 
     MessagesDAO messagesDAO;
@@ -68,7 +70,8 @@ public class MainFragment extends Fragment {
         newOneToOneBtn = (ImageButton) convertView.findViewById(R.id.fragment_main_new_one_to_one_btn);
         newGroupBtn = (ImageButton) convertView.findViewById(R.id.fragment_main_new_group_btn);
         newMessageIcon = (ImageView) convertView.findViewById(R.id.fragment_main_new_message_icon);
-        notificationsBtn = (ImageView) convertView.findViewById(R.id.fragment_main_notifications_image);
+        notificationsBtn= (ImageView) convertView.findViewById(R.id.fragment_main_notifications_btn);
+        notificationsBtnBackground = (ImageView) convertView.findViewById(R.id.fragment_main_notifications_image);
 
         goToMessagesBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -81,6 +84,13 @@ public class MainFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(getActivity(), SettingsActivity.class));
+            }
+        });
+
+        notificationsBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getActivity(), RequestsActivity.class));
             }
         });
 
@@ -202,25 +212,25 @@ public class MainFragment extends Fragment {
 
                 switch (integer){
                     case 0:
-                        notificationsBtn.setImageResource(R.drawable.dashboard_notification_count_0);
+                        notificationsBtnBackground.setImageResource(R.drawable.dashboard_notification_count_0);
                         break;
                     case 1:
-                        notificationsBtn.setImageResource(R.drawable.dashboard_notification_count_1);
+                        notificationsBtnBackground.setImageResource(R.drawable.dashboard_notification_count_1);
                         break;
                     case 2:
-                        notificationsBtn.setImageResource(R.drawable.dashboard_notification_count_2);
+                        notificationsBtnBackground.setImageResource(R.drawable.dashboard_notification_count_2);
                         break;
                     case 3:
-                        notificationsBtn.setImageResource(R.drawable.dashboard_notification_count_3);
+                        notificationsBtnBackground.setImageResource(R.drawable.dashboard_notification_count_3);
                         break;
                     case 4:
-                        notificationsBtn.setImageResource(R.drawable.dashboard_notification_count_4);
+                        notificationsBtnBackground.setImageResource(R.drawable.dashboard_notification_count_4);
                         break;
                     case 5:
-                        notificationsBtn.setImageResource(R.drawable.dashboard_notification_count_5);
+                        notificationsBtnBackground.setImageResource(R.drawable.dashboard_notification_count_5);
                         break;
                     default:
-                        notificationsBtn.setImageResource(R.drawable.dashboard_notification_count_5_plus);
+                        notificationsBtnBackground.setImageResource(R.drawable.dashboard_notification_count_5_plus);
                         break;
                 }
 

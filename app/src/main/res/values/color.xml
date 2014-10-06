@@ -10,5 +10,7 @@
     <color name="lightPurpleBeauty">#56622C84</color>
 
     <color name="lightblue">#FFC0DCFC</color>
+    <color name="greenBeauty">#FF8DC126</color>
+    <color name="redBeauty">#FFFF4242</color>
 
 </resources>
