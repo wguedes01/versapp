@@ -8,6 +8,7 @@ import android.widget.Toast;
 
 import com.versapp.DashboardActivity;
 import com.versapp.chat.ChatMessageListener;
+import com.versapp.chat.SynchronizeChatDB;
 import com.versapp.contacts.EfficientContactManager;
 import com.versapp.gcm.GCMDeviceRegistration;
 
@@ -70,6 +71,8 @@ public class LoginAT extends AsyncTask<String, Void, XMPPTCPConnection>{
                     setMessageListener(connection);
 
                     ConnectionService.setConnection(connection);
+
+                    new SynchronizeChatDB(context).execute();
 
                 }
 

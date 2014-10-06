@@ -53,9 +53,6 @@ public class ChatDashboardActivity extends Activity {
         mainGrid = (GridView) findViewById(R.id.activity_chat_dashboard_main_grid);
 
         mainGrid.setAdapter((android.widget.ListAdapter) adapter);
-
-        new SynchronizeChatDB(this).execute();
-
     }
 
 
@@ -83,7 +80,7 @@ public class ChatDashboardActivity extends Activity {
 
 
         LocalBroadcastManager.getInstance(getApplicationContext()).registerReceiver(newMessageBR, new IntentFilter(ChatMessageListener.NEW_MESSAGE_ACTION));
-        //LocalBroadcastManager.getInstance(getApplicationContext()).registerReceiver(reloadChatsBR, new IntentFilter(SynchronizeChatDB.CHAT_SYNCED_INTENT_ACTION));
+        LocalBroadcastManager.getInstance(getApplicationContext()).registerReceiver(reloadChatsBR, new IntentFilter(SynchronizeChatDB.CHAT_SYNCED_INTENT_ACTION));
         adapter.notifyDataSetChanged();
         super.onResume();
     }
@@ -91,7 +88,7 @@ public class ChatDashboardActivity extends Activity {
     @Override
     protected void onPause() {
         LocalBroadcastManager.getInstance(getApplicationContext()).unregisterReceiver(newMessageBR);
-       // LocalBroadcastManager.getInstance(getApplicationContext()).unregisterReceiver(reloadChatsBR);
+        LocalBroadcastManager.getInstance(getApplicationContext()).unregisterReceiver(reloadChatsBR);
         super.onPause();
     }
 
@@ -125,6 +122,22 @@ public class ChatDashboardActivity extends Activity {
         @Override
         public void onReceive(Context context, Intent intent) {
 
+
+            new AsyncTask<Void, Void, ArrayList<Chat>>(){
+
+                @Override
+                protected ArrayList<Chat> doInBackground(Void... params) {
+                    return db.getAll();
+                }
+
+                @Override
+                protected void onPostExecute(ArrayList<Chat> result) {
+                    chatList.clear();
+                    chatList.addAll(result);
+                    adapter.notifyDataSetChanged();
+                    super.onPostExecute(result);
+                }
+            }.execute();
 
         }
     }
