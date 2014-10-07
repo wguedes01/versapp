@@ -66,8 +66,25 @@ public class ComposeConfessionActivity extends FragmentActivity {
         pager = (ViewPager) findViewById(R.id.compose_confession_color_view_pager);
         buttonsMenu = (RelativeLayout) findViewById(R.id.activity_compose_confession_menu_opts);
 
-        pager.setAdapter(new ColorPagerAdapter(getSupportFragmentManager()));
+        ColorPagerAdapter adapter = new ColorPagerAdapter(getSupportFragmentManager());
+        pager.setAdapter(adapter);
 
+        pager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int i, float v, int i2) {
+
+            }
+
+            @Override
+            public void onPageSelected(int i) {
+                selectedBackgroundColor = backgroundColors[i];
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int i) {
+
+            }
+        });
 
         Display display = getWindowManager().getDefaultDisplay();
 
@@ -144,7 +161,6 @@ public class ComposeConfessionActivity extends FragmentActivity {
         @Override
         public Fragment getItem(int i) {
 
-            selectedBackgroundColor = backgroundColors[i];
             return ComposeConfessionColorFragment.newInstance(backgroundColors[i]);
 
         }
