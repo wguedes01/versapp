@@ -243,7 +243,7 @@ public class ChatManager {
         return getChatsFromServer(JOINED_CHATS_URL);
     }
 
-    public void joinGroup(GroupChat chat) {
+    public void joinGroup(Context context, GroupChat chat) {
 
         StringEntity stringEntity = null;
         try {
@@ -251,7 +251,7 @@ public class ChatManager {
 
             HTTPRequestManager.getInstance().simpleHTTPPost(JOIN_CHAT_URL, stringEntity);
 
-            chats.add(0, chat);
+            new ChatsDAO(context).insert(chat);
             pendingChats.remove(chat);
 
         } catch (UnsupportedEncodingException e) {

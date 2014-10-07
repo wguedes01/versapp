@@ -56,7 +56,7 @@ public class RequestsActivity extends Activity {
                 ArrayList<Chat> pendingChats = ChatManager.getInstance().getPendingChats();
 
                 for(Chat c : pendingChats){
-                    reqs.add(new GroupInvitationRequest((GroupChat)c));
+                    reqs.add(new GroupInvitationRequest(getApplicationContext(), (GroupChat)c));
                 }
 
                 return reqs;

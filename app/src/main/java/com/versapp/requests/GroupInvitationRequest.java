@@ -1,5 +1,7 @@
 package com.versapp.requests;
 
+import android.content.Context;
+
 import com.versapp.chat.ChatManager;
 import com.versapp.chat.GroupChat;
 
@@ -8,16 +10,18 @@ import com.versapp.chat.GroupChat;
  */
 public class GroupInvitationRequest extends Request {
 
+    Context context;
     GroupChat chat;
 
-    protected GroupInvitationRequest(GroupChat chat) {
+    protected GroupInvitationRequest(Context context, GroupChat chat) {
         super(chat.getName(), "Would you like to join the group?");
         this.chat = chat;
+        this.context = context;
     }
 
     @Override
     public void accept() {
-        ChatManager.getInstance().joinGroup(chat);
+        ChatManager.getInstance().joinGroup(context, chat);
     }
 
     @Override
