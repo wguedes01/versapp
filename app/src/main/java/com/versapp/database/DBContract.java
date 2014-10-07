@@ -42,6 +42,16 @@ public class DBContract {
 
     }
 
+    public static abstract class ParticipantsTable implements BaseColumns {
+
+        public static final String TABLE_NAME = "participants";
+        public static final String COLUMN_NAME_ID = "participant_id";
+        public static final String COLUMN_NAME_UUID = "chat_uuid";
+        public static final String COLUMN_NAME_USERNAME = "username";
+        public static final String COLUMN_NAME_NAME = "name";
+
+    }
+
 
 
 }

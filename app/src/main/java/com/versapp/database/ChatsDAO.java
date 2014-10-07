@@ -23,9 +23,12 @@ public class ChatsDAO {
     private Context context;
     private DBHelper helper;
 
+    private ParticipantsDAO participantsDAO;
+
     public ChatsDAO(Context context) {
         this.context = context;
         this.helper =  DBHelper.getInstance(context);
+        this.participantsDAO = new ParticipantsDAO(context);
     }
 
     public long insert(Chat chat){
@@ -142,7 +145,9 @@ public class ChatsDAO {
 
             String ownerId = cursor.getString(ownerIdIndex);
 
-            chat = new GroupChat(uuid, name, ownerId, new ArrayList<Participant>());
+            ArrayList<Participant> participants = new ParticipantsDAO(context).getAll(uuid);
+
+            chat = new GroupChat(uuid, name, ownerId, participants);
         } else if(type.equals(ConfessionChat.TYPE)) {
 
             int degree = cursor.getInt(degreeIndex);
@@ -174,6 +179,13 @@ public class ChatsDAO {
         } else if(chat.getType().equals(GroupChat.TYPE)) {
 
             chatValues.put(DBContract.ChatsTable.COLUMN_NAME_OWNER_ID, ((GroupChat)chat).getOwnerId());
+
+
+            // Deleting all participants is faster than checking if it exists and then updating.
+            participantsDAO.deleteAll(chat.getUuid());
+            for (Participant p : ((GroupChat) chat).getParticipants()){
+                participantsDAO.insert(chat.getUuid(), p);
+            }
 
         } else if(chat.getType().equals(ConfessionChat.TYPE)) {
 
