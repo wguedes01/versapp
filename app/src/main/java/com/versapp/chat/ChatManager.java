@@ -73,8 +73,6 @@ public class ChatManager {
             e.printStackTrace();
         }
 
-
-
         if (chatArray != null){
             chats = new ArrayList<Chat>(Arrays.asList(chatArray));
         } else {

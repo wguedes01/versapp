@@ -18,6 +18,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import com.versapp.chat.Chat;
 import com.versapp.chat.ChatDashboardActivity;
@@ -217,6 +218,12 @@ public class MainFragment extends Fragment {
                 switch (integer){
                     case 0:
                         notificationsBtnBackground.setImageResource(R.drawable.dashboard_notification_count_0);
+                        notificationsBtn.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Toast.makeText(getActivity().getApplicationContext(), "No notifications at the moment", Toast.LENGTH_SHORT).show();
+                            }
+                        });
                         break;
                     case 1:
                         notificationsBtnBackground.setImageResource(R.drawable.dashboard_notification_count_1);

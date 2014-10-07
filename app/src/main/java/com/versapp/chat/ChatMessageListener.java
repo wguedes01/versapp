@@ -37,11 +37,6 @@ public class ChatMessageListener implements PacketListener {
     @Override
     public void processPacket(Packet packet) {
 
-        // If user only has 1 friend, drop message.
-        if (FriendsManager.getInstance().getFriends().size() < 2){
-            return;
-        }
-
         org.jivesoftware.smack.packet.Message smackMessage = (org.jivesoftware.smack.packet.Message) packet;
 
         String thread = smackMessage.getFrom().split("@")[0];
@@ -66,15 +61,25 @@ public class ChatMessageListener implements PacketListener {
         // If message is from new chat (not on local db), SYNC local db.
         if (ChatManager.getInstance().getChat(message.getThread()) == null){
 
+            ChatManager.getInstance().getChats().clear();
+
             // Check if chat is on local db. If not, reload chat from server.
             if (chatsDAO.get(message.getThread()) == null) {
-                ChatManager.getInstance().syncLocalChatDB(context);
+                ChatManager.getInstance().getChats().addAll(ChatManager.getInstance().syncLocalChatDB(context));
             } else {
-                ChatManager.getInstance().getChats().clear();
                 ChatManager.getInstance().getChats().addAll(chatsDAO.getAll());
             }
 
+
         }
+
+
+        Chat chat = ChatManager.getInstance().getChat(message.getThread());
+        // If user only has 1 friend, drop message.
+        if (FriendsManager.getInstance().getFriends().size() < 2 && chat.getType().equals(OneToOneChat.TYPE)){
+            return;
+        }
+
 
         // Add to database.
         long messageId = messagesDAO.insert(message);

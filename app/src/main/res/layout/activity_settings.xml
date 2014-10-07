@@ -3,15 +3,15 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.versapp.settings.SettingsActivity"
-    android:background="@android:color/white">
+    android:background="@drawable/blue_gradient">
 
     <GridView
         android:id="@+id/activity_settings_main_grid"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:numColumns="2"
-        android:verticalSpacing="2dp"
-        android:horizontalSpacing="2dp"
+        android:verticalSpacing="1dp"
+        android:horizontalSpacing="1dp"
         android:layout_margin="2dp"></GridView>
 
 </RelativeLayout>

@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.versapp.friends.FriendListActivity"
-    android:background="@android:color/white">
+    android:background="@drawable/purple_owl_repeat_bg">
 
     <LinearLayout
         android:id="@+id/activity_friend_action_bar"
@@ -62,7 +62,6 @@
         android:id="@+id/activity_friend_list_main_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@android:color/white"
         android:dividerHeight="1dp"
         android:divider="@drawable/friend_list_divider"
         android:layout_above="@id/activity_friend_create_group_btn"></ListView>

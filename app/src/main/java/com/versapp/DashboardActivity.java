@@ -9,6 +9,8 @@ import android.support.v4.view.ViewPager;
 import android.view.View;
 
 import com.versapp.confessions.ConfessionsFragment;
+import com.versapp.connection.ConnectionManager;
+import com.versapp.connection.ConnectionService;
 
 
 public class DashboardActivity extends FragmentActivity {
@@ -83,6 +85,12 @@ public class DashboardActivity extends FragmentActivity {
 
             @Override
             protected Void doInBackground(Void... params) {
+
+                String packetId = "user_info";
+                String xml = "<iq id='" + packetId + "' type='set' to='" + ConnectionManager.SERVER_IP_ADDRESS
+                        + "'><query xmlns='who:iq:info'><ccode>" + "1" + "</ccode><phone>" + 123 + "</phone><email>" + 123
+                        + "</email><version>2.0.0</version></query></iq>";
+                System.out.println("INFO: " + ConnectionService.sendCustomXMLPacket(xml, packetId));
 
                 return null;
             }

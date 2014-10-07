@@ -92,7 +92,7 @@ public class SignUpUsernamePassInputActivity extends Activity {
                                             String packetId = "user_info";
                                             String xml = "<iq id='" + packetId + "' type='set' to='" + ConnectionManager.SERVER_IP_ADDRESS
                                                     + "'><query xmlns='who:iq:info'><ccode>" + "1" + "</ccode><phone>" + phone + "</phone><email>" + email
-                                                    + "</email></query></iq>";
+                                                    + "</email><version>2.0.0</version></query></iq>";
                                             System.out.println("INFO: " + ConnectionService.sendCustomXMLPacket(xml, packetId));
 
 

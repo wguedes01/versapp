@@ -2,8 +2,10 @@ package com.versapp.requests;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Point;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,7 +36,7 @@ public class RequestsActivity extends Activity {
         requests = new ArrayList<Request>();
 
         grid = (GridView) findViewById(R.id.activity_requests__grid);
-        adapter = new GridViewAdapter(getApplicationContext(), requests);
+        adapter = new GridViewAdapter(getApplicationContext(), requests, getWindowManager().getDefaultDisplay());
         grid.setAdapter(adapter);
 
         new AsyncTask<Void, Void, ArrayList<Request>>(){
@@ -78,10 +80,29 @@ public class RequestsActivity extends Activity {
         private ArrayList<Request> requests;
         private LayoutInflater inflater;
 
-        private GridViewAdapter(Context context, ArrayList<Request> requests) {
+        Display display;
+        int width = 0;
+        int height = 0;
+
+        private GridViewAdapter(Context context, ArrayList<Request> requests, Display display) {
             this.context = context;
             this.requests = requests;
             inflater = (LayoutInflater) context.getSystemService(LAYOUT_INFLATER_SERVICE);
+
+
+            this.display = display;
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.HONEYCOMB_MR2) {
+                Point size = new Point();
+                display.getSize(size);
+                width = size.x;
+                height = size.y;
+
+            } else {
+                width = display.getWidth();
+                height = display.getHeight();
+            }
+
+
         }
 
         @Override
@@ -114,7 +135,7 @@ public class RequestsActivity extends Activity {
 
             final Request currentRequest = requests.get(position);
 
-            convertView = inflater.inflate(R.layout.request_list_item, null, false);
+            convertView = inflater.inflate(R.layout.request_list_item, parent, false);
 
             final TextView titleLabel = (TextView) convertView.findViewById(R.id.request_title_text_view);
             final TextView messageLabel = (TextView) convertView.findViewById(R.id.request_message_text_view);
@@ -167,8 +188,22 @@ public class RequestsActivity extends Activity {
                 }
             });
 
+            adjustTitleSize(convertView);
+
             return convertView;
         }
+
+
+
+        private void adjustTitleSize(View tile){
+
+            GridView.LayoutParams params = (GridView.LayoutParams) tile.getLayoutParams();
+            params.height = width/2;
+            tile.setLayoutParams(params);
+
+        }
+
     }
+
 
 }

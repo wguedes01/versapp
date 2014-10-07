@@ -75,16 +75,14 @@ public class ChatDeserializer implements JsonDeserializer<Chat> {
 
             String ownerId = ownerIdElement.getAsString();
             JsonArray participantsJsonArray = participantsElement.getAsJsonArray();
-            String[] parts = new String[participantsJsonArray.size()];
-            for (int i = 0; i < participantsJsonArray.size(); i++){
-                parts[i] = participantsJsonArray.get(i).getAsString();
-            }
+
+
+            Participant[] parts = context.deserialize(jsonObject.get(PARTICIPANTS_JSON_KEY), Participant[].class);
 
             ArrayList<Participant> participants = new ArrayList<Participant>();
-            for (String s : parts){
-                participants.add(new Participant(s.trim(), s.trim() + " name"));
+            for (Participant p : parts){
+                participants.add(new Participant(p.getUsername(), p.getName()));
             }
-
 
             chat = new GroupChat(uuid, name, ownerId, participants);
 

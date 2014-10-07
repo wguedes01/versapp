@@ -10,8 +10,10 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.util.LruCache;
+import android.view.View;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
+import android.widget.TextView;
 
 import com.versapp.R;
 import com.versapp.database.ChatsDAO;
@@ -33,11 +35,15 @@ public class ChatDashboardActivity extends Activity {
     GridView mainGrid;
     BaseAdapter adapter;
 
+    TextView noConversationsLabel;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat_dashboard);
+
+        noConversationsLabel = (TextView) findViewById(R.id.activity_chat_dashboard_no_chats_message);
 
         imageCache = new LruCache<String, Bitmap>(5);
 
@@ -71,10 +77,19 @@ public class ChatDashboardActivity extends Activity {
             @Override
             protected void onPostExecute(ArrayList<Chat> result) {
 
-                chats.clear();
-                chats.addAll(result);
-                adapter.notifyDataSetChanged();
-                super.onPostExecute(result);
+                if (result != null){
+                    if (result.size() == 0) {
+                        noConversationsLabel.setVisibility(View.VISIBLE);
+                    } else {
+                        noConversationsLabel.setVisibility(View.GONE);
+                        chats.clear();
+                        chats.addAll(result);
+                        adapter.notifyDataSetChanged();
+                        super.onPostExecute(result);
+                    }
+                }
+
+
             }
         }.execute();
 

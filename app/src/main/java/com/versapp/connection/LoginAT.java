@@ -59,7 +59,7 @@ public class LoginAT extends AsyncTask<String, Void, XMPPTCPConnection>{
 
         try {
             connection.connect();
-            connection.addConnectionListener(new ConnectionListener());
+            connection.addConnectionListener(new ConnectionListener(context));
 
 
                 connection.login(username, password, "who");
