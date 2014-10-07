@@ -2,21 +2,16 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingLeft="2dp"
-    android:paddingRight="2dp"
-    android:paddingTop="2dp"
-    android:paddingBottom="2dp"
     tools:context="com.versapp.chat.ChatDashboardActivity"
-    android:background="@android:color/white">
+    android:background="@drawable/blue_owl_repeat_bg"
+    >
 
     <GridView
         android:id="@+id/activity_chat_dashboard_main_grid"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:numColumns="2"
-        android:verticalSpacing="4dp"
-        android:horizontalSpacing="4dp"
-        android:layout_margin="2dp"></GridView>
+        ></GridView>
 
 
 

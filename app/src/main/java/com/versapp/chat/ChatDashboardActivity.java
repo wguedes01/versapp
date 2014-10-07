@@ -39,6 +39,8 @@ public class ChatDashboardActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat_dashboard);
 
+        imageCache = new LruCache<String, Bitmap>(5);
+
         messagesDAO = new MessagesDAO(getApplicationContext());
         chatsDAO = new ChatsDAO(getApplicationContext());
 
@@ -47,8 +49,6 @@ public class ChatDashboardActivity extends Activity {
 
         newMessageBR = new NewMessageOnDashboardBR();
         reloadChatsBR = new ReloadChatFromDBBR(getApplicationContext(), chats, adapter);
-
-        imageCache = new LruCache<String, Bitmap>(5);
 
         mainGrid = (GridView) findViewById(R.id.activity_chat_dashboard_main_grid);
 

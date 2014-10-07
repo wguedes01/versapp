@@ -6,7 +6,13 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/dashboard_btn_bg">
+    android:background="@android:color/white"
+    android:padding="0.5dp">
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/dashboard_btn_bg"/>
 
     <ImageView
         android:id="@+id/activity_chat_dashboard_background_image_view"
