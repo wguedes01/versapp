@@ -257,7 +257,7 @@ public class FriendListActivity extends Activity {
                                             @Override
                                             protected Void doInBackground(Void... params) {
 
-                                                FriendsManager.getInstance().removeFriend(FriendListActivity.this, friendListItems.get(position).friend.getUsername());
+                                                FriendsManager.getInstance().removeFriend(friendListItems.get(position).friend.getUsername());
 
                                                 return null;
                                             }

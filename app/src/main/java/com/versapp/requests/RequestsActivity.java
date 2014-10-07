@@ -15,6 +15,8 @@ import com.versapp.R;
 import com.versapp.chat.Chat;
 import com.versapp.chat.ChatManager;
 import com.versapp.chat.GroupChat;
+import com.versapp.friends.Friend;
+import com.versapp.friends.FriendsManager;
 
 import java.util.ArrayList;
 
@@ -41,6 +43,13 @@ public class RequestsActivity extends Activity {
             protected ArrayList<Request> doInBackground(Void... params) {
 
                 ArrayList<Request> reqs = new ArrayList<Request>();
+
+                ArrayList<Friend> pendingFriends = FriendsManager.getInstance().getPendingFriends();
+
+                for (Friend f : pendingFriends){
+                    reqs.add(new FriendRequest(getApplicationContext(), f));
+                }
+
 
                 ArrayList<Chat> pendingChats = ChatManager.getInstance().getPendingChats();
 

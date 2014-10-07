@@ -155,7 +155,7 @@ public class RegistrationManager {
         Log.d("Registration", response);
 
         // THIS IS A HACK.
-        if (response.equals("<iq id=\"register\" from=\"" + ConnectionManager.SERVER_IP_ADDRESS + "\" type=\"result\"></iq>")) {
+        if (response.contains("type='result'") || response.contains("type=\"result\"")) {
             return true;
         }
         return false;

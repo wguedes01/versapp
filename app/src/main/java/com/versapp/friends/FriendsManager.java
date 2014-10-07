@@ -33,6 +33,7 @@ public class FriendsManager {
 
     private static FriendsManager instance;
     private ArrayList<Friend> friends;
+    private ArrayList<Friend> pendingFriends;
 
     private FriendsManager() {}
 
@@ -77,6 +78,14 @@ public class FriendsManager {
     }
 
     public ArrayList<Friend> getPendingFriends(){
+        if (pendingFriends == null) {
+            pendingFriends = getPendingFriendsFromServer();
+        }
+
+        return pendingFriends;
+    }
+
+    public ArrayList<Friend> getPendingFriendsFromServer(){
 
         GsonBuilder gsonBuilder = new GsonBuilder();
         gsonBuilder.registerTypeAdapter(Confession.class, new ConfessionDeserializer());
@@ -107,16 +116,65 @@ public class FriendsManager {
         return friendList;
     }
 
+    public void acceptFriend(String username){
+
+        try {
+
+            Presence presenceResponse = new Presence(Presence.Type.subscribed);
+            presenceResponse.setTo(username+"@"+ConnectionManager.SERVER_IP_ADDRESS);
+            ConnectionService.getConnection().sendPacket(presenceResponse);
+
+            // remove from roster.
+            String packetId = "get_last";
+            String xml = "<iq type='set' id='" + packetId + "' from='"+ConnectionService.getConnection().getUser()+"'> <query xmlns='jabber:iq:roster'><item jid='" + username + "@"
+                    + ConnectionManager.SERVER_IP_ADDRESS + "' subscription='both'><group>Contacts</group></item></query></iq>";
+
+            ConnectionService.sendCustomXMLPacket(xml, packetId);
+
+        } catch (SmackException.NotConnectedException e) {
+            e.printStackTrace();
+        }
+
+    }
 
 
-    public void removeFriend(Context context, String username) {
+    public void removeFriend(String username) {
 
         // remove from roster.
         String packetId = "get_last";
-        String xml = "<iq type='set' id='" + packetId + "'> <query xmlns='jabber:iq:roster'><item jid='" + username + "@"
+        String xml = "<iq type='set' id='" + packetId + "' > <query xmlns='jabber:iq:roster'><item jid='" + username + "@"
                 + ConnectionManager.SERVER_IP_ADDRESS + "' subscription='remove'/></query></iq>";
 
-        String response = ConnectionService.sendCustomXMLPacket(xml, packetId);
+        boolean removed = false;
+
+        int a = 0;
+        while(a < pendingFriends.size()){
+
+            if (pendingFriends.get(a).getUsername().equals(username)){
+                pendingFriends.remove(a);
+                removed = true;
+                break;
+            }
+
+            a++;
+        }
+
+        if (!removed){
+
+            int i = 0;
+            while(i < friends.size()){
+
+                if (friends.get(i).getUsername().equals(username)){
+                    friends.remove(i);
+                    break;
+                }
+
+                i++;
+            }
+
+        }
+
+        ConnectionService.sendCustomXMLPacket(xml, packetId);
     }
 
     public boolean sendRequest(Context context, String toJID) {
@@ -149,6 +207,8 @@ public class FriendsManager {
 
         return friends;
     }
+
+
 
 
 

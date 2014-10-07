@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Point;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.Display;
@@ -43,10 +44,10 @@ public class SettingsActivity extends Activity {
 
         ArrayList<SettingsButton> buttons = new ArrayList<SettingsButton>();
         buttons.add(new SettingsButton("Home", new HomeOnClickListener()));
-        buttons.add(new SettingsButton("Account", new AccountOnClickListener()));
-        buttons.add(new SettingsButton("My Thoughts", null));
+        //buttons.add(new SettingsButton("Account", new AccountOnClickListener()));
+        //buttons.add(new SettingsButton("My Thoughts", null));
         buttons.add(new SettingsButton("Friends", new FriendsOnClickListener()));
-        buttons.add(new SettingsButton("Support", null));
+        buttons.add(new SettingsButton("Support", new SupportOnClickListener()));
         buttons.add(new SettingsButton("Logout", new LogoutOnClickListener()));
 
         grid = (GridView) findViewById(R.id.activity_settings_main_grid);
@@ -230,15 +231,27 @@ public class SettingsActivity extends Activity {
         @Override
         public void onClick(View v) {
 
-            try {
-                ConnectionManager.getInstance(getApplicationContext()).logout();
-            } catch (SmackException.NotConnectedException e) {
-                e.printStackTrace();
-            }
+            AlertDialog.Builder builder = new AlertDialog.Builder(SettingsActivity.this);
+            builder.setTitle("Are you sure?");
+            builder.setPositiveButton("Logout", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
 
-            Intent intent = new  Intent(getApplicationContext(), LoginActivity.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TASK);
-            startActivity(intent);
+                    try {
+                        ConnectionManager.getInstance(getApplicationContext()).logout();
+                    } catch (SmackException.NotConnectedException e) {
+                        e.printStackTrace();
+                    }
+
+                    Intent intent = new  Intent(getApplicationContext(), LoginActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    startActivity(intent);
+
+                }
+            }).setNegativeButton("Cancel", null);
+
+            AlertDialog dialog = builder.create();
+            dialog.show();
 
         }
     }
@@ -252,5 +265,17 @@ public class SettingsActivity extends Activity {
 
         }
     }
+
+    private class SupportOnClickListener implements View.OnClickListener {
+
+        @Override
+        public void onClick(View v) {
+            String url = "http://www.versapp.co/support.html";
+            Intent i = new Intent(Intent.ACTION_VIEW);
+            i.setData(Uri.parse(url));
+            startActivity(i);
+        }
+    }
+
 
 }

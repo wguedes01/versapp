@@ -253,6 +253,7 @@ public class ChatManager {
 
             HTTPRequestManager.getInstance().simpleHTTPPost(JOIN_CHAT_URL, stringEntity);
 
+            chats.add(0, chat);
             pendingChats.remove(chat);
 
         } catch (UnsupportedEncodingException e) {

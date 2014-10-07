@@ -26,7 +26,9 @@ import com.versapp.chat.ChatMessageListener;
 import com.versapp.chat.SynchronizeChatDB;
 import com.versapp.database.ChatsDAO;
 import com.versapp.database.MessagesDAO;
+import com.versapp.friends.Friend;
 import com.versapp.friends.FriendListActivity;
+import com.versapp.friends.FriendsManager;
 import com.versapp.requests.RequestsActivity;
 import com.versapp.settings.SettingsActivity;
 
@@ -198,10 +200,12 @@ public class MainFragment extends Fragment {
             @Override
             protected Integer doInBackground(Void... params) {
 
+                ArrayList<Friend> pendingFriends = FriendsManager.getInstance().getPendingFriends();
+
                 ArrayList<Chat> pendingChat = ChatManager.getInstance().getPendingChats();
 
-                if (pendingChat != null){
-                    return pendingChat.size();
+                if (pendingChat != null && pendingFriends != null){
+                    return pendingChat.size() + pendingFriends.size();
                 }
 
                 return 0;
