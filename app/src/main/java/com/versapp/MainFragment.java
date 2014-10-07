@@ -134,8 +134,6 @@ public class MainFragment extends Fragment {
         params.height = width;
         buttonsHolder.setLayoutParams(params);
 
-        displayNotificationCount();
-
         return convertView;
     }
 
@@ -144,6 +142,8 @@ public class MainFragment extends Fragment {
         LocalBroadcastManager.getInstance(getActivity()).registerReceiver(updateNotificationCountBR, new IntentFilter(ChatMessageListener.NEW_MESSAGE_ACTION));
         LocalBroadcastManager.getInstance(getActivity()).registerReceiver(updateNotificationCountBR, new IntentFilter(SynchronizeChatDB.CHAT_SYNCED_INTENT_ACTION));
         displayNewMessageNotificationCount();
+
+        displayNotificationCount();
 
         super.onResume();
     }
@@ -198,7 +198,7 @@ public class MainFragment extends Fragment {
             @Override
             protected Integer doInBackground(Void... params) {
 
-                ArrayList<Chat> pendingChat = ChatManager.getInstance().getPendingChatsFromServer();
+                ArrayList<Chat> pendingChat = ChatManager.getInstance().getPendingChats();
 
                 if (pendingChat != null){
                     return pendingChat.size();

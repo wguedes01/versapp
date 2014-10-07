@@ -42,7 +42,7 @@ public class RequestsActivity extends Activity {
 
                 ArrayList<Request> reqs = new ArrayList<Request>();
 
-                ArrayList<Chat> pendingChats = ChatManager.getInstance().getPendingChatsFromServer();
+                ArrayList<Chat> pendingChats = ChatManager.getInstance().getPendingChats();
 
                 for(Chat c : pendingChats){
                     reqs.add(new GroupInvitationRequest((GroupChat)c));
@@ -118,7 +118,21 @@ public class RequestsActivity extends Activity {
             acceptBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    currentRequest.accept();
+
+                    new AsyncTask<Void, Void, Void>(){
+
+                        @Override
+                        protected Void doInBackground(Void... params) {
+
+                            currentRequest.accept();
+
+                            return null;
+                        }
+                    }.execute();
+
+
+
+
                     requests.remove(currentRequest);
                     adapter.notifyDataSetChanged();
                 }
@@ -127,7 +141,18 @@ public class RequestsActivity extends Activity {
             denyBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    currentRequest.deny();
+
+                    new AsyncTask<Void, Void, Void>(){
+
+                        @Override
+                        protected Void doInBackground(Void... params) {
+
+                            currentRequest.deny();
+
+                            return null;
+                        }
+                    }.execute();
+
                     requests.remove(currentRequest);
                     adapter.notifyDataSetChanged();
                 }

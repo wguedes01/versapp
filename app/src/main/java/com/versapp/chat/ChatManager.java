@@ -28,9 +28,12 @@ public class ChatManager {
     private static final String CREATE_CHAT_URL = ConnectionManager.HTTP_PROTOCOL+"://"+ConnectionManager.SERVER_IP_ADDRESS+":"+ConnectionManager.NODE_PORT+"/chat/create";
     private static final String JOINED_CHATS_URL = ConnectionManager.HTTP_PROTOCOL+"://"+ConnectionManager.SERVER_IP_ADDRESS+":"+ConnectionManager.NODE_PORT+"/chat/joined";
     private static final String PENDING_CHATS_URL = ConnectionManager.HTTP_PROTOCOL+"://"+ConnectionManager.SERVER_IP_ADDRESS+":"+ConnectionManager.NODE_PORT+"/chat/pending";
+    private static final String JOIN_CHAT_URL = ConnectionManager.HTTP_PROTOCOL+"://"+ConnectionManager.SERVER_IP_ADDRESS+":"+ConnectionManager.NODE_PORT+"/chat/join";
+    private static final String LEAVE_CHAT_URL = ConnectionManager.HTTP_PROTOCOL+"://"+ConnectionManager.SERVER_IP_ADDRESS+":"+ConnectionManager.NODE_PORT+"/chat/leave";
 
     private static ChatManager instance;
     private static ArrayList<Chat> chats;
+    private static ArrayList<Chat> pendingChats;
 
     private static Chat openChat;
 
@@ -123,6 +126,15 @@ public class ChatManager {
         }
 
         return chats;
+    }
+
+    public  ArrayList<Chat> getPendingChats() {
+
+        if (pendingChats == null){
+            pendingChats = getPendingChatsFromServer();
+        }
+
+        return pendingChats;
     }
 
     public void moveToTop(String chatId){
@@ -233,4 +245,39 @@ public class ChatManager {
         return getChatsFromServer(JOINED_CHATS_URL);
     }
 
+    public void joinGroup(GroupChat chat) {
+
+        StringEntity stringEntity = null;
+        try {
+            stringEntity = new StringEntity(String.format("{\"uuid\" : \"%s\"}", chat.getUuid()));
+
+            HTTPRequestManager.getInstance().simpleHTTPPost(JOIN_CHAT_URL, stringEntity);
+
+            pendingChats.remove(chat);
+
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    public void leaveChat(GroupChat chat) {
+
+        StringEntity stringEntity = null;
+        try {
+            stringEntity = new StringEntity(String.format("{\"uuid\" : \"%s\"}", chat.getUuid()));
+
+            HTTPRequestManager.getInstance().simpleHTTPPost(LEAVE_CHAT_URL, stringEntity);
+
+            pendingChats.remove(chat);
+
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
 }

@@ -1,5 +1,6 @@
 package com.versapp.requests;
 
+import com.versapp.chat.ChatManager;
 import com.versapp.chat.GroupChat;
 
 /**
@@ -16,12 +17,12 @@ public class GroupInvitationRequest extends Request {
 
     @Override
     public void accept() {
-
+        ChatManager.getInstance().joinGroup(chat);
     }
 
     @Override
     public void deny() {
-
+        ChatManager.getInstance().leaveChat(chat);
     }
 
     public GroupChat getChat() {

@@ -50,10 +50,12 @@ public class ConfessionsFragment extends Fragment {
 
     private static ConfessionImageCache cache;
 
-    private static ConfessionTutorial tutorial;
-
     private static int selectedConfessionPosition = -1;
     //private int previousConfessionPosition = -1;
+
+    // Tutorial
+    private View swipeUpLabel;
+    private View clickPlusLabel;
 
 
     @Override
@@ -77,16 +79,39 @@ public class ConfessionsFragment extends Fragment {
 
         final View progressBarHolder = convertView.findViewById(R.id.confession_dashboard_progress_bar_holder);
 
+        // Tutorial
+        swipeUpLabel = convertView.findViewById(R.id.swipe_down_to_view_thoughts);
+        clickPlusLabel = convertView.findViewById(R.id.click_plus_to_create_confession_text_view);
+
+        if (!TutorialManager.getInstance(getActivity().getApplicationContext()).isTutorialComplete()){
+
+
+
+            // Create thought.
+            clickPlusLabel.setVisibility(View.VISIBLE);
+
+            composeConfessionBtn.setOnTouchListener(new View.OnTouchListener() {
+                @Override
+                public boolean onTouch(View v, MotionEvent event) {
+
+                    clickPlusLabel.setVisibility(View.GONE);
+                    swipeUpLabel.setVisibility(View.VISIBLE);
+
+                    return false;
+                }
+            });
+
+
+            // Swipe down.
+
+            // If 3 or more friends, make friend's thought easily reachable, make user start a chat.
+
+        }
+
 
         // Due to differences among devices, we need to programatically adjust
         // size of a few elements.
         adjustLayoutElementsSize(convertView);
-
-        // Tutorial
-        if (!ConfessionTutorial.isCompleted(getActivity())) {
-            tutorial = new ConfessionTutorial(getActivity(), convertView);
-            tutorial.start();
-        }
 
         composeConfessionBtn.setOnClickListener(new View.OnClickListener() {
 
@@ -110,9 +135,8 @@ public class ConfessionsFragment extends Fragment {
                     // Very important to call this so buttons reflect current confession.
                     updateLayout();
 
-                    if (tutorial != null) {
-                        tutorial.complete();
-                        tutorial = null;
+                    if (!TutorialManager.getInstance(getActivity().getApplicationContext()).isTutorialComplete()){
+                        swipeUpLabel.setVisibility(View.GONE);
                     }
 
                 }
@@ -247,47 +271,6 @@ public class ConfessionsFragment extends Fragment {
         }));
 
         confessionsListView.setOnTouchListener(new ConfessionListOnTouchListener());
-
-        if (!TutorialManager.getInstance(getActivity().getApplicationContext()).isTutorialComplete()){
-
-            final View swipeUpLabel = convertView.findViewById(R.id.swipe_down_to_view_thoughts);
-
-            // Create thought.
-            final View clickPlusLabel = convertView.findViewById(R.id.click_plus_to_create_confession_text_view);
-            clickPlusLabel.setVisibility(View.VISIBLE);
-
-            composeConfessionBtn.setOnTouchListener(new View.OnTouchListener() {
-                @Override
-                public boolean onTouch(View v, MotionEvent event) {
-
-                    clickPlusLabel.setVisibility(View.GONE);
-                    swipeUpLabel.setVisibility(View.VISIBLE);
-
-                    return false;
-                }
-            });
-
-
-            // Swipe down.
-            confessionsListView.setOnScrollListener(new AbsListView.OnScrollListener() {
-                @Override
-                public void onScrollStateChanged(AbsListView view, int scrollState) {
-                    swipeUpLabel.setVisibility(View.GONE);
-                }
-
-                @Override
-                public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-
-                }
-            });
-
-            // If 3 or more friends, make friend's thought easily reachable, make user start a chat.
-
-
-
-
-        }
-
 
         return convertView;
     }
