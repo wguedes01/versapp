@@ -8,7 +8,6 @@ import com.versapp.NotificationManager;
 import com.versapp.chat.conversation.Message;
 import com.versapp.database.ChatsDAO;
 import com.versapp.database.MessagesDAO;
-import com.versapp.friends.FriendsManager;
 
 import org.jivesoftware.smack.PacketListener;
 import org.jivesoftware.smack.packet.Packet;
@@ -73,12 +72,13 @@ public class ChatMessageListener implements PacketListener {
 
         }
 
-
+        /*
         Chat chat = ChatManager.getInstance().getChat(message.getThread());
         // If user only has 1 friend, drop message.
         if (FriendsManager.getInstance().getFriends().size() < 2 && chat.getType().equals(OneToOneChat.TYPE)){
             return;
         }
+        */
 
 
         // Add to database.

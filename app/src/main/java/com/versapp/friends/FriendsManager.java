@@ -131,6 +131,17 @@ public class FriendsManager {
 
             ConnectionService.sendCustomXMLPacket(xml, packetId);
 
+            int i = 0;
+            while(i < getPendingFriends().size()){
+
+                if (getPendingFriends().get(i).getUsername().equals(username)){
+                    getPendingFriends().remove(i);
+                    break;
+                }
+
+                i++;
+            }
+
         } catch (SmackException.NotConnectedException e) {
             e.printStackTrace();
         }

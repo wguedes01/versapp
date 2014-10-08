@@ -56,10 +56,11 @@ public class ConfessionsFragment extends Fragment {
     // Tutorial
     private View swipeUpLabel;
     private View clickPlusLabel;
+    private View createConfessionChatLabel;
 
 
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, @Nullable final ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         View convertView = inflater.inflate(R.layout.fragment_confessions, container, false);
 
@@ -82,10 +83,9 @@ public class ConfessionsFragment extends Fragment {
         // Tutorial
         swipeUpLabel = convertView.findViewById(R.id.swipe_down_to_view_thoughts);
         clickPlusLabel = convertView.findViewById(R.id.click_plus_to_create_confession_text_view);
+        createConfessionChatLabel = convertView.findViewById(R.id.create_first_confession_chat_text_view);
 
-        if (!TutorialManager.getInstance(getActivity().getApplicationContext()).isTutorialComplete()){
-
-
+        if (!TutorialManager.getInstance(getActivity().getApplicationContext()).isConfessionTutorialCompleted()){
 
             // Create thought.
             clickPlusLabel.setVisibility(View.VISIBLE);
@@ -107,7 +107,6 @@ public class ConfessionsFragment extends Fragment {
             // If 3 or more friends, make friend's thought easily reachable, make user start a chat.
 
         }
-
 
         // Due to differences among devices, we need to programatically adjust
         // size of a few elements.
@@ -135,9 +134,22 @@ public class ConfessionsFragment extends Fragment {
                     // Very important to call this so buttons reflect current confession.
                     updateLayout();
 
-                    if (!TutorialManager.getInstance(getActivity().getApplicationContext()).isTutorialComplete()){
+                    if (!TutorialManager.getInstance(getActivity().getApplicationContext()).isConfessionTutorialCompleted()){
                         swipeUpLabel.setVisibility(View.GONE);
+                        TutorialManager.getInstance(getActivity().getApplicationContext()).setConfessionTutorialCompleted();
                     }
+
+                    if (!TutorialManager.getInstance(getActivity().getApplicationContext()).isCreateFirstConfessionChatTutorialCompleted()){
+                        if (selectedConfessionPosition != -1 &&
+                                (confessions.get(selectedConfessionPosition).getDegree() == Confession.FRIEND_OF_FRIEND_DEGREE || confessions.get(selectedConfessionPosition).getDegree() == Confession.FRIEND_DEGREE)){
+                            createConfessionChatLabel.setVisibility(View.VISIBLE);
+                            TutorialManager.getInstance(getActivity()).setCreateFirstConfessionChatTutorialCompleted();
+                        }
+                    } else {
+                        createConfessionChatLabel.setVisibility(View.GONE);
+                    }
+
+
 
                 }
 
@@ -242,7 +254,7 @@ public class ConfessionsFragment extends Fragment {
 
                     if (confessions.get(selectedConfessionPosition).isMine()){
                         deleteConfession();
-                    } else if(confessions.get(selectedConfessionPosition).getDegree() == 7) {
+                    } else if(confessions.get(selectedConfessionPosition).getDegree() == Confession.GLOBAL_DEGREE) {
                         Toast.makeText(getActivity(), "This thought is from someone who's not your friend.", Toast.LENGTH_LONG).show();
                     } else {
 
@@ -310,9 +322,9 @@ public class ConfessionsFragment extends Fragment {
             //startMessageBtn.setImageResource(R.color.transparent);
             startMessageBtn.setImageResource(R.drawable.delete_confession);
 
-        } else if(confessions.get(selectedConfessionPosition).getDegree() == 1){ // friend
+        } else if(confessions.get(selectedConfessionPosition).getDegree() == Confession.FRIEND_DEGREE){ // friend
             startMessageBtn.setImageResource(R.drawable.confession_start_chat_btn);
-        }  else if(confessions.get(selectedConfessionPosition).getDegree() == 2){ // friend of friend
+        }  else if(confessions.get(selectedConfessionPosition).getDegree() == Confession.FRIEND_OF_FRIEND_DEGREE){ // friend of friend
             startMessageBtn.setImageResource(R.drawable.confession_start_chat_btn);
         } else { // 7 - global
             startMessageBtn.setImageResource(R.drawable.big_confession_global_icon);

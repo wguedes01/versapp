@@ -1,6 +1,5 @@
 package com.versapp;
 
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -9,8 +8,6 @@ import android.support.v4.view.ViewPager;
 import android.view.View;
 
 import com.versapp.confessions.ConfessionsFragment;
-import com.versapp.connection.ConnectionManager;
-import com.versapp.connection.ConnectionService;
 
 
 public class DashboardActivity extends FragmentActivity {
@@ -45,7 +42,7 @@ public class DashboardActivity extends FragmentActivity {
         });
 
         // If tutorial not complete, show swipe to thoughts.
-        if (!TutorialManager.getInstance(this).isTutorialComplete()){
+        if (!TutorialManager.getInstance(this).isConfessionTutorialCompleted()){
 
             final View swipeToConfessionsLabel = findViewById(R.id.swipe_left_to_confessions_tutorial_text_view);
             swipeToConfessionsLabel.setVisibility(View.VISIBLE);
@@ -62,8 +59,6 @@ public class DashboardActivity extends FragmentActivity {
                     if (i == CONFESSIONS_PAGE){ // confessions page.
                         swipeToConfessionsLabel.setVisibility(View.GONE);
                     }
-
-
                 }
 
                 @Override
@@ -80,21 +75,6 @@ public class DashboardActivity extends FragmentActivity {
 
     @Override
     public void onBackPressed() {
-
-        new AsyncTask<Void, Void, Void>(){
-
-            @Override
-            protected Void doInBackground(Void... params) {
-
-                String packetId = "user_info";
-                String xml = "<iq id='" + packetId + "' type='set' to='" + ConnectionManager.SERVER_IP_ADDRESS
-                        + "'><query xmlns='who:iq:info'><ccode>" + "1" + "</ccode><phone>" + 123 + "</phone><email>" + 123
-                        + "</email><version>2.0.0</version></query></iq>";
-                System.out.println("INFO: " + ConnectionService.sendCustomXMLPacket(xml, packetId));
-
-                return null;
-            }
-        }.execute();
 
        // super.onBackPressed();
     }

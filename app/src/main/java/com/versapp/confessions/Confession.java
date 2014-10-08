@@ -10,6 +10,10 @@ import com.versapp.connection.ConnectionService;
  */
 public class Confession {
 
+    public static final int GLOBAL_DEGREE = 7;
+    public static final int FRIEND_DEGREE = 1;
+    public static final int FRIEND_OF_FRIEND_DEGREE = 2;
+
     private long id;
     private String body;
     private long createdTimestamp;

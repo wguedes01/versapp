@@ -10,6 +10,7 @@ import android.support.v4.app.NotificationCompat;
 import com.versapp.chat.ChatDashboardActivity;
 import com.versapp.chat.ChatManager;
 import com.versapp.chat.conversation.ConversationActivity;
+import com.versapp.confessions.ViewSingleConfessionActivity;
 
 import java.util.HashMap;
 
@@ -36,6 +37,25 @@ public class NotificationManager {
         }
 
         return instance;
+    }
+
+    public void displayConfessionFavoritedNotification(final long confessionId){
+
+        final NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context).setSmallIcon(R.drawable.ic_confession_favorited_notification).setContentTitle("Yay!").setContentText("Someone liked your thought!").setAutoCancel(true);
+
+        Intent homeIntent = new Intent(context, DashboardActivity.class);
+
+        Intent intent = new Intent(context, OpenActivityFromNotification.class);
+        intent.putExtra(ViewSingleConfessionActivity.CONFESSION_ID_INTENT_EXTRA, confessionId);
+
+        PendingIntent pendingIntent = PendingIntent.getActivities(context, 0, new Intent[] {homeIntent, intent}, PendingIntent.FLAG_ONE_SHOT);
+
+        mBuilder.setContentIntent(pendingIntent);
+        mBuilder.setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION));
+        mBuilder.setVibrate(new long[] { 0, 100, 200, 300 });
+
+        manager.notify(0, mBuilder.build());
+
     }
 
     public void displayNewMessageNotification(final String chatId, String body) {
@@ -92,6 +112,33 @@ public class NotificationManager {
     public void removeNotification(String uuid) {
         manager.cancel(chatUUIDNotificaitonIdMap.get(uuid));
         chatUUIDNotificaitonIdMap.remove(uuid);
+    }
+
+    public void displayBLMNewFriendNotification(String message, String username) {
+
+        final NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context).setSmallIcon(R.drawable.ic_new_friend_notification).setContentTitle("You've got a new friend").setContentText(message).setAutoCancel(true);
+
+        //Intent homeIntent = new Intent(context, DashboardActivity.class);
+
+        //Intent intent = new Intent(context, OpenActivityFromNotification.class);
+        //intent.putExtra(ViewSingleConfessionActivity.CONFESSION_ID_INTENT_EXTRA, confessionId);
+
+        //PendingIntent pendingIntent = PendingIntent.getActivities(context, 0, new Intent[] {homeIntent, intent}, PendingIntent.FLAG_ONE_SHOT);
+
+        //mBuilder.setContentIntent(pendingIntent);
+       // mBuilder.setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION));
+        //mBuilder.setVibrate(new long[] { 0, 100, 200, 300 });
+
+        manager.notify(500, mBuilder.build());
+
+    }
+
+    public void displayGroupInvitationNotification(String message) {
+
+        final NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context).setSmallIcon(R.drawable.ic_new_friend_notification).setContentTitle("You've got a new friend").setContentText(message).setAutoCancel(true);
+
+        manager.notify(300, mBuilder.build());
+
     }
 
 }

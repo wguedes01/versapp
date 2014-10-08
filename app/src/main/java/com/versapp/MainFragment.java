@@ -18,7 +18,6 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
-import android.widget.Toast;
 
 import com.versapp.chat.Chat;
 import com.versapp.chat.ChatDashboardActivity;
@@ -29,6 +28,7 @@ import com.versapp.database.ChatsDAO;
 import com.versapp.database.MessagesDAO;
 import com.versapp.friends.Friend;
 import com.versapp.friends.FriendListActivity;
+import com.versapp.friends.FriendRequestListener;
 import com.versapp.friends.FriendsManager;
 import com.versapp.requests.RequestsActivity;
 import com.versapp.settings.SettingsActivity;
@@ -144,6 +144,9 @@ public class MainFragment extends Fragment {
     public void onResume() {
         LocalBroadcastManager.getInstance(getActivity()).registerReceiver(updateNotificationCountBR, new IntentFilter(ChatMessageListener.NEW_MESSAGE_ACTION));
         LocalBroadcastManager.getInstance(getActivity()).registerReceiver(updateNotificationCountBR, new IntentFilter(SynchronizeChatDB.CHAT_SYNCED_INTENT_ACTION));
+
+        LocalBroadcastManager.getInstance(getActivity()).registerReceiver(friendRequestReceivedBR, new IntentFilter(FriendRequestListener.FRIEND_REQUEST_RECEIVED_INTENT_ACTION));
+
         displayNewMessageNotificationCount();
 
         displayNotificationCount();
@@ -154,6 +157,8 @@ public class MainFragment extends Fragment {
     @Override
     public void onPause() {
         LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(updateNotificationCountBR);
+        LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(friendRequestReceivedBR);
+
         super.onPause();
     }
 
@@ -218,12 +223,15 @@ public class MainFragment extends Fragment {
                 switch (integer){
                     case 0:
                         notificationsBtnBackground.setImageResource(R.drawable.dashboard_notification_count_0);
+
+                        /*
                         notificationsBtn.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
                                 Toast.makeText(getActivity().getApplicationContext(), "No notifications at the moment", Toast.LENGTH_SHORT).show();
                             }
                         });
+                        */
                         break;
                     case 1:
                         notificationsBtnBackground.setImageResource(R.drawable.dashboard_notification_count_1);
@@ -253,5 +261,12 @@ public class MainFragment extends Fragment {
 
     }
 
+
+    private BroadcastReceiver friendRequestReceivedBR = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            displayNotificationCount();
+        }
+    };
 
 }

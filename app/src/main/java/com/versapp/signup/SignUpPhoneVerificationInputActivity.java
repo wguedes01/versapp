@@ -60,7 +60,7 @@ public class SignUpPhoneVerificationInputActivity extends Activity {
 
     public void next(View view){
 
-        boolean requireVerification = false;
+        boolean requireVerification = true;
 
         if (!requireVerification){
 

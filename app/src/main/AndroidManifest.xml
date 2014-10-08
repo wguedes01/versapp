@@ -113,6 +113,14 @@
             android:name=".requests.RequestsActivity"
             android:label="@string/title_activity_requests" >
         </activity>
+        <activity
+            android:name=".confessions.ViewSingleConfessionActivity"
+            android:label="@string/title_activity_view_single_confession" >
+        </activity>
+        <activity
+            android:name=".OpenActivityFromNotification"
+            android:label="@string/title_activity_open_activity_from_notification" >
+        </activity>
     </application>
 
     <!-- To auto-complete the email text field in the login form with the user's emails -->

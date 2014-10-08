@@ -190,9 +190,14 @@ public class ConfessionManager {
 
             InputStream in = HTTPRequestManager.getInstance().sendSimpleHttpRequest(CONFESSIONS_URL+"/"+id);
 
-            Reader reader = new InputStreamReader(in);
+            if (in != null){
+                Reader reader = new InputStreamReader(in);
 
-            confession = gson.fromJson(reader, Confession.class);
+                confession = gson.fromJson(reader, Confession.class);
+
+            } else {
+                return null;
+            }
 
         } catch (IOException e) {
             e.printStackTrace();

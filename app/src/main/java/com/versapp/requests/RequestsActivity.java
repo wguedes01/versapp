@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.versapp.R;
 import com.versapp.chat.Chat;
@@ -64,6 +65,11 @@ public class RequestsActivity extends Activity {
 
             @Override
             protected void onPostExecute(ArrayList<Request> result) {
+
+                if (result.size() == 0){
+                    Toast.makeText(getApplicationContext(), "You have no notifications", Toast.LENGTH_LONG).show();
+                }
+
                 requests.addAll(result);
                 adapter.notifyDataSetChanged();
                 super.onPostExecute(result);

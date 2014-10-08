@@ -10,6 +10,9 @@ public class TutorialManager {
 
     private static final String SHARED_PREFERENCES_TUTORIAL = "SHARED_PREFERENCES_TUTORIAL";
     private static final String TUTORIAL_COMPLETED = "TUTORIAL_COMPLETED";
+    private static final String CONFESSION_TUTORIAL_COMPLETED = "CONFESSION_TUTORIAL_COMPLETED";
+    private static final String TUTORIAL_CREATE_FIRST_CONFESSION_CHAT = "TUTORIAL_CREATE_FIRST_CONFESSION_CHAT";
+
 
     private static TutorialManager instance;
     private Context context;
@@ -37,5 +40,25 @@ public class TutorialManager {
         SharedPreferences.Editor edit = prefs.edit();
         edit.putBoolean(TUTORIAL_COMPLETED, true);
         edit.commit();
+    }
+
+    public void setConfessionTutorialCompleted(){
+        SharedPreferences.Editor edit = prefs.edit();
+        edit.putBoolean(CONFESSION_TUTORIAL_COMPLETED, true);
+        edit.commit();
+    }
+
+    public boolean isConfessionTutorialCompleted(){
+            return prefs.getBoolean(CONFESSION_TUTORIAL_COMPLETED, false);
+    }
+
+    public void setCreateFirstConfessionChatTutorialCompleted(){
+        SharedPreferences.Editor edit = prefs.edit();
+        edit.putBoolean(TUTORIAL_CREATE_FIRST_CONFESSION_CHAT, true);
+        edit.commit();
+    }
+
+    public boolean isCreateFirstConfessionChatTutorialCompleted() {
+        return prefs.getBoolean(TUTORIAL_CREATE_FIRST_CONFESSION_CHAT, false);
     }
 }

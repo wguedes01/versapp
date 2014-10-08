@@ -4,12 +4,15 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.util.Log;
+import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.versapp.DashboardActivity;
 import com.versapp.chat.ChatMessageListener;
 import com.versapp.chat.SynchronizeChatDB;
 import com.versapp.contacts.EfficientContactManager;
+import com.versapp.friends.FriendRequestListener;
 import com.versapp.gcm.GCMDeviceRegistration;
 
 import org.apache.harmony.javax.security.sasl.SaslException;
@@ -20,7 +23,9 @@ import org.jivesoftware.smack.SASLAuthentication;
 import org.jivesoftware.smack.SmackException;
 import org.jivesoftware.smack.XMPPException;
 import org.jivesoftware.smack.filter.PacketFilter;
+import org.jivesoftware.smack.filter.PacketTypeFilter;
 import org.jivesoftware.smack.packet.Packet;
+import org.jivesoftware.smack.packet.Presence;
 import org.jivesoftware.smack.tcp.XMPPTCPConnection;
 import org.json.JSONException;
 
@@ -34,10 +39,22 @@ public class LoginAT extends AsyncTask<String, Void, XMPPTCPConnection>{
 
     private Context context;
     private Runnable postExecute;
+    private ProgressBar progressBar;
 
-    public LoginAT(Context context, Runnable run) {
+    public LoginAT(Context context, Runnable run, ProgressBar progressBar) {
         this.context = context;
         this.postExecute = run;
+        this.progressBar = progressBar;
+    }
+
+    @Override
+    protected void onPreExecute() {
+
+        if (progressBar != null) {
+            progressBar.setVisibility(View.VISIBLE);
+        }
+
+        super.onPreExecute();
     }
 
     @Override
@@ -61,6 +78,8 @@ public class LoginAT extends AsyncTask<String, Void, XMPPTCPConnection>{
             connection.connect();
             connection.addConnectionListener(new ConnectionListener(context));
 
+            // Listens to friend requests and respond to accepted friends.
+            setFriendRequestListener(connection);
 
                 connection.login(username, password, "who");
 
@@ -94,6 +113,10 @@ public class LoginAT extends AsyncTask<String, Void, XMPPTCPConnection>{
 
     @Override
     protected void onPostExecute(XMPPTCPConnection conn) {
+
+        if (progressBar != null) {
+            progressBar.setVisibility(View.GONE);
+        }
 
         if (conn != null){
 
@@ -182,6 +205,10 @@ public class LoginAT extends AsyncTask<String, Void, XMPPTCPConnection>{
                 return packet.getClass() == org.jivesoftware.smack.packet.Message.class;
             }
         });
+    }
+
+    private void setFriendRequestListener(XMPPTCPConnection conn){
+        conn.addPacketListener(new FriendRequestListener(context), new PacketTypeFilter(Presence.class));
     }
 
 }

@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -23,10 +24,14 @@ public class LoginActivity extends Activity {
     EditText usernameEdit;
     EditText passwordEdit;
 
+    ProgressBar progressBar;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        progressBar = (ProgressBar) findViewById(R.id.activity_login_progress_bar);
 
 
         if (CredentialsManager.getInstance(this).getValidUsername() != null) {
@@ -90,7 +95,7 @@ public class LoginActivity extends Activity {
 
     private void login(String username, String password){
 
-        LoginAT loginAt = new LoginAT(this, null);
+        LoginAT loginAt = new LoginAT(this, null, progressBar);
         loginAt.execute(username, password);
     }
 

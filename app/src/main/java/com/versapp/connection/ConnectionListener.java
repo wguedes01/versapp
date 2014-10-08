@@ -50,7 +50,7 @@ public class ConnectionListener implements org.jivesoftware.smack.ConnectionList
     public void reconnectingIn(int seconds) {
     Log.d(Logger.CONNECTION_DEBUG, "reconnectingIn(). Seconds: " + seconds);
 
-        new LoginAT(context, null).execute(CredentialsManager.getInstance(context).getValidUsername(), CredentialsManager.getInstance(context).getValidPassword());
+        new LoginAT(context, null, null).execute(CredentialsManager.getInstance(context).getValidUsername(), CredentialsManager.getInstance(context).getValidPassword());
 
     }
 

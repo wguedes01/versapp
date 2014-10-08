@@ -11,10 +11,21 @@ import com.versapp.connection.LoginAT;
 /**
  * Created by william on 25/09/14.
  */
-public class GCMIntentService extends IntentService {
+public class GCMIntentService extends IntentService  {
 
     private static final String PUSH_TYPE_CONFESSION = "confession";
     private static final String PUSH_TYPE_MESSAGE = "message";
+    private static final String PUSH_TYPE_BLM_NEW_FRIEND = "blacklist";
+    private static final String PUSH_TYPE_GROUP_INVITATION = "invitation";
+
+    // General params
+    private static final String GCM_INTENT_EXTRA_MESSAGE_CONTENT = "message";
+
+    // Confession params
+    private static final String GCM_CONFESSION_ID_INTENT_EXTRA = "confession_id";
+
+    // BLM params
+    private static final String GCM_INTENT_EXTRA_NEW_FRIEND_USERNAME= "username";
 
     public GCMIntentService() {
         super("GCMIntentService");
@@ -22,6 +33,8 @@ public class GCMIntentService extends IntentService {
 
     @Override
     protected void onHandleIntent(Intent intent) {
+
+        Log.d(Logger.GCM_DEBUG, "Received GCM PUSH");
 
         String pushType = intent.getStringExtra("push_type");
 
@@ -38,6 +51,11 @@ public class GCMIntentService extends IntentService {
 
         } else if (pushType.equals(PUSH_TYPE_CONFESSION)) {
             Log.d(Logger.GCM_DEBUG, "Received Confession Push. Type:" + pushType);
+
+            long confessionId = Long.valueOf(intent.getStringExtra(GCM_CONFESSION_ID_INTENT_EXTRA));
+
+            NotificationManager.getInstance(getApplicationContext()).displayConfessionFavoritedNotification(confessionId);
+
         } else if(pushType.equals(PUSH_TYPE_MESSAGE)) {
 
 
@@ -51,13 +69,28 @@ public class GCMIntentService extends IntentService {
                     public void run() {
 
                     }
-                }).execute(username, password);
+                }, null).execute(username, password);
 
             }
 
             String body = intent.getStringExtra("body");
 
             Log.d(Logger.GCM_DEBUG, "Received Message Push. Type:" + pushType + ". Body: " + body);
+        } else if(pushType.equals(PUSH_TYPE_BLM_NEW_FRIEND)){
+
+            String username = intent.getStringExtra(GCM_INTENT_EXTRA_NEW_FRIEND_USERNAME);
+            String messageContent = intent.getStringExtra(GCM_INTENT_EXTRA_MESSAGE_CONTENT);
+
+            NotificationManager.getInstance(getApplicationContext()).displayBLMNewFriendNotification(messageContent, username);
+
+        } else if(pushType.equals(PUSH_TYPE_GROUP_INVITATION)){
+
+            String messageContent = intent.getStringExtra(GCM_INTENT_EXTRA_MESSAGE_CONTENT);
+
+            Log.d(Logger.GCM_DEBUG, "Received Message Push. Type:" + pushType + ". Message: " + messageContent);
+
+            NotificationManager.getInstance(getApplicationContext()). displayGroupInvitationNotification(messageContent);
+
         } else {
             Log.d(Logger.GCM_DEBUG, "ERROR. INVALID PUSH TYPE. Type: " + pushType);
         }

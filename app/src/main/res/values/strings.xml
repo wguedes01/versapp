@@ -40,5 +40,8 @@
     <string name="title_activity_open_chat_from_notification">OpenChatFromNotificationActivity</string>
     <string name="title_activity_requests">RequestsActivity</string>
     <string name="no_chats_message">There are no conversations</string>
+    <string name="title_activity_view_single_confession">ViewSingleConfessionActivity</string>
+    <string name="title_activity_open_activity_from_notification">OpenActivityFromNotification</string>
+    <string name="create_first_confession_chat">Start conversation with creator of this Thought! Click the chat bubble below!</string>
 
 </resources>

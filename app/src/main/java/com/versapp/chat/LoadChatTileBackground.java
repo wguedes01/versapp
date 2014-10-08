@@ -13,6 +13,7 @@ import android.widget.ImageView;
 
 import com.versapp.GCSManager;
 import com.versapp.Logger;
+import com.versapp.R;
 import com.versapp.confessions.ConfessionManager;
 
 import java.io.File;
@@ -106,7 +107,14 @@ public class LoadChatTileBackground extends AsyncTask<Void, Void, Void> {
                     backgroundView.setColorFilter(Color.rgb(130, 130, 130), android.graphics.PorterDuff.Mode.MULTIPLY);
                     backgroundView.setImageBitmap(bitmap);
                 } else if(colorBackground != null) {
-                    backgroundView.setBackgroundColor(Color.parseColor(colorBackground));
+
+                    if (colorBackground != null) {
+                        backgroundView.setBackgroundColor(Color.parseColor(colorBackground));
+                    } else {
+                        backgroundView.setBackgroundColor(context.getResources().getColor(R.color.confessionBlue));
+                    }
+
+
                 } else {
 
                 }
