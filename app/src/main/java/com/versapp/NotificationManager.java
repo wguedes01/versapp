@@ -11,6 +11,7 @@ import com.versapp.chat.ChatDashboardActivity;
 import com.versapp.chat.ChatManager;
 import com.versapp.chat.conversation.ConversationActivity;
 import com.versapp.confessions.ViewSingleConfessionActivity;
+import com.versapp.requests.RequestsActivity;
 
 import java.util.HashMap;
 
@@ -47,6 +48,7 @@ public class NotificationManager {
 
         Intent intent = new Intent(context, OpenActivityFromNotification.class);
         intent.putExtra(ViewSingleConfessionActivity.CONFESSION_ID_INTENT_EXTRA, confessionId);
+        intent.putExtra(OpenActivityFromNotification.OPEN_ACTIVITY_INTENT_EXTRA, ViewSingleConfessionActivity.class.getName());
 
         PendingIntent pendingIntent = PendingIntent.getActivities(context, 0, new Intent[] {homeIntent, intent}, PendingIntent.FLAG_ONE_SHOT);
 
@@ -135,7 +137,18 @@ public class NotificationManager {
 
     public void displayGroupInvitationNotification(String message) {
 
-        final NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context).setSmallIcon(R.drawable.ic_new_friend_notification).setContentTitle("You've got a new friend").setContentText(message).setAutoCancel(true);
+        final NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context).setSmallIcon(R.drawable.ic_group_invitation_notification).setContentTitle("Group Invitation").setContentText(message).setAutoCancel(true);
+
+        Intent homeIntent = new Intent(context, DashboardActivity.class);
+
+        Intent intent = new Intent(context, OpenActivityFromNotification.class);
+        intent.putExtra(OpenActivityFromNotification.OPEN_ACTIVITY_INTENT_EXTRA, RequestsActivity.class.getName());
+
+        PendingIntent pendingIntent = PendingIntent.getActivities(context, 0, new Intent[] {homeIntent, intent}, PendingIntent.FLAG_ONE_SHOT);
+
+        mBuilder.setContentIntent(pendingIntent);
+        mBuilder.setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION));
+        mBuilder.setVibrate(new long[] { 0, 100, 200, 300 });
 
         manager.notify(300, mBuilder.build());
 

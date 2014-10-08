@@ -36,7 +36,7 @@ public class GCMIntentService extends IntentService  {
 
         Log.d(Logger.GCM_DEBUG, "Received GCM PUSH");
 
-        String pushType = intent.getStringExtra("push_type");
+        String pushType = intent.getStringExtra("type");
 
         System.out.print("Extras: ");
         Bundle b = intent.getExtras();

@@ -25,10 +25,12 @@ import android.widget.Toast;
 
 import com.versapp.GCSManager;
 import com.versapp.R;
+import com.versapp.TutorialManager;
 import com.versapp.chat.Chat;
 import com.versapp.chat.ChatManager;
 import com.versapp.chat.ChatMessageListener;
 import com.versapp.chat.GroupChat;
+import com.versapp.chat.OneToOneChat;
 import com.versapp.chat.Participant;
 import com.versapp.connection.ConnectionManager;
 import com.versapp.database.ChatsDAO;
@@ -159,6 +161,25 @@ public class ConversationActivity extends Activity {
                 super.onPostExecute(msgs);
             }
         }.execute();
+
+
+        // Check if user has gone through tutorial for this type of chat.
+        if (!TutorialManager.getInstance(getApplicationContext()).isChatExplained() && currentChat.getType().equals(OneToOneChat.TYPE)){
+
+            final View chatExplanationLabel = findViewById(R.id.activity_conversation_chat_explanation);
+            chatExplanationLabel.setVisibility(View.VISIBLE);
+
+            chatExplanationLabel.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    chatExplanationLabel.setVisibility(View.GONE);
+                }
+            });
+
+            TutorialManager.getInstance(getApplicationContext()).setChatExplained();
+        } else {
+
+        }
 
     }
 

@@ -124,4 +124,18 @@
         android:layout_above="@id/message_dashboard"
         android:layout_below="@id/activity_conversation_header_divider"></ListView>
 
+    <TextView
+        android:id="@+id/activity_conversation_chat_explanation"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:text="@string/activity_conversation_chat_explanation"
+        android:background="@color/orangeBeauty"
+        android:textSize="22sp"
+        android:padding="5dp"
+        android:textColor="@android:color/white"
+        android:layout_margin="5dp"
+        android:visibility="gone"
+        android:gravity="center"/>
+
 </RelativeLayout>

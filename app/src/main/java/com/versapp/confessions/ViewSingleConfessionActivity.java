@@ -63,10 +63,20 @@ public class ViewSingleConfessionActivity extends Activity {
 
                 if (confession != null) {
 
+                    if (confession.getBody().length() > 140) {
+                        bodyText.setTextSize(25);
+                    } else {
+                        bodyText.setTextSize(30);
+                    }
+                    bodyText.setText(confession.getBody());
+
+                    favoritesCount.setText(String.valueOf(confession.getNumFavorites()));
+                    findViewById(R.id.activity_view_single_confession_favorite_count_holder).setVisibility(View.VISIBLE);
+                    bodyText.setText(confession.getBody());
+
                     if (confession.getImageUrl().startsWith("#")){
                         backgroundImage.setBackgroundColor(Color.parseColor(confession.getImageUrl()));
                         progressBar.setVisibility(View.GONE);
-
                     } else {
 
                         new AsyncTask<Void, Void, Bitmap>() {
@@ -84,16 +94,6 @@ public class ViewSingleConfessionActivity extends Activity {
                                 if (bitmap != null) {
                                     ConfessionImageCache.setBitmapOnView(getApplicationContext(), backgroundImage, bitmap);
                                 }
-
-                                if (confession.getBody().length() > 140) {
-                                    bodyText.setTextSize(25);
-                                } else {
-                                    bodyText.setTextSize(30);
-                                }
-
-                                bodyText.setText(confession.getBody());
-                                favoritesCount.setText(String.valueOf(confession.getNumFavorites()));
-                                findViewById(R.id.activity_view_single_confession_favorite_count_holder).setVisibility(View.VISIBLE);
 
                                 super.onPostExecute(bitmap);
                             }
