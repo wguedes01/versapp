@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 
+import com.versapp.chat.ChatManager;
 import com.versapp.connection.CredentialsManager;
 import com.versapp.connection.LoginAT;
 
@@ -35,6 +36,10 @@ public class GCMIntentService extends IntentService  {
     protected void onHandleIntent(Intent intent) {
 
         Log.d(Logger.GCM_DEBUG, "Received GCM PUSH");
+
+        if (CredentialsManager.getInstance(getApplicationContext()).getValidUsername() == null){
+            return ;
+        }
 
         String pushType = intent.getStringExtra("type");
 
@@ -84,6 +89,8 @@ public class GCMIntentService extends IntentService  {
             NotificationManager.getInstance(getApplicationContext()).displayBLMNewFriendNotification(messageContent, username);
 
         } else if(pushType.equals(PUSH_TYPE_GROUP_INVITATION)){
+
+            ChatManager.getInstance().invalidatePendingChatCache();
 
             String messageContent = intent.getStringExtra(GCM_INTENT_EXTRA_MESSAGE_CONTENT);
 

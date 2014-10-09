@@ -279,4 +279,8 @@ public class ChatManager {
         }
 
     }
+
+    public void invalidatePendingChatCache(){
+        pendingChats = null;
+    }
 }

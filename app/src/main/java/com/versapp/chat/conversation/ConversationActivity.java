@@ -29,9 +29,11 @@ import com.versapp.TutorialManager;
 import com.versapp.chat.Chat;
 import com.versapp.chat.ChatManager;
 import com.versapp.chat.ChatMessageListener;
+import com.versapp.chat.ConfessionChat;
 import com.versapp.chat.GroupChat;
 import com.versapp.chat.OneToOneChat;
 import com.versapp.chat.Participant;
+import com.versapp.confessions.Confession;
 import com.versapp.connection.ConnectionManager;
 import com.versapp.database.ChatsDAO;
 import com.versapp.database.MessagesDAO;
@@ -344,7 +346,7 @@ public class ConversationActivity extends Activity {
 
             AlertDialog.Builder dialog = new AlertDialog.Builder(ConversationActivity.this);
 
-            String[] options = { "Participants", "Leave", "Block" };
+            String[] options = { "Participants", "Leave", "Am I anonymous?"/*, "Block"*/ };
 
             dialog.setItems(options, new Dialog.OnClickListener() {
 
@@ -395,7 +397,9 @@ public class ConversationActivity extends Activity {
                             }.execute();
 
                             break;
-                        case 2: //block
+                        case 2:
+                            break;
+                        case 3: //block
                             Toast.makeText(getApplicationContext(), "Blocking..", Toast.LENGTH_SHORT).show();
                             break;
                     }
@@ -408,7 +412,7 @@ public class ConversationActivity extends Activity {
 
             AlertDialog.Builder dialog = new AlertDialog.Builder(ConversationActivity.this);
 
-            String[] options = { "Leave", "Block" };
+            String[] options = { "Leave", "Am I anonymous?"/*, "Block"*/ };
 
             dialog.setItems(options, new Dialog.OnClickListener() {
 
@@ -430,6 +434,35 @@ public class ConversationActivity extends Activity {
 
                             break;
                         case 1:
+
+                            String message = "";
+                            if (currentChat.getType().equals(OneToOneChat.TYPE)){
+                                if (((OneToOneChat)currentChat).isOwner()){
+                                    message = "You know who you're talking to but your friends doesn't know who you are.";
+                                } else {
+                                    message = "You're talking to one of your friends. Your friend knows who you are.";
+                                }
+                            } else if(currentChat.getType().equals(ConfessionChat.TYPE)) {
+
+                                if (((ConfessionChat) currentChat).getDegree() == Confession.FRIEND_DEGREE){
+                                    message = "You're talking to a friend. You both don't know who each other is.";
+                                } else if (((ConfessionChat) currentChat).getDegree() == Confession.FRIEND_OF_FRIEND_DEGREE){
+                                    message = "You're talking to a friend of a friend. You both don't know who each other is.";
+                                }
+
+                            }
+
+                            AlertDialog.Builder builder = new AlertDialog.Builder(ConversationActivity.this);
+                            builder.setTitle("Am I anonymous?");
+                            builder.setMessage(message);
+                            builder.setCancelable(true);
+
+                            AlertDialog amIAnonymousDialog = builder.create();
+                            amIAnonymousDialog.show();
+
+
+                            break;
+                        case 2: //block
                             Toast.makeText(getApplicationContext(), "Blocking..", Toast.LENGTH_SHORT).show();
                             break;
                     }
