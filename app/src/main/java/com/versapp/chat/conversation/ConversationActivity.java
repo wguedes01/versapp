@@ -398,6 +398,16 @@ public class ConversationActivity extends Activity {
 
                             break;
                         case 2:
+
+                            AlertDialog.Builder builder = new AlertDialog.Builder(ConversationActivity.this);
+                            builder.setTitle("Am I anonymous?");
+                            builder.setMessage("People in the group only know you're one of the members. They don't know who is the sender of each message.");
+                            builder.setCancelable(true);
+
+                            AlertDialog amIAnonymousDialog = builder.create();
+                            amIAnonymousDialog.show();
+
+
                             break;
                         case 3: //block
                             Toast.makeText(getApplicationContext(), "Blocking..", Toast.LENGTH_SHORT).show();
