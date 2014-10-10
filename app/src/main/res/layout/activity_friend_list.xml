@@ -73,4 +73,15 @@
         android:layout_centerInParent="true"
         android:visibility="gone"/>
 
+    <TextView
+        android:id="@+id/activity_friend_list_not_enough_friends_message"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:textColor="@android:color/white"
+        android:textSize="18sp"
+        android:background="@color/veryDarkTransparent"
+        android:layout_centerInParent="true"
+        android:visibility="gone"
+        android:gravity="center"/>
+
 </RelativeLayout>

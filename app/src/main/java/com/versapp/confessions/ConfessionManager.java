@@ -58,7 +58,13 @@ public class ConfessionManager {
 
             Reader reader = new InputStreamReader(in);
 
-            confessions = gson.fromJson(reader, Confession[].class);
+            try{
+
+                confessions = gson.fromJson(reader, Confession[].class);
+
+            } catch (Exception e){
+                return null;
+            }
 
         } catch (IOException e) {
             e.printStackTrace();

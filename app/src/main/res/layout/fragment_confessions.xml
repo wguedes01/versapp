@@ -93,37 +93,20 @@
             android:layout_centerInParent="true"/>
     </RelativeLayout>
 
-
-    <TextView
-        android:id="@+id/big_confesion_tutorial_swipe_up_or_down_label"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_marginTop="10dp"
-        android:gravity="center"
-        android:padding="10dp"
-        android:text="Swipe Up or Down"
-        android:background="@color/orangeBeauty"
-        android:textColor="@android:color/white"
-        android:textSize="25sp"
-        android:layout_centerHorizontal="true"
-        android:visibility="gone" >
-    </TextView>
-
     <TextView
         android:id="@+id/click_plus_to_create_confession_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center"
         android:padding="10dp"
-        android:layout_marginBottom="50dp"
-        android:text="Click the + sign"
-        android:background="@color/orangeBeauty"
+        android:text="Click on the + sign below"
+        android:background="@drawable/round_dark_background"
         android:textColor="@android:color/white"
         android:textSize="25sp"
         android:layout_centerHorizontal="true"
         android:layout_alignParentBottom="true"
-        android:visibility="gone">
+        android:visibility="gone"
+        android:layout_marginBottom="50dp">
     </TextView>
 
     <TextView
@@ -134,7 +117,7 @@
         android:padding="10dp"
         android:layout_marginBottom="50dp"
         android:text="Swipe Up or Down"
-        android:background="@color/orangeBeauty"
+        android:background="@drawable/round_dark_background"
         android:textColor="@android:color/white"
         android:textSize="25sp"
         android:layout_centerInParent="true"
@@ -149,7 +132,7 @@
         android:padding="10dp"
         android:layout_marginBottom="50dp"
         android:text="@string/create_first_confession_chat"
-        android:background="@color/orangeBeauty"
+        android:background="@drawable/round_dark_background"
         android:textColor="@android:color/white"
         android:textSize="22sp"
         android:layout_centerInParent="true"

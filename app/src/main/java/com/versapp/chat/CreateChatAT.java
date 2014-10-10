@@ -1,5 +1,6 @@
 package com.versapp.chat;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -17,9 +18,11 @@ public class CreateChatAT extends AsyncTask<Void, Void, Chat>{
 
     Context context;
     ChatBuilder builder;
+    Activity activity;
 
-    public CreateChatAT(Context context, ChatBuilder builder) {
-        this.context = context;
+    public CreateChatAT(Activity activity, ChatBuilder builder) {
+        this.activity = activity;
+        this.context = activity.getApplicationContext();
         this.builder = builder;
     }
 
@@ -50,6 +53,9 @@ public class CreateChatAT extends AsyncTask<Void, Void, Chat>{
             // error occurred.
             Toast.makeText(context, "Oops.. something went wrong. Please try again.", Toast.LENGTH_LONG).show();
         } else {
+
+            activity.finish();
+
             // go to chat.
             Intent intent = new Intent(context, ConversationActivity.class);
             intent.putExtra(ConversationActivity.CHAT_UUID_INTENT_EXTRA, chat.getUuid());

@@ -135,7 +135,8 @@ public class FriendsManager {
             while(i < getPendingFriends().size()){
 
                 if (getPendingFriends().get(i).getUsername().equals(username)){
-                    getPendingFriends().remove(i);
+                    Friend friend = getPendingFriends().remove(i);
+                    getFriends().add(friend);
                     break;
                 }
 
@@ -158,11 +159,12 @@ public class FriendsManager {
 
         boolean removed = false;
 
-        int a = 0;
-        while(a < pendingFriends.size()){
 
-            if (pendingFriends.get(a).getUsername().equals(username)){
-                pendingFriends.remove(a);
+        int a = 0;
+        while(a < getPendingFriends().size()){
+
+            if (getPendingFriends().get(a).getUsername().equals(username)){
+                getPendingFriends().remove(a);
                 removed = true;
                 break;
             }
@@ -173,10 +175,10 @@ public class FriendsManager {
         if (!removed){
 
             int i = 0;
-            while(i < friends.size()){
+            while(i < getFriends().size()){
 
-                if (friends.get(i).getUsername().equals(username)){
-                    friends.remove(i);
+                if (getFriends().get(i).getUsername().equals(username)){
+                    getFriends().remove(i);
                     break;
                 }
 

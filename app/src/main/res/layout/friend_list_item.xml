@@ -30,6 +30,7 @@
         android:layout_centerVertical="true"
         android:adjustViewBounds="true"
         android:padding="10dp"
-        android:src="@drawable/select_friend_outline"/>
+        android:src="@drawable/select_friend_outline"
+        />
 
 </RelativeLayout>

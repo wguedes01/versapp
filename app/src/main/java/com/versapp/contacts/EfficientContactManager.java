@@ -119,7 +119,6 @@ public class EfficientContactManager {
         Log.d(Logger.BLM_DEBUG, "BLM response code: " + res.getStatusLine().getStatusCode());
         if (res.getStatusLine().getStatusCode() == 200){
             setContactsPushedToServer();
-
         }
 
     }

@@ -136,6 +136,7 @@
         android:textColor="@android:color/white"
         android:layout_margin="5dp"
         android:visibility="gone"
-        android:gravity="center"/>
+        android:gravity="center"
+        android:onClick="closeExplanationLabel"/>
 
 </RelativeLayout>

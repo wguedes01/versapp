@@ -8,7 +8,6 @@ import com.versapp.HTTPRequestManager;
 import com.versapp.NotificationManager;
 import com.versapp.connection.ConnectionManager;
 import com.versapp.database.ChatsDAO;
-import com.versapp.friends.FriendsManager;
 
 import org.apache.http.entity.StringEntity;
 
@@ -64,6 +63,10 @@ public class ChatManager {
         try {
 
             InputStream in = HTTPRequestManager.getInstance().sendSimpleHttpRequest(url);
+
+            if (in == null) {
+                return new ArrayList<Chat>();
+            }
 
             Reader reader = new InputStreamReader(in);
 
@@ -183,6 +186,7 @@ public class ChatManager {
 
         ArrayList<Chat> chats = ChatManager.getInstance().getChatsFromServer(JOINED_CHATS_URL);
 
+        /*
         if (FriendsManager.getInstance().getCachedFriends().size() < 2){
 
             int i = 0;
@@ -195,6 +199,7 @@ public class ChatManager {
             }
 
         }
+        */
 
         for (Chat c : chats){
 
@@ -281,6 +286,10 @@ public class ChatManager {
     }
 
     public void invalidatePendingChatCache(){
+
         pendingChats = null;
+
+
+
     }
 }

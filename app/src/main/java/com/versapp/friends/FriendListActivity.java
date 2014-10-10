@@ -41,6 +41,8 @@ public class FriendListActivity extends Activity {
     ImageButton backBtn;
     TextView createGroupBtn;
 
+    TextView notEnoughFriendsLabel;
+
     // used to store the username of selected friends when creating groups
     private ArrayList<String> selectedUsers = new ArrayList<String>();
 
@@ -48,6 +50,8 @@ public class FriendListActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_friend_list);
+
+        notEnoughFriendsLabel = (TextView) findViewById(R.id.activity_friend_list_not_enough_friends_message);
 
         friendListItems = new ArrayList<FriendListItem>();
 
@@ -98,7 +102,7 @@ public class FriendListActivity extends Activity {
         adapter = new FriendListArrayAdapter(this, friendListItems, listMode);
         friendList.setAdapter(adapter);
 
-        new LoadFriendsAT(adapter, progressBar).execute();
+        new LoadFriendsAT(adapter, progressBar, notEnoughFriendsLabel).execute();
 
         Toast.makeText(this, "Long press for more options", Toast.LENGTH_SHORT).show();
 
@@ -112,11 +116,11 @@ public class FriendListActivity extends Activity {
 
                 if (friendListItems.get(position).friend.isBlocked()){
 
-                    Toast.makeText(getApplicationContext(), "You can't interact with blocked friends", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "You can't interact with blocked friend(s)", Toast.LENGTH_SHORT).show();
 
                 } else {
 
-                    new CreateChatAT(getApplicationContext(), new OneToOneChatBuilder(friendListItems.get(position).friend.getUsername())).execute();
+                    new CreateChatAT(FriendListActivity.this, new OneToOneChatBuilder(friendListItems.get(position).friend.getUsername())).execute();
 
                 }
 
@@ -130,7 +134,6 @@ public class FriendListActivity extends Activity {
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
 
                 // If there are 2 or more friends selected, show option to create group.
                 createGroupBtn.setVisibility(View.VISIBLE);
@@ -177,8 +180,8 @@ public class FriendListActivity extends Activity {
 
                             final String chatName = chatNameEdit.getText().toString();
 
-                            new CreateChatAT(getApplicationContext(), new GroupChatBuilder(selectedUsers, chatName)).execute();
-
+                            new CreateChatAT(FriendListActivity.this, new GroupChatBuilder(new ArrayList<String>(selectedUsers), chatName)).execute();
+                            finish();
                         }
                     });
                     createGroupChatDialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {

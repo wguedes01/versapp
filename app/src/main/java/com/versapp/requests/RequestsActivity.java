@@ -53,7 +53,6 @@ public class RequestsActivity extends Activity {
                     reqs.add(new FriendRequest(getApplicationContext(), f));
                 }
 
-
                 ArrayList<Chat> pendingChats = ChatManager.getInstance().getPendingChats();
 
                 for(Chat c : pendingChats){

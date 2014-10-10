@@ -5,8 +5,6 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.view.View;
 
-import com.versapp.R;
-
 /**
  * Created by william on 20/09/14.
  */
@@ -21,13 +19,6 @@ public class ConfessionTutorial {
     public ConfessionTutorial(Context context, View parent) {
         this.context = context;
         this.parent = parent;
-    }
-
-    public void start() {
-
-        this.swipeUpOrDownLabel = parent.findViewById(R.id.big_confesion_tutorial_swipe_up_or_down_label);
-        this.swipeUpOrDownLabel.setVisibility(View.VISIBLE);
-
     }
 
     public void complete() {

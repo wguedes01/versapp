@@ -4,6 +4,7 @@ import android.os.AsyncTask;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -16,9 +17,12 @@ public class LoadFriendsAT extends AsyncTask<Void, Void, ArrayList<FriendListIte
     private ArrayAdapter<FriendListItem> adapter;
     private ProgressBar progressBar;
 
-    public LoadFriendsAT(ArrayAdapter<FriendListItem> adapter, ProgressBar progressBar) {
+    private TextView notEnoughFriendsLabel;
+
+    public LoadFriendsAT(ArrayAdapter<FriendListItem> adapter, ProgressBar progressBar,  TextView notEnoughFriendsLabel) {
         this.adapter = adapter;
         this.progressBar = progressBar;
+        this.notEnoughFriendsLabel = notEnoughFriendsLabel;
     }
 
     @Override
@@ -46,9 +50,31 @@ public class LoadFriendsAT extends AsyncTask<Void, Void, ArrayList<FriendListIte
     @Override
     protected void onPostExecute(final ArrayList<FriendListItem> friendListItems) {
         this.progressBar.setVisibility(View.GONE);
-        adapter.addAll(friendListItems);
-        adapter.notifyDataSetChanged();
 
+        if (friendListItems.size() < 2){
+
+            notEnoughFriendsLabel.setVisibility(View.VISIBLE);
+            int friendsCount = friendListItems.size();
+
+            String message = "";
+            switch (friendsCount){
+                case 0:
+                    message = "No one here yet. Would you like to invite some friends to join you?";
+                    break;
+                case 1:
+                    message = "You currently have 1 friend. \nTo make sure your friend remains anonymous when messaging you, we will only make your friend list visible when you have more than 2 friends.";
+                    break;
+                case 2:
+                    message = "You currently have 2 friends. \nTo make sure they remain anonymous when messaging you, we will only make your friend list visible when you have more than 2 friends.";
+                    break;
+            }
+
+            notEnoughFriendsLabel.setText(message);
+            friendListItems.clear();
+        } else {
+            adapter.addAll(friendListItems);
+            adapter.notifyDataSetChanged();
+        }
 
         new AsyncTask<Void, Void, ArrayList<String>>(){
 

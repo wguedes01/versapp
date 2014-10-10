@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.versapp.DashboardActivity;
@@ -27,6 +28,8 @@ public class SignUpUsernamePassInputActivity extends Activity {
     EditText passwordEdit;
     EditText confirmpassword;
 
+    ProgressBar progressBar;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,6 +38,8 @@ public class SignUpUsernamePassInputActivity extends Activity {
         usernameEdit = (EditText) findViewById(R.id.sign_up_username_edit);
         passwordEdit = (EditText) findViewById(R.id.sign_up_password_edit);
         confirmpassword  = (EditText) findViewById(R.id.sign_up_confirm_password_edit);
+
+        progressBar = (ProgressBar) findViewById(R.id.activity_sign_up_username_pass_input_progress_bar);
 
         usernameEdit.requestFocus();
         ((InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE)).toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
@@ -55,6 +60,13 @@ public class SignUpUsernamePassInputActivity extends Activity {
             RegistrationManager.getInstance(this).storeUsername(usernameEdit.getText().toString());
 
             new AsyncTask<Void, Void, Boolean>() {
+
+                @Override
+                protected void onPreExecute() {
+                    progressBar.setVisibility(View.VISIBLE);
+                    super.onPreExecute();
+                }
+
                 @Override
                 protected Boolean doInBackground(Void... params) {
                     try {
@@ -80,14 +92,12 @@ public class SignUpUsernamePassInputActivity extends Activity {
                                         @Override
                                         protected Void doInBackground(Void... params) {
 
-
                                             String first = RegistrationManager.getInstance(SignUpUsernamePassInputActivity.this).getName().split(" ")[0];
                                             String last = RegistrationManager.getInstance(SignUpUsernamePassInputActivity.this).getName().split(" ")[1];
                                             String phone = RegistrationManager.getInstance(SignUpUsernamePassInputActivity.this).getPhone();
                                             String email = RegistrationManager.getInstance(SignUpUsernamePassInputActivity.this).getEmail();
 
                                             VCardManager.createVCard(new VCard(first, last));
-
 
                                             String packetId = "user_info";
                                             String xml = "<iq id='" + packetId + "' type='set' to='" + ConnectionManager.SERVER_IP_ADDRESS
@@ -101,9 +111,12 @@ public class SignUpUsernamePassInputActivity extends Activity {
 
                                         @Override
                                         protected void onPostExecute(Void aVoid) {
+                                            progressBar.setVisibility(View.GONE);
                                             super.onPostExecute(aVoid);
 
-                                            startActivity(new Intent(getApplicationContext(), DashboardActivity.class));
+                                            Intent intent = new Intent(getApplicationContext(), DashboardActivity.class);
+                                            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK| Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                            startActivity(intent);
 
                                         }
                                     }.execute();
@@ -115,6 +128,7 @@ public class SignUpUsernamePassInputActivity extends Activity {
 
                         } else {
                         // failed to register.
+                        progressBar.setVisibility(View.GONE);
                         Toast.makeText(SignUpUsernamePassInputActivity.this, "Username is taken.", Toast.LENGTH_SHORT).show();
                     }
 

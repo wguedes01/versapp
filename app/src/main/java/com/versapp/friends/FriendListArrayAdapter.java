@@ -23,7 +23,6 @@ public class FriendListArrayAdapter extends ArrayAdapter<FriendListItem> {
     private ArrayList<FriendListItem> friendListItems;
     private String listMode;
 
-
     public FriendListArrayAdapter(Context context, ArrayList<FriendListItem> friends, String listMode) {
         super(context, R.layout.friend_list_item, friends);
         this.friendListItems = friends;
@@ -129,4 +128,5 @@ public class FriendListArrayAdapter extends ArrayAdapter<FriendListItem> {
         allFriendItems.addAll(collection);
         super.addAll(collection);
     }
+
 }

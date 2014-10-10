@@ -67,6 +67,8 @@ public class ConversationActivity extends Activity {
     private Bitmap imageAttachment;
     private LruCache<String, Bitmap> cache;
 
+    View chatExplanationLabel;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -168,7 +170,7 @@ public class ConversationActivity extends Activity {
         // Check if user has gone through tutorial for this type of chat.
         if (!TutorialManager.getInstance(getApplicationContext()).isChatExplained() && currentChat.getType().equals(OneToOneChat.TYPE)){
 
-            final View chatExplanationLabel = findViewById(R.id.activity_conversation_chat_explanation);
+            chatExplanationLabel = findViewById(R.id.activity_conversation_chat_explanation);
             chatExplanationLabel.setVisibility(View.VISIBLE);
 
             chatExplanationLabel.setOnClickListener(new View.OnClickListener() {
@@ -407,7 +409,6 @@ public class ConversationActivity extends Activity {
                             AlertDialog amIAnonymousDialog = builder.create();
                             amIAnonymousDialog.show();
 
-
                             break;
                         case 3: //block
                             Toast.makeText(getApplicationContext(), "Blocking..", Toast.LENGTH_SHORT).show();
@@ -487,6 +488,11 @@ public class ConversationActivity extends Activity {
 
     public void back(View view){
         super.onBackPressed();
+    }
+
+    public void closeExplanationLabel(View view){
+        chatExplanationLabel.setVisibility(View.GONE);
+        TutorialManager.getInstance(getApplicationContext()).setChatExplained();
     }
 
 }
