@@ -26,6 +26,8 @@ public class LoginActivity extends Activity {
 
     ProgressBar progressBar;
 
+    private View loginCover;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,14 +35,15 @@ public class LoginActivity extends Activity {
 
         progressBar = (ProgressBar) findViewById(R.id.activity_login_progress_bar);
 
+        loginCover = findViewById(R.id.login_cover);
+
 
         if (CredentialsManager.getInstance(this).getValidUsername() != null) {
 
             login(CredentialsManager.getInstance(this).getValidUsername(), CredentialsManager.getInstance(this).getValidPassword());
 
         } else {
-
-            findViewById(R.id.login_cover).setVisibility(View.GONE);
+            loginCover.setVisibility(View.GONE);
 
             usernameEdit = (EditText) findViewById(R.id.username_edit);
             passwordEdit = (EditText) findViewById(R.id.password_edit);
@@ -95,7 +98,7 @@ public class LoginActivity extends Activity {
 
     private void login(String username, String password){
 
-        LoginAT loginAt = new LoginAT(this, null, progressBar);
+        LoginAT loginAt = new LoginAT(this, null, progressBar, loginCover);
         loginAt.execute(username, password);
     }
 

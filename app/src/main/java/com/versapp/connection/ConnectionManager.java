@@ -15,6 +15,7 @@ import java.io.IOException;
  */
 public class ConnectionManager {
 
+
     public static final String MODE = "dev";
     public static String HTTP_PROTOCOL = "http";
     public static String SERVER_IP_ADDRESS = "harmon.dev.versapp.co";
@@ -24,6 +25,17 @@ public class ConnectionManager {
     public static final String VERIFY_PHONE_URL = "http://harmon.dev.versapp.co/verify/";
     public static final String NUMBER_AVAILABILITY_URL = "http://" + SERVER_IP_ADDRESS + "/validate.php?";
 
+
+    /*
+    public static final String MODE = "dev";
+    public static String HTTP_PROTOCOL = "http";
+    public static String SERVER_IP_ADDRESS = "versapp.co";
+    public static final String CONFERENCE_IP_ADDRESS = "conference." + SERVER_IP_ADDRESS;
+    public static final int PORT = 4222;
+    public static final int NODE_PORT = 8052;
+    public static final String VERIFY_PHONE_URL = "http://harmon.dev.versapp.co/verify/";
+    public static final String NUMBER_AVAILABILITY_URL = "http://" + SERVER_IP_ADDRESS + "/validate.php?";
+*/
     private Context context;
     private static ConnectionManager instance;
 

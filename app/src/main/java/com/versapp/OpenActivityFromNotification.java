@@ -53,7 +53,7 @@ public class OpenActivityFromNotification extends Activity {
 
                         close = true;
                     }
-                }, null).execute(username, password);
+                }, null, null).execute(username, password);
 
             }
 
@@ -81,7 +81,7 @@ public class OpenActivityFromNotification extends Activity {
 
                         close = true;
                     }
-                }, null).execute(username, password);
+                }, null, null).execute(username, password);
 
             }
 

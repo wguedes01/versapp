@@ -74,7 +74,7 @@ public class GCMIntentService extends IntentService  {
                     public void run() {
 
                     }
-                }, null).execute(username, password);
+                }, null, null).execute(username, password);
 
             }
 

@@ -123,7 +123,7 @@ public class SignUpUsernamePassInputActivity extends Activity {
 
 
                                 }
-                            }, null).execute(usernameEdit.getText().toString(), passwordEdit.getText().toString());
+                            }, null, null).execute(usernameEdit.getText().toString(), passwordEdit.getText().toString());
 
 
                         } else {

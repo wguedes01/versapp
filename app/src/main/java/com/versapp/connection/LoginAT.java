@@ -26,6 +26,7 @@ import org.jivesoftware.smack.filter.PacketFilter;
 import org.jivesoftware.smack.filter.PacketTypeFilter;
 import org.jivesoftware.smack.packet.Packet;
 import org.jivesoftware.smack.packet.Presence;
+import org.jivesoftware.smack.sasl.SASLErrorException;
 import org.jivesoftware.smack.tcp.XMPPTCPConnection;
 import org.json.JSONException;
 
@@ -40,11 +41,16 @@ public class LoginAT extends AsyncTask<String, Void, XMPPTCPConnection>{
     private Context context;
     private Runnable postExecute;
     private ProgressBar progressBar;
+    private View loginCover;
 
-    public LoginAT(Context context, Runnable run, ProgressBar progressBar) {
+    private int errorCode = 0;
+
+
+    public LoginAT(Context context, Runnable run, ProgressBar progressBar, View loginCover) {
         this.context = context;
         this.postExecute = run;
         this.progressBar = progressBar;
+        this.loginCover = loginCover;
     }
 
     @Override
@@ -97,6 +103,11 @@ public class LoginAT extends AsyncTask<String, Void, XMPPTCPConnection>{
 
                 return connection;
 
+        } catch (SASLErrorException e){
+            errorCode = -1;
+            e.printStackTrace();
+            return null;
+
         } catch (XMPPException e) {
             e.printStackTrace();
             return null;
@@ -147,7 +158,6 @@ public class LoginAT extends AsyncTask<String, Void, XMPPTCPConnection>{
                         }
                     }.execute();
 
-
                 }
 
                 if (!GCMDeviceRegistration.isGCMDeviceIdRegistered(context)) {
@@ -166,13 +176,25 @@ public class LoginAT extends AsyncTask<String, Void, XMPPTCPConnection>{
                     context.startActivity(new Intent(context, DashboardActivity.class));
                 }
 
-            } else {
-
-                Toast.makeText(context, "Invalid username or password.", Toast.LENGTH_SHORT).show();
-            }
+            } //else {
+                //Toast.makeText(context, "Invalid username or password.", Toast.LENGTH_SHORT).show();
+            //}
 
         } else {
-            Toast.makeText(context, "Sorry, we are having some technical issues. Try again soon!", Toast.LENGTH_LONG).show();
+
+            if (loginCover != null){
+                loginCover.setVisibility(View.GONE);
+            }
+
+
+            if (errorCode == -1) {
+                Toast.makeText(context, "Invalid username or password.", Toast.LENGTH_LONG).show();
+
+            } else {
+                Toast.makeText(context, "Sorry, we are having some technical issues. Try again soon!", Toast.LENGTH_LONG).show();
+            }
+
+
         }
 
         super.onPostExecute(conn);
