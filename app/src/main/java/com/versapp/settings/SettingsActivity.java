@@ -24,6 +24,7 @@ import android.widget.Toast;
 import com.versapp.LoginActivity;
 import com.versapp.R;
 import com.versapp.connection.ConnectionManager;
+import com.versapp.connection.ConnectionService;
 import com.versapp.friends.FriendListActivity;
 import com.versapp.friends.FriendsManager;
 
@@ -44,6 +45,7 @@ public class SettingsActivity extends Activity {
 
         ArrayList<SettingsButton> buttons = new ArrayList<SettingsButton>();
         buttons.add(new SettingsButton("Home", new HomeOnClickListener()));
+        buttons.add(new SettingsButton("Username:\n" + ConnectionService.getUser(), null));
         //buttons.add(new SettingsButton("Account", new AccountOnClickListener()));
         //buttons.add(new SettingsButton("My Thoughts", null));
         buttons.add(new SettingsButton("Friends", new FriendsOnClickListener()));

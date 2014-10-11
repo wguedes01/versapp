@@ -180,8 +180,14 @@ public class FriendListActivity extends Activity {
 
                             final String chatName = chatNameEdit.getText().toString();
 
-                            new CreateChatAT(FriendListActivity.this, new GroupChatBuilder(new ArrayList<String>(selectedUsers), chatName)).execute();
-                            finish();
+                            if (chatName.length() > 0){
+                                new CreateChatAT(FriendListActivity.this, new GroupChatBuilder(new ArrayList<String>(selectedUsers), chatName)).execute();
+                                finish();
+                            } else {
+                                Toast.makeText(getApplicationContext(), "Invalid name", Toast.LENGTH_SHORT).show();
+                            }
+
+
                         }
                     });
                     createGroupChatDialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
