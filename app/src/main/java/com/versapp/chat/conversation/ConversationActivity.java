@@ -35,6 +35,7 @@ import com.versapp.chat.OneToOneChat;
 import com.versapp.chat.Participant;
 import com.versapp.confessions.Confession;
 import com.versapp.connection.ConnectionManager;
+import com.versapp.connection.ConnectionService;
 import com.versapp.database.ChatsDAO;
 import com.versapp.database.MessagesDAO;
 import com.versapp.util.ImageManager;
@@ -103,6 +104,13 @@ public class ConversationActivity extends Activity {
         sendMessageBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                if (!ConnectionService.getConnection().isAuthenticated()){
+
+                    Toast.makeText(getApplicationContext(), "Failed to send message. Please check network connectivity.", Toast.LENGTH_LONG).show();
+
+                    return;
+                }
 
                 if (messageEditText.getText().length() <= 0 && attachImageBtn == null){
                     Toast.makeText(getApplicationContext(), "Message may not be blank", Toast.LENGTH_SHORT).show();

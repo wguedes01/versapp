@@ -1,6 +1,7 @@
 package com.versapp.chat.conversation;
 
 import android.content.Context;
+import android.widget.Toast;
 
 import com.versapp.connection.ConnectionService;
 import com.versapp.database.MessagesDAO;
@@ -33,17 +34,21 @@ public class ConversationManager {
 
     public void sendMessage(Message message, String to){
 
-        // store on db.
-        messagesDAO.insert(message);
-
         // send over network.
         org.jivesoftware.smack.packet.Message msg = message.getSmackMessage();
         msg.setFrom(ConnectionService.getJid());
         msg.setTo(to);
         try {
             ConnectionService.getConnection().sendPacket(msg);
+
+            // store on db.
+            messagesDAO.insert(message);
+
         } catch (SmackException.NotConnectedException e) {
             e.printStackTrace();
+            Toast.makeText(context, "Failed to send message. Please check the device's network connection.", Toast.LENGTH_LONG).show();
         }
+
+
     }
 }

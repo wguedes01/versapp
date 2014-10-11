@@ -171,7 +171,7 @@ public class LoginAT extends AsyncTask<String, Void, XMPPTCPConnection>{
                 } else {
 
                     Intent intent = new  Intent(context, DashboardActivity.class);
-                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
                     context.startActivity(new Intent(context, DashboardActivity.class));
                 }

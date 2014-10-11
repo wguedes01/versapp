@@ -1,11 +1,9 @@
 package com.versapp.connection;
 
 import android.content.Context;
-import android.content.Intent;
 import android.util.Log;
 
 import com.versapp.Logger;
-import com.versapp.LoginActivity;
 
 import org.jivesoftware.smack.XMPPConnection;
 
@@ -37,20 +35,21 @@ public class ConnectionListener implements org.jivesoftware.smack.ConnectionList
 
     @Override
     public void connectionClosedOnError(Exception e) {
-
         Log.d(Logger.CONNECTION_DEBUG, "connectionClosedOnError(). " + e.getStackTrace());
-
-        Intent intent = new Intent(context, LoginActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        context.startActivity(intent);
-
     }
 
     @Override
     public void reconnectingIn(int seconds) {
     Log.d(Logger.CONNECTION_DEBUG, "reconnectingIn(). Seconds: " + seconds);
 
-        new LoginAT(context, null, null, null).execute(CredentialsManager.getInstance(context).getValidUsername(), CredentialsManager.getInstance(context).getValidPassword());
+        /*
+        new LoginAT(context, new Runnable() {
+            @Override
+            public void run() {
+
+            }
+        }, null, null).execute(CredentialsManager.getInstance(context).getValidUsername(), CredentialsManager.getInstance(context).getValidPassword());
+        */
 
     }
 

@@ -14,13 +14,16 @@ public class DashboardActivity extends FragmentActivity {
 
     private static final int CONFESSIONS_PAGE = 1;
 
+    private ViewPager pager;
+    private FragmentPagerAdapter adapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dashboard);
 
-        ViewPager pager = (ViewPager) findViewById(R.id.main_view_pager);
-        pager.setAdapter(new FragmentPagerAdapter(getSupportFragmentManager()) {
+        pager = (ViewPager) findViewById(R.id.main_view_pager);
+        adapter = new FragmentPagerAdapter(getSupportFragmentManager()) {
 
             final static int FRAGMENT_COUNT = 2;
 
@@ -39,7 +42,8 @@ public class DashboardActivity extends FragmentActivity {
                 return FRAGMENT_COUNT;
             }
 
-        });
+        };
+        pager.setAdapter(adapter);
 
         // If tutorial not complete, show swipe to thoughts.
         if (!TutorialManager.getInstance(this).isConfessionTutorialCompleted()){
@@ -75,8 +79,7 @@ public class DashboardActivity extends FragmentActivity {
 
     @Override
     public void onBackPressed() {
-
-       // super.onBackPressed();
+        //super.onBackPressed();
     }
 
 }
