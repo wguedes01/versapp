@@ -79,6 +79,7 @@ public class DashboardActivity extends FragmentActivity {
 
     @Override
     public void onBackPressed() {
+        pager.setCurrentItem(0);
         //super.onBackPressed();
     }
 
