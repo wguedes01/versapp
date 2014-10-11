@@ -14,7 +14,7 @@ public class FriendRequest extends Request {
     private Friend friend;
 
     protected FriendRequest(Context context, Friend friend) {
-        super(friend.getName(), "would like to be your friend.");
+        super(friend.getName(), "wants to be your friend.");
         this.context = context;
         this.friend = friend;
     }

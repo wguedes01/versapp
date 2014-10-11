@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -145,17 +146,17 @@ public class RequestsActivity extends Activity {
 
             final TextView titleLabel = (TextView) convertView.findViewById(R.id.request_title_text_view);
             final TextView messageLabel = (TextView) convertView.findViewById(R.id.request_message_text_view);
-            final TextView acceptBtn = (TextView) convertView.findViewById(R.id.request_accept_btn);
-            final TextView denyBtn = (TextView) convertView.findViewById(R.id.request_deny_btn);
+            final ImageButton acceptBtn = (ImageButton) convertView.findViewById(R.id.request_accept_btn);
+            final ImageButton denyBtn = (ImageButton) convertView.findViewById(R.id.request_deny_btn);
             final ImageView icon = (ImageView) convertView.findViewById(R.id.request_list_item_icon);
 
             titleLabel.setText(currentRequest.getTitle());
             messageLabel.setText(currentRequest.getMessage());
 
             if (currentRequest instanceof FriendRequest){
-                icon.setImageResource(R.drawable.ic_new_friend_notification);
+                icon.setImageResource(R.drawable.ic_friend_request);
             } else if(currentRequest instanceof GroupInvitationRequest){
-                icon.setImageResource(R.drawable.ic_group_invitation_notification);
+                icon.setImageResource(R.drawable.ic_group_request);
             }
 
             acceptBtn.setOnClickListener(new View.OnClickListener() {
