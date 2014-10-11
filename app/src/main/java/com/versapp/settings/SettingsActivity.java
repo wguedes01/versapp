@@ -6,6 +6,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Point;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -14,7 +15,6 @@ import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Adapter;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
 import android.widget.GridView;
@@ -35,8 +35,13 @@ import java.util.ArrayList;
 
 public class SettingsActivity extends Activity {
 
+    private static final String SETTINGS_FILE = "SETTINGS_FILE";
+    private static final String NOTIFICATION_ENABLED = "NOTIFICATION_ENABLED";
+
     private GridView grid;
-    private Adapter adapter;
+    private GridAdapter adapter;
+
+    SettingsButton notificationsBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +55,10 @@ public class SettingsActivity extends Activity {
         //buttons.add(new SettingsButton("My Thoughts", null));
         buttons.add(new SettingsButton("Friends", new FriendsOnClickListener()));
         buttons.add(new SettingsButton("Support", new SupportOnClickListener()));
+
+        notificationsBtn = new SettingsButton("Notifications\n" + (isNotificationEnabled(getApplicationContext()) ? "Enabled" : "Disabled"), new ToggleNotificationsOnClickListener());
+        buttons.add(notificationsBtn);
+
         buttons.add(new SettingsButton("Logout", new LogoutOnClickListener()));
 
         grid = (GridView) findViewById(R.id.activity_settings_main_grid);
@@ -277,6 +286,27 @@ public class SettingsActivity extends Activity {
             i.setData(Uri.parse(url));
             startActivity(i);
         }
+    }
+
+    private class ToggleNotificationsOnClickListener implements View.OnClickListener {
+
+        @Override
+        public void onClick(View v) {
+
+            SharedPreferences prefs = getSharedPreferences(SETTINGS_FILE, MODE_PRIVATE);
+            SharedPreferences.Editor edit = prefs.edit();
+            edit.putBoolean(NOTIFICATION_ENABLED, !isNotificationEnabled(getApplicationContext()));
+            edit.commit();
+
+            notificationsBtn.setTitle("Sound & Vibrate\n" + (isNotificationEnabled(getApplicationContext()) ? "Enabled" : "Disabled"));
+            adapter.notifyDataSetChanged();
+
+        }
+    }
+
+    public static boolean isNotificationEnabled(Context context){
+        SharedPreferences prefs = context.getSharedPreferences(SETTINGS_FILE, MODE_PRIVATE);
+        return prefs.getBoolean(NOTIFICATION_ENABLED, true);
     }
 
 

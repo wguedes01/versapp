@@ -12,6 +12,7 @@ import com.versapp.chat.ChatManager;
 import com.versapp.chat.conversation.ConversationActivity;
 import com.versapp.confessions.ViewSingleConfessionActivity;
 import com.versapp.requests.RequestsActivity;
+import com.versapp.settings.SettingsActivity;
 
 import java.util.HashMap;
 
@@ -53,8 +54,10 @@ public class NotificationManager {
         PendingIntent pendingIntent = PendingIntent.getActivities(context, 0, new Intent[] {homeIntent, intent}, PendingIntent.FLAG_ONE_SHOT);
 
         mBuilder.setContentIntent(pendingIntent);
-        mBuilder.setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION));
-        mBuilder.setVibrate(new long[] { 0, 100, 200, 300 });
+        if (SettingsActivity.isNotificationEnabled(context)){
+            mBuilder.setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION));
+            mBuilder.setVibrate(new long[] { 0, 100, 200, 300 });
+        }
 
         manager.notify(0, mBuilder.build());
 
@@ -94,8 +97,10 @@ public class NotificationManager {
                 PendingIntent pendingIntent = PendingIntent.getActivities(context, 0, new Intent[] {homeIntent, backIntent, intent}, PendingIntent.FLAG_ONE_SHOT);
 
                 mBuilder.setContentIntent(pendingIntent);
-                mBuilder.setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION));
-                mBuilder.setVibrate(new long[] { 0, 100, 200, 300 });
+                if (SettingsActivity.isNotificationEnabled(context)){
+                    mBuilder.setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION));
+                    mBuilder.setVibrate(new long[] { 0, 100, 200, 300 });
+                }
 
                 int notificationId = chatUUIDNotificaitonIdMap.size();
                 chatUUIDNotificaitonIdMap.put(chatId, notificationId);
@@ -147,8 +152,10 @@ public class NotificationManager {
         PendingIntent pendingIntent = PendingIntent.getActivities(context, 0, new Intent[] {homeIntent, intent}, PendingIntent.FLAG_ONE_SHOT);
 
         mBuilder.setContentIntent(pendingIntent);
-        mBuilder.setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION));
-        mBuilder.setVibrate(new long[] { 0, 100, 200, 300 });
+        if (SettingsActivity.isNotificationEnabled(context)){
+            mBuilder.setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION));
+            mBuilder.setVibrate(new long[] { 0, 100, 200, 300 });
+        }
 
         manager.notify(300, mBuilder.build());
 
