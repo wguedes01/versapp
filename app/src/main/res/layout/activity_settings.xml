@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.versapp.settings.SettingsActivity"
-    android:background="@drawable/blue_gradient">
+    android:background="@android:color/white">
 
     <GridView
         android:id="@+id/activity_settings_main_grid"

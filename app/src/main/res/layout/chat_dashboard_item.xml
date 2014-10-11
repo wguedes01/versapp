@@ -47,7 +47,7 @@
             android:layout_height="match_parent"
             android:visibility="gone"
             android:padding="10dp"
-            android:src="@drawable/chat_tile_one_to_one_unknown_icon"/>
+            android:src="@drawable/ic_anonymous_friend"/>
 
         <ImageView
             android:id="@+id/activity_chat_dashboard_one_to_one_tile_icon_owner"
