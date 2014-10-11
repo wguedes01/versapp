@@ -29,6 +29,7 @@ import java.util.regex.Pattern;
 public class ConfessionManager {
 
     public static final String CONFESSIONS_URL =  ConnectionManager.HTTP_PROTOCOL+"://"+ConnectionManager.SERVER_IP_ADDRESS+":"+ConnectionManager.NODE_PORT+"/thoughts";
+    public static final String GET_SINGLE_CONFESSION_URL =  ConnectionManager.HTTP_PROTOCOL+"://"+ConnectionManager.SERVER_IP_ADDRESS+":"+ConnectionManager.NODE_PORT+"/thought";
 
     private static ConfessionManager  instance;
 
@@ -194,7 +195,7 @@ public class ConfessionManager {
 
         try {
 
-            InputStream in = HTTPRequestManager.getInstance().sendSimpleHttpRequest(CONFESSIONS_URL+"/"+id);
+            InputStream in = HTTPRequestManager.getInstance().sendSimpleHttpRequest(GET_SINGLE_CONFESSION_URL+"/"+id);
 
             if (in != null){
                 Reader reader = new InputStreamReader(in);

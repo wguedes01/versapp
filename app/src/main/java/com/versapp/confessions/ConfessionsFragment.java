@@ -137,6 +137,8 @@ public class ConfessionsFragment extends Fragment {
                     if (!TutorialManager.getInstance(getActivity().getApplicationContext()).isConfessionTutorialCompleted()){
                         swipeUpLabel.setVisibility(View.GONE);
                         TutorialManager.getInstance(getActivity().getApplicationContext()).setConfessionTutorialCompleted();
+                    } else {
+                        swipeUpLabel.setVisibility(View.GONE);
                     }
 
                     if (!TutorialManager.getInstance(getActivity().getApplicationContext()).isCreateFirstConfessionChatTutorialCompleted()){
