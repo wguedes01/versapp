@@ -3,6 +3,8 @@ package com.versapp.connection;
 import android.content.Context;
 import android.content.Intent;
 
+import com.versapp.Environments;
+
 import org.jivesoftware.smack.ConnectionConfiguration;
 import org.jivesoftware.smack.SmackException;
 import org.jivesoftware.smack.XMPPException;
@@ -15,27 +17,29 @@ import java.io.IOException;
  */
 public class ConnectionManager {
 
+    public static String MODE = Environments.MODE;
+    public static String HTTP_PROTOCOL = Environments.HTTP_PROTOCOL;
+    public static String SERVER_IP_ADDRESS = Environments.SERVER_IP_ADDRESS;
+    public static final int PORT = Environments.PORT;
+    public static final int NODE_PORT = Environments.NODE_PORT;
+    public static final String VERIFY_PHONE_URL = Environments.VERIFY_PHONE_URL;
+    public static final String NUMBER_AVAILABILITY_URL = Environments.NUMBER_AVAILABILITY_URL;
 
-    public static final String MODE = "dev";
-    public static String HTTP_PROTOCOL = "http";
-    public static String SERVER_IP_ADDRESS = "harmon.dev.versapp.co";
-    public static final String CONFERENCE_IP_ADDRESS = "conference." + SERVER_IP_ADDRESS;
-    public static final int PORT = 5222;
-    public static final int NODE_PORT = 8052;
-    public static final String VERIFY_PHONE_URL = "http://harmon.dev.versapp.co/verify/";
-    public static final String NUMBER_AVAILABILITY_URL = "http://" + SERVER_IP_ADDRESS + "/validate.php?";
+    // Thoughts
+    public static final String CONFESSIONS_URL =  Environments.CONFESSIONS_URL;
+    public static final String GET_SINGLE_CONFESSION_URL =  Environments.GET_SINGLE_CONFESSION_URL;
 
+    // Friends
+    public static final String FRIEND_URL = Environments.FRIEND_URL;
+    public static final String PENDING_FRIEND_URL = Environments.PENDING_FRIEND_URL;
 
-    /*
-    public static final String MODE = "dev";
-    public static String HTTP_PROTOCOL = "http";
-    public static String SERVER_IP_ADDRESS = "versapp.co";
-    public static final String CONFERENCE_IP_ADDRESS = "conference." + SERVER_IP_ADDRESS;
-    public static final int PORT = 4222;
-    public static final int NODE_PORT = 8052;
-    public static final String VERIFY_PHONE_URL = "http://harmon.dev.versapp.co/verify/";
-    public static final String NUMBER_AVAILABILITY_URL = "http://" + SERVER_IP_ADDRESS + "/validate.php?";
-*/
+    // Chats
+    public static final String CREATE_CHAT_URL = Environments.CREATE_CHAT_URL;
+    public static final String JOINED_CHATS_URL = Environments.JOINED_CHATS_URL;
+    public static final String PENDING_CHATS_URL = Environments.PENDING_CHATS_URL;
+    public static final String JOIN_CHAT_URL = Environments.JOIN_CHAT_URL;
+    public static final String LEAVE_CHAT_URL = Environments.LEAVE_CHAT_URL;
+
     private Context context;
     private static ConnectionManager instance;
 

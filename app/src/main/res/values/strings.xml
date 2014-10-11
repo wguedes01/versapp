@@ -20,7 +20,7 @@
     <string name="username_pass_input_header">Last Step!</string>
     <string name="sign_up_username_hint">Username</string>
     <string name="sign_up_password_hint">Password</string>
-    <string name="varification_code_input_header">Vefiry</string>
+    <string name="varification_code_input_header">Verify</string>
     <string name="sign_up_verification_code_hint">Code</string>
     <string name="title_activity_compose_confession">ComposeConfessionActivity</string>
     <string name="compose_confession_hintt">What\'s up?</string>

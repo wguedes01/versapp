@@ -26,9 +26,6 @@ import java.util.Arrays;
  */
 public class FriendsManager {
 
-    private static final String FRIEND_URL = ConnectionManager.HTTP_PROTOCOL+"://"+ConnectionManager.SERVER_IP_ADDRESS+":"+ConnectionManager.NODE_PORT+"/friends/active";
-    private static final String PENDING_FRIEND_URL =  ConnectionManager.HTTP_PROTOCOL+"://"+ConnectionManager.SERVER_IP_ADDRESS+":"+ConnectionManager.NODE_PORT+"/friends/pending";
-
     private static final String SUBSCRIPTION_NONE = "none";
 
     private static FriendsManager instance;
@@ -56,7 +53,7 @@ public class FriendsManager {
         InputStream in = null;
         try {
 
-            in = HTTPRequestManager.getInstance().sendSimpleHttpRequest(FRIEND_URL);
+            in = HTTPRequestManager.getInstance().sendSimpleHttpsRequest(ConnectionManager.FRIEND_URL);
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -95,7 +92,7 @@ public class FriendsManager {
         InputStream in = null;
         try {
 
-            in = HTTPRequestManager.getInstance().sendSimpleHttpRequest(PENDING_FRIEND_URL);
+            in = HTTPRequestManager.getInstance().sendSimpleHttpsRequest(ConnectionManager.PENDING_FRIEND_URL);
 
         } catch (IOException e) {
             e.printStackTrace();

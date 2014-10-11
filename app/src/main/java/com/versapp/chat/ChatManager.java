@@ -24,12 +24,6 @@ import java.util.Arrays;
  */
 public class ChatManager {
 
-    private static final String CREATE_CHAT_URL = ConnectionManager.HTTP_PROTOCOL+"://"+ConnectionManager.SERVER_IP_ADDRESS+":"+ConnectionManager.NODE_PORT+"/chat/create";
-    private static final String JOINED_CHATS_URL = ConnectionManager.HTTP_PROTOCOL+"://"+ConnectionManager.SERVER_IP_ADDRESS+":"+ConnectionManager.NODE_PORT+"/chat/joined";
-    private static final String PENDING_CHATS_URL = ConnectionManager.HTTP_PROTOCOL+"://"+ConnectionManager.SERVER_IP_ADDRESS+":"+ConnectionManager.NODE_PORT+"/chat/pending";
-    private static final String JOIN_CHAT_URL = ConnectionManager.HTTP_PROTOCOL+"://"+ConnectionManager.SERVER_IP_ADDRESS+":"+ConnectionManager.NODE_PORT+"/chat/join";
-    private static final String LEAVE_CHAT_URL = ConnectionManager.HTTP_PROTOCOL+"://"+ConnectionManager.SERVER_IP_ADDRESS+":"+ConnectionManager.NODE_PORT+"/chat/leave";
-
     private static ChatManager instance;
     private static ArrayList<Chat> chats;
     private static ArrayList<Chat> pendingChats;
@@ -62,7 +56,7 @@ public class ChatManager {
 
         try {
 
-            InputStream in = HTTPRequestManager.getInstance().sendSimpleHttpRequest(url);
+            InputStream in = HTTPRequestManager.getInstance().sendSimpleHttpsRequest(url);
 
             if (in == null) {
                 return new ArrayList<Chat>();
@@ -90,7 +84,7 @@ public class ChatManager {
         Chat chat = null;
 
         try {
-            InputStream in = HTTPRequestManager.getInstance().simpleHTTPPost(CREATE_CHAT_URL, new StringEntity(chatBuilder.toJson()));
+            InputStream in = HTTPRequestManager.getInstance().simpleHTTPSPost(ConnectionManager.CREATE_CHAT_URL, new StringEntity(chatBuilder.toJson()));
 
             if (in != null) {
 
@@ -184,7 +178,7 @@ public class ChatManager {
 
         ChatsDAO chatsDb = new ChatsDAO(context);
 
-        ArrayList<Chat> chats = ChatManager.getInstance().getChatsFromServer(JOINED_CHATS_URL);
+        ArrayList<Chat> chats = ChatManager.getInstance().getChatsFromServer(ConnectionManager.JOINED_CHATS_URL);
 
         /*
         if (FriendsManager.getInstance().getCachedFriends().size() < 2){
@@ -241,11 +235,11 @@ public class ChatManager {
     }
 
     public ArrayList<Chat> getPendingChatsFromServer(){
-        return getChatsFromServer(PENDING_CHATS_URL);
+        return getChatsFromServer(ConnectionManager.PENDING_CHATS_URL);
     };
 
     public ArrayList<Chat> getJoinedChatsFromServer(){
-        return getChatsFromServer(JOINED_CHATS_URL);
+        return getChatsFromServer(ConnectionManager.JOINED_CHATS_URL);
     }
 
     public void joinGroup(Context context, GroupChat chat) {
@@ -254,7 +248,7 @@ public class ChatManager {
         try {
             stringEntity = new StringEntity(String.format("{\"uuid\" : \"%s\"}", chat.getUuid()));
 
-            HTTPRequestManager.getInstance().simpleHTTPPost(JOIN_CHAT_URL, stringEntity);
+            HTTPRequestManager.getInstance().simpleHTTPSPost(ConnectionManager.JOIN_CHAT_URL, stringEntity);
 
             new ChatsDAO(context).insert(chat);
             pendingChats.remove(chat);
@@ -273,7 +267,7 @@ public class ChatManager {
         try {
             stringEntity = new StringEntity(String.format("{\"uuid\" : \"%s\"}", chat.getUuid()));
 
-            HTTPRequestManager.getInstance().simpleHTTPPost(LEAVE_CHAT_URL, stringEntity);
+            HTTPRequestManager.getInstance().simpleHTTPSPost(ConnectionManager.LEAVE_CHAT_URL, stringEntity);
 
             pendingChats.remove(chat);
 
@@ -288,8 +282,5 @@ public class ChatManager {
     public void invalidatePendingChatCache(){
 
         pendingChats = null;
-
-
-
     }
 }
