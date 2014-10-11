@@ -17,7 +17,7 @@
         android:background="@drawable/bubble_theirs"
         android:visibility="gone"
         android:textColor="@android:color/black"
-        android:gravity="center"/>
+        android:gravity="left"/>
 
     <ImageView
         android:id="@+id/conversation_list_item_message_image_theirs"
@@ -38,7 +38,7 @@
         android:background="@drawable/bubble_mine"
         android:visibility="gone"
         android:textColor="@android:color/black"
-        android:gravity="center"/>
+        android:gravity="left"/>
 
     <ImageView
         android:layout_below="@id/conversation_list_item_message_content_mine"
