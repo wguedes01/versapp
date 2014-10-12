@@ -122,8 +122,7 @@
         android:paddingRight="5dip"
         android:transcriptMode="alwaysScroll"
         android:layout_above="@id/message_dashboard"
-        android:layout_below="@id/activity_conversation_header_divider"
-        android:stackFromBottom="true"></ListView>
+        android:layout_below="@id/activity_conversation_header_divider"></ListView>
 
     <TextView
         android:id="@+id/activity_conversation_chat_explanation"

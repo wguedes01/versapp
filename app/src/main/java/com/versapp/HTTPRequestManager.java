@@ -92,6 +92,10 @@ public class HTTPRequestManager {
 
     public InputStream simpleHTTPSPost(String urlString, StringEntity stringEntity) throws IOException {
 
+        if (ConnectionManager.MODE.equals("dev")){
+            return simpleHTTPPostDepricated(urlString, stringEntity);
+        }
+
         URL url = new URL(urlString);
         HttpsURLConnection con = (HttpsURLConnection) url.openConnection();
         con.setRequestMethod("POST");

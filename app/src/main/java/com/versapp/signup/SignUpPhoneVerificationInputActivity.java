@@ -48,9 +48,10 @@ public class SignUpPhoneVerificationInputActivity extends Activity {
             @Override
             public void afterTextChanged(Editable s) {
 
-                // Remove US area code.
-                if (phoneEdit.getText().toString().length() > 10) {
-                    phoneEdit.setText(phoneEdit.getText().toString().replace("^+1", ""));
+                if (phoneEdit.getText().toString().length() > 10 && phoneEdit.getText().toString().startsWith("1")){
+                    phoneEdit.setText(phoneEdit.getText().toString().substring(1, phoneEdit.getText().toString().length()));
+                } else if(phoneEdit.getText().toString().length() > 10 && phoneEdit.getText().toString().startsWith("+1")){
+                    phoneEdit.setText(phoneEdit.getText().toString().substring(2, phoneEdit.getText().toString().length()));
                 }
             }
         });
