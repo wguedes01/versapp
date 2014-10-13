@@ -140,4 +140,30 @@
         android:visibility="gone">
     </TextView>
 
+    <RelativeLayout
+        android:id="@+id/fragment_confessions_oops_holder"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="20dp"
+        >
+        <TextView
+            android:id="@+id/fragment_confessions_oops_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/round_dark_background"
+            android:text="@string/fragment_confessions_oops_label"
+            android:textSize="18sp"
+            android:textColor="@android:color/white"
+            android:padding="10dp"/>
+        <Button
+            android:id="@+id/fragment_confessions_oops_refresh_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/fragment_confessions_oops_refresh_btn"
+            android:layout_below="@id/fragment_confessions_oops_label"
+            android:layout_centerHorizontal="true"/>
+        </RelativeLayout>
+
 </RelativeLayout>

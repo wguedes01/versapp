@@ -44,5 +44,7 @@
     <string name="title_activity_open_activity_from_notification">OpenActivityFromNotification</string>
     <string name="create_first_confession_chat">Start conversation with creator of this Thought! Click the chat bubble below!</string>
     <string name="activity_conversation_chat_explanation">Am I anonymous?\n Go to settings (top right) to find out.</string>
+    <string name="fragment_confessions_oops_refresh_btn">Refresh</string>
+    <string name="fragment_confessions_oops_label">Oops.. Something went wrong...</string>
 
 </resources>

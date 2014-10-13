@@ -18,6 +18,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -58,6 +59,12 @@ public class ConfessionsFragment extends Fragment {
     private View clickPlusLabel;
     private View createConfessionChatLabel;
 
+    // In case of error loading confessions, show:
+    View refreshButtonHolder;
+    Button refreshBtn;
+
+    View progressBarHolder;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable final ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -78,12 +85,16 @@ public class ConfessionsFragment extends Fragment {
         startMessageBtn = (ImageButton) convertView.findViewById(R.id.big_confession_msg_btn);
         composeConfessionBtn = (ImageView) convertView.findViewById(R.id.big_confession_compose_new_confession_btn);
 
-        final View progressBarHolder = convertView.findViewById(R.id.confession_dashboard_progress_bar_holder);
+        progressBarHolder = convertView.findViewById(R.id.confession_dashboard_progress_bar_holder);
 
         // Tutorial
         swipeUpLabel = convertView.findViewById(R.id.swipe_down_to_view_thoughts);
         clickPlusLabel = convertView.findViewById(R.id.click_plus_to_create_confession_text_view);
         createConfessionChatLabel = convertView.findViewById(R.id.create_first_confession_chat_text_view);
+
+
+        refreshButtonHolder = convertView.findViewById(R.id.fragment_confessions_oops_holder);
+        refreshBtn = (Button) convertView.findViewById(R.id.fragment_confessions_oops_refresh_btn);
 
         if (!TutorialManager.getInstance(getActivity().getApplicationContext()).isConfessionTutorialCompleted()){
 
@@ -111,6 +122,15 @@ public class ConfessionsFragment extends Fragment {
         // Due to differences among devices, we need to programatically adjust
         // size of a few elements.
         adjustLayoutElementsSize(convertView);
+
+
+        refreshBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                System.out.println("Loading..");
+                new LoadConfessions().execute();
+            }
+        });
 
         composeConfessionBtn.setOnClickListener(new View.OnClickListener() {
 
@@ -196,52 +216,7 @@ public class ConfessionsFragment extends Fragment {
             }
         }));
 
-        Log.d(Logger.CONFESSIONS_DEBUG, "Getting confessions.");
-        new AsyncTask<Void, Void, Confession[]>() {
-
-            @Override
-            protected void onPreExecute() {
-                progressBarHolder.setVisibility(View.VISIBLE);
-                super.onPreExecute();
-            }
-
-            @Override
-            protected Confession[] doInBackground(Void... params) {
-
-                Log.d(Logger.CONFESSIONS_DEBUG, "About to get confessions");
-                Confession[] confessions = ConfessionManager.getInstance().downloadConfessions(getActivity());
-
-                if (confessions == null){
-                    confessions = new Confession[0];
-                } else {
-                    List< Confession > list = Arrays.asList(confessions);
-                    Collections.reverse(list);
-                    confessions = (Confession[]) list.toArray();
-                }
-
-                return confessions;
-
-            }
-
-            @Override
-            protected void onPostExecute(Confession[] result) {
-
-                if (result != null && result.length > 0) {
-
-                    confessions.addAll(Arrays.asList(result));
-                    selectedConfessionPosition = 0;
-                    adapter.notifyDataSetChanged();
-
-                    updateLayout();
-
-                    progressBarHolder.setVisibility(View.GONE);
-                } else {
-                    Toast.makeText(getActivity(), "Oops.. we had a little problem loading the thoughts..", Toast.LENGTH_LONG).show();
-                }
-
-                super.onPostExecute(result);
-            }
-        }.execute();
+       new LoadConfessions().execute();
 
 
         startMessageBtn.setOnTouchListener(new CustomTouchableElementListener(getActivity(), new Runnable() {
@@ -568,4 +543,59 @@ public class ConfessionsFragment extends Fragment {
 
         updateLayout();
     }
+
+    private class LoadConfessions extends AsyncTask<Void, Void, Confession[]>{
+
+        @Override
+        protected void onPreExecute() {
+            progressBarHolder.setVisibility(View.VISIBLE);
+            super.onPreExecute();
+        }
+
+        @Override
+        protected Confession[] doInBackground(Void... params) {
+
+            Log.d(Logger.CONFESSIONS_DEBUG, "About to get confessions");
+            Confession[] confessions = ConfessionManager.getInstance().downloadConfessions(getActivity());
+
+            if (confessions == null){
+                return null;
+            } else {
+                List< Confession > list = Arrays.asList(confessions);
+                Collections.reverse(list);
+                confessions = (Confession[]) list.toArray();
+            }
+
+            return confessions;
+
+        }
+
+        @Override
+        protected void onPostExecute(Confession[] result) {
+
+            if (result != null && result.length > 0) {
+
+                refreshButtonHolder.setVisibility(View.GONE);
+
+                confessions.clear();
+                confessions.addAll(Arrays.asList(result));
+                selectedConfessionPosition = 0;
+                adapter.notifyDataSetChanged();
+                confessionsListView.setSelection(0);
+
+                updateLayout();
+
+                progressBarHolder.setVisibility(View.GONE);
+            } else {
+
+                refreshButtonHolder.setVisibility(View.VISIBLE);
+                Toast.makeText(getActivity(), "Oops.. we had a little problem loading the thoughts..", Toast.LENGTH_LONG).show();
+            }
+
+            super.onPostExecute(result);
+        }
+    }
+
+
 }
+
