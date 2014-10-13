@@ -226,8 +226,6 @@ public class ConfessionsFragment extends Fragment {
             @Override
             protected void onPostExecute(Confession[] result) {
 
-                Log.d(Logger.CONFESSIONS_DEBUG, "Got " + result.length + " confessions.");
-
                 if (result != null && result.length > 0) {
 
                     confessions.addAll(Arrays.asList(result));

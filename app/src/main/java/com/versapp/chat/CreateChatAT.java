@@ -59,7 +59,7 @@ public class CreateChatAT extends AsyncTask<Void, Void, Chat>{
             // go to chat.
             Intent intent = new Intent(context, ConversationActivity.class);
             intent.putExtra(ConversationActivity.CHAT_UUID_INTENT_EXTRA, chat.getUuid());
-            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             context.startActivity(intent);
         }
 

@@ -199,13 +199,18 @@ public class ConfessionManager {
 
     private Confession[] deserializeConfessionsStream(InputStream in){
 
-        Reader reader = new InputStreamReader(in);
+        if (in != null){
+            Reader reader = new InputStreamReader(in);
 
-        GsonBuilder gsonBuilder = new GsonBuilder();
-        gsonBuilder.registerTypeAdapter(Confession.class, new ConfessionDeserializer());
-        Gson gson = gsonBuilder.create();
+            GsonBuilder gsonBuilder = new GsonBuilder();
+            gsonBuilder.registerTypeAdapter(Confession.class, new ConfessionDeserializer());
+            Gson gson = gsonBuilder.create();
 
-        return gson.fromJson(reader, Confession[].class);
+            return gson.fromJson(reader, Confession[].class);
+        } else {
+            return new Confession[0];
+        }
+
     }
 
     public Confession[] getDeserializeConfessionsStreamMethod(InputStream in){

@@ -76,7 +76,6 @@ public class LoginAT extends AsyncTask<String, Void, XMPPTCPConnection>{
         config.setCompressionEnabled(true);
         //config.setSASLAuthenticationEnabled(true);
 
-
         XMPPTCPConnection connection = new XMPPTCPConnection(config);
         connection.getRoster().setSubscriptionMode(Roster.SubscriptionMode.manual);
 

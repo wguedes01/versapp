@@ -5,7 +5,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 
+import com.versapp.chat.conversation.ConversationActivity;
 import com.versapp.confessions.ViewSingleConfessionActivity;
+import com.versapp.connection.ConnectionListener;
 import com.versapp.connection.ConnectionService;
 import com.versapp.connection.CredentialsManager;
 import com.versapp.connection.LoginAT;
@@ -85,7 +87,36 @@ public class OpenActivityFromNotification extends Activity {
 
             }
 
+        } else if(getIntent().getStringExtra(OPEN_ACTIVITY_INTENT_EXTRA).equals(ConversationActivity.class.getName())){
 
+            String username = CredentialsManager.getInstance(getApplicationContext()).getValidUsername();
+            String password = CredentialsManager.getInstance(getApplicationContext()).getValidPassword();
+
+            if (ConnectionListener.reconnecting ||(ConnectionService.getConnection() != null && ConnectionService.getConnection().isAuthenticated())){
+
+                Intent intent = new Intent(getApplicationContext(), ConversationActivity.class);
+                intent.putExtra(ConversationActivity.CHAT_UUID_INTENT_EXTRA, getIntent().getStringExtra(ConversationActivity.CHAT_UUID_INTENT_EXTRA));
+                intent.putExtra(ConversationActivity.FROM_NOTIFICATION_INTENT_EXTRA, true);
+                startActivity(intent);
+
+                close = true;
+
+            } else {
+
+                new LoginAT(this, new Runnable() {
+                    @Override
+                    public void run() {
+
+                        Intent intent = new Intent(getApplicationContext(), ConversationActivity.class);
+                        intent.putExtra(ConversationActivity.CHAT_UUID_INTENT_EXTRA, getIntent().getStringExtra(ConversationActivity.CHAT_UUID_INTENT_EXTRA));
+                        intent.putExtra(ConversationActivity.FROM_NOTIFICATION_INTENT_EXTRA, true);
+                        startActivity(intent);
+
+                        close = true;
+                    }
+                }, null, null).execute(username, password);
+
+            }
 
         }
 

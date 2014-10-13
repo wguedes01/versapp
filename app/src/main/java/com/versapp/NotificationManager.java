@@ -90,9 +90,10 @@ public class NotificationManager {
                 Intent backIntent = new Intent(context, ChatDashboardActivity.class);
                 backIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
-                Intent intent = new Intent(context, ConversationActivity.class);
+                Intent intent = new Intent(context, OpenActivityFromNotification.class);
                 intent.putExtra(ConversationActivity.CHAT_UUID_INTENT_EXTRA, chatId);
                 intent.putExtra(ConversationActivity.FROM_NOTIFICATION_INTENT_EXTRA, true);
+                intent.putExtra(OpenActivityFromNotification.OPEN_ACTIVITY_INTENT_EXTRA, ConversationActivity.class.getName());
 
                 PendingIntent pendingIntent = PendingIntent.getActivities(context, 0, new Intent[] {homeIntent, backIntent, intent}, PendingIntent.FLAG_ONE_SHOT);
 

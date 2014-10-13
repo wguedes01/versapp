@@ -13,6 +13,7 @@ import org.jivesoftware.smack.XMPPConnection;
 public class ConnectionListener implements org.jivesoftware.smack.ConnectionListener {
 
     private Context context;
+    public static boolean reconnecting = false;
 
     public ConnectionListener(Context context) {
         this.context = context;
@@ -41,7 +42,7 @@ public class ConnectionListener implements org.jivesoftware.smack.ConnectionList
     @Override
     public void reconnectingIn(int seconds) {
     Log.d(Logger.CONNECTION_DEBUG, "reconnectingIn(). Seconds: " + seconds);
-
+    reconnecting = true;
         /*
         new LoginAT(context, new Runnable() {
             @Override
@@ -55,11 +56,13 @@ public class ConnectionListener implements org.jivesoftware.smack.ConnectionList
 
     @Override
     public void reconnectionSuccessful() {
+        reconnecting = false;
         Log.d(Logger.CONNECTION_DEBUG, "reconnectionSuccessfull()");
     }
 
     @Override
     public void reconnectionFailed(Exception e) {
+        reconnecting = false;
         Log.d(Logger.CONNECTION_DEBUG, "reconnectionFailed(). " + e.getStackTrace());
     }
 }

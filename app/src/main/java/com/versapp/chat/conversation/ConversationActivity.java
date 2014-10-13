@@ -34,6 +34,7 @@ import com.versapp.chat.GroupChat;
 import com.versapp.chat.OneToOneChat;
 import com.versapp.chat.Participant;
 import com.versapp.confessions.Confession;
+import com.versapp.connection.ConnectionListener;
 import com.versapp.connection.ConnectionManager;
 import com.versapp.connection.ConnectionService;
 import com.versapp.database.ChatsDAO;
@@ -105,6 +106,13 @@ public class ConversationActivity extends Activity {
             @Override
             public void onClick(View v) {
 
+                if (ConnectionListener.reconnecting){
+
+                    Toast.makeText(getApplicationContext(), "Loading conversation. Try again in 5 seconds.", Toast.LENGTH_LONG).show();
+
+                    return;
+                }
+
                 if (!ConnectionService.getConnection().isAuthenticated()){
 
                     Toast.makeText(getApplicationContext(), "Failed to send message. Please check network connectivity.", Toast.LENGTH_LONG).show();
@@ -170,7 +178,6 @@ public class ConversationActivity extends Activity {
             protected void onPostExecute(ArrayList<Message> msgs) {
 
                 if (msgs != null){
-
 
                     messages.addAll(msgs);
                     adapter.notifyDataSetChanged();
