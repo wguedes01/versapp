@@ -171,14 +171,11 @@ public class LoginAT extends AsyncTask<String, Void, XMPPTCPConnection>{
                 } else {
 
                     Intent intent = new  Intent(context, DashboardActivity.class);
-                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TOP);
-
-                    context.startActivity(new Intent(context, DashboardActivity.class));
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    context.startActivity(intent);
                 }
 
-            } //else {
-                //Toast.makeText(context, "Invalid username or password.", Toast.LENGTH_SHORT).show();
-            //}
+            }
 
         } else {
 
