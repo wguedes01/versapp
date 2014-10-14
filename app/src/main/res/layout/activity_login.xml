@@ -109,14 +109,16 @@
         android:id="@+id/login_cover"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/owl_bg_login"></LinearLayout>
+        android:background="@drawable/logo_screen"></LinearLayout>
 
     <ProgressBar
         android:id="@+id/activity_login_progress_bar"
         android:layout_width="80dp"
         android:layout_height="80dp"
         android:visibility="gone"
-        android:layout_centerInParent="true"/>
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="40dp"/>
 
 </RelativeLayout>
 

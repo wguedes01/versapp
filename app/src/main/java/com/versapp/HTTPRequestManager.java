@@ -142,7 +142,6 @@ public class HTTPRequestManager {
 
     }
 
-
     public InputStream sendSimpleHttpsRequest(String urlString) throws IOException {
 
         if (ConnectionManager.MODE.equals("dev")){
@@ -157,8 +156,7 @@ public class HTTPRequestManager {
             HttpsURLConnection con = (HttpsURLConnection)url.openConnection();
 
             String userpass = ConnectionService.getUser() + ":" + ConnectionService.getSessionId();
-            // String basicAuth = "Basic " + Base64.encodeToString(userpass.getBytes(), Base64.DEFAULT);
-            String basicAuth = "Basic " + Base64.encodeToString("will:123".getBytes(), Base64.DEFAULT);
+            String basicAuth = "Basic " + Base64.encodeToString(userpass.getBytes(), Base64.DEFAULT);
             con.setRequestProperty("Authorization", basicAuth);
 
             return con.getInputStream();

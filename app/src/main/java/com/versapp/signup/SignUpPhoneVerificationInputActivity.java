@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.versapp.Environments;
 import com.versapp.R;
 
 import java.io.IOException;
@@ -61,7 +62,7 @@ public class SignUpPhoneVerificationInputActivity extends Activity {
 
     public void next(View view){
 
-        boolean requireVerification = true;
+        boolean requireVerification = Environments.REQUIRE_VERIFICATION;
 
         if (!requireVerification){
 

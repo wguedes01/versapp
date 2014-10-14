@@ -5,6 +5,9 @@ package com.versapp;
  */
 public class Environments {
 
+    // GENERAL
+    public static final boolean REQUIRE_VERIFICATION = false;
+
     /*
     // PRODUCTION
     public static String MODE = "prod";
@@ -31,9 +34,9 @@ public class Environments {
     public static final String LEAVE_CHAT_URL = HTTP_PROTOCOL+"://"+SERVER_IP_ADDRESS+":"+NODE_PORT+"/chat/leave";
     */
 
-/*
+
     // PRODUCTION 2
-        public static String MODE = "prod";
+    public static String MODE = "prod";
     public static String HTTP_PROTOCOL = "https";
     public static String SERVER_IP_ADDRESS = "versapp.co";
     public static final int PORT = 4222;
@@ -55,9 +58,9 @@ public class Environments {
     public static final String PENDING_CHATS_URL = HTTP_PROTOCOL+"://"+SERVER_IP_ADDRESS+":"+NODE_PORT+"/chat/pending";
     public static final String JOIN_CHAT_URL = HTTP_PROTOCOL+"://"+SERVER_IP_ADDRESS+":"+NODE_PORT+"/chat/join";
     public static final String LEAVE_CHAT_URL = HTTP_PROTOCOL+"://"+SERVER_IP_ADDRESS+":"+NODE_PORT+"/chat/leave";
-*/
 
 
+/*
     // DEV
     public static String MODE = "dev";
     public static String HTTP_PROTOCOL = "http";
@@ -81,6 +84,6 @@ public class Environments {
     public static final String PENDING_CHATS_URL = HTTP_PROTOCOL+"://"+SERVER_IP_ADDRESS+":"+NODE_PORT+"/chat/pending";
     public static final String JOIN_CHAT_URL = HTTP_PROTOCOL+"://"+SERVER_IP_ADDRESS+":"+NODE_PORT+"/chat/join";
     public static final String LEAVE_CHAT_URL = HTTP_PROTOCOL+"://"+SERVER_IP_ADDRESS+":"+NODE_PORT+"/chat/leave";
-
+*/
 
 }

@@ -43,12 +43,6 @@ public class ConversationListArrayAdapter extends ArrayAdapter<Message> {
         convertView = inflater.inflate(R.layout.conversation_list_item, parent, false);
 
 
-
-            //convertView.setTag(holder);
-        //} else {
-           // holder = (ViewHolder) convertView.getTag();
-       // }
-
         if (currentMessage.isMine()){
             holder.image = (ImageView) convertView.findViewById(R.id.conversation_list_item_message_image_mine);
             holder.body = (TextView) convertView.findViewById(R.id.conversation_list_item_message_content_mine);
