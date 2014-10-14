@@ -8,8 +8,8 @@ android {
         applicationId "com.versapp"
         minSdkVersion 11
         targetSdkVersion 20
-        versionCode 4
-        versionName "1.0.3"
+        versionCode 1
+        versionName "1.0.0"
     }
     buildTypes {
         release {

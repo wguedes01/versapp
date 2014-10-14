@@ -6,7 +6,7 @@ package com.versapp;
 public class Environments {
 
     // GENERAL
-    public static final boolean REQUIRE_VERIFICATION = false;
+    public static final boolean REQUIRE_VERIFICATION = true;
 
     /*
     // PRODUCTION
@@ -33,7 +33,6 @@ public class Environments {
     public static final String JOIN_CHAT_URL = HTTP_PROTOCOL+"://"+SERVER_IP_ADDRESS+":"+NODE_PORT+"/chat/join";
     public static final String LEAVE_CHAT_URL = HTTP_PROTOCOL+"://"+SERVER_IP_ADDRESS+":"+NODE_PORT+"/chat/leave";
     */
-
 
     // PRODUCTION 2
     public static String MODE = "prod";
