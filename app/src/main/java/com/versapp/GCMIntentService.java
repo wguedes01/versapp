@@ -35,7 +35,7 @@ public class GCMIntentService extends IntentService  {
     @Override
     protected void onHandleIntent(Intent intent) {
 
-        Log.d(Logger.GCM_DEBUG, "Received GCM PUSH");
+        Logger.log(Logger.GCM_DEBUG, "Received GCM PUSH");
 
         if (CredentialsManager.getInstance(getApplicationContext()).getValidUsername() == null){
             return ;
@@ -48,14 +48,14 @@ public class GCMIntentService extends IntentService  {
 
         for (String key : b.keySet()) {
             Object value = b.get(key);
-            Log.d(Logger.GCM_DEBUG, String.format("%s %s (%s)", key,
+            Logger.log(Logger.GCM_DEBUG, String.format("%s %s (%s)", key,
                     value.toString(), value.getClass().getName()));
         }
 
         if (pushType == null) {
 
         } else if (pushType.equals(PUSH_TYPE_CONFESSION)) {
-            Log.d(Logger.GCM_DEBUG, "Received Confession Push. Type:" + pushType);
+            Logger.log(Logger.GCM_DEBUG, "Received Confession Push. Type:" + pushType);
 
             long confessionId = Long.valueOf(intent.getStringExtra(GCM_CONFESSION_ID_INTENT_EXTRA));
 
@@ -80,7 +80,7 @@ public class GCMIntentService extends IntentService  {
 
             String body = intent.getStringExtra("body");
 
-            Log.d(Logger.GCM_DEBUG, "Received Message Push. Type:" + pushType + ". Body: " + body);
+            Logger.log(Logger.GCM_DEBUG, "Received Message Push. Type:" + pushType + ". Body: " + body);
         } else if(pushType.equals(PUSH_TYPE_BLM_NEW_FRIEND)){
 
             String username = intent.getStringExtra(GCM_INTENT_EXTRA_NEW_FRIEND_USERNAME);
@@ -94,12 +94,12 @@ public class GCMIntentService extends IntentService  {
 
             String messageContent = intent.getStringExtra(GCM_INTENT_EXTRA_MESSAGE_CONTENT);
 
-            Log.d(Logger.GCM_DEBUG, "Received Message Push. Type:" + pushType + ". Message: " + messageContent);
+            Logger.log(Logger.GCM_DEBUG, "Received Message Push. Type:" + pushType + ". Message: " + messageContent);
 
             NotificationManager.getInstance(getApplicationContext()). displayGroupInvitationNotification(messageContent);
 
         } else {
-            Log.d(Logger.GCM_DEBUG, "ERROR. INVALID PUSH TYPE. Type: " + pushType);
+            Logger.log(Logger.GCM_DEBUG, "ERROR. INVALID PUSH TYPE. Type: " + pushType);
         }
 
 

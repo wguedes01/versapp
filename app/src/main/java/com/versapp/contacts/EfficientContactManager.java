@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.provider.ContactsContract;
-import android.util.Log;
 
 import com.versapp.Environments;
 import com.versapp.HTTPRequestManager;
@@ -105,7 +104,7 @@ public class EfficientContactManager {
         SharedPreferences.Editor edit = preferences.edit();
         edit.putBoolean(BLACK_LIST_MODEL_IS_PUBLISHED_KEY, true);
         edit.commit();
-        Log.d(Logger.BLM_DEBUG, "setContactsPushedToServer()");
+        Logger.log(Logger.BLM_DEBUG, "setContactsPushedToServer()");
     }
 
     public boolean areContactsPublished(){

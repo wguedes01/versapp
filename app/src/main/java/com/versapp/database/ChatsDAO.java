@@ -4,7 +4,6 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.util.Log;
 
 import com.versapp.Logger;
 import com.versapp.chat.Chat;
@@ -156,7 +155,7 @@ public class ChatsDAO {
             chat = new ConfessionChat(uuid, name, cid, degree);
         } else {
             // invalid type.
-            Log.d(Logger.CHAT_DEBUG, "Trying to get chat of invalid type.");
+            Logger.log(Logger.CHAT_DEBUG, "Trying to get chat of invalid type.");
         }
 
         chat.setLastOpenedTimestamp(lastOpenedTimestamp);
@@ -193,7 +192,7 @@ public class ChatsDAO {
             chatValues.put(DBContract.ChatsTable.COLUMN_NAME_CID, ((ConfessionChat)chat).getCid());
 
         } else {
-            Log.d(Logger.CHAT_DEBUG, "Trying to insert invalid type of chat.");
+            Logger.log(Logger.CHAT_DEBUG, "Trying to insert invalid type of chat.");
         }
 
         return chatValues;

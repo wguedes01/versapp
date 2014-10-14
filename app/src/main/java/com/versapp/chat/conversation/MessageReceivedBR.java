@@ -3,7 +3,6 @@ package com.versapp.chat.conversation;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 import android.widget.ArrayAdapter;
 
 import com.versapp.Logger;
@@ -27,7 +26,7 @@ public class MessageReceivedBR extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
 
-        Log.d(Logger.CHAT_DEBUG, "Inside New Message BR.");
+        Logger.log(Logger.CHAT_DEBUG, "Inside New Message BR.");
 
         if (messagesDAO == null) {
             messagesDAO = new MessagesDAO(context);

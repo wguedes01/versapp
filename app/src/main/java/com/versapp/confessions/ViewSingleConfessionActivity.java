@@ -6,7 +6,6 @@ import android.graphics.Color;
 import android.graphics.Point;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Display;
 import android.view.View;
 import android.widget.ImageView;
@@ -37,7 +36,7 @@ public class ViewSingleConfessionActivity extends Activity {
 
         final long confessionId = getIntent().getLongExtra(CONFESSION_ID_INTENT_EXTRA, -1);
 
-        Log.d(Logger.CONNECTION_DEBUG, "Got id here: " + confessionId);
+        Logger.log(Logger.CONNECTION_DEBUG, "Got id here: " + confessionId);
 
         confessionHolder = findViewById(R.id.activity_view_single_confession_confession_holder);
         backgroundImage = (ImageView) findViewById(R.id.activity_view_single_confession_background_image);

@@ -82,7 +82,7 @@ public class GCSManager {
             com.google.api.client.http.HttpRequest request = requestFactory.buildGetRequest(url);
             com.google.api.client.http.HttpResponse response = request.execute();
             String content = response.parseAsString();
-            Log.d("testing", "response content is: " + content);
+            Logger.log("testing", "response content is: " + content);
 
             return new Storage.Builder(httpTransport, JSON_FACTORY, credential).setApplicationName("appname").build();
 

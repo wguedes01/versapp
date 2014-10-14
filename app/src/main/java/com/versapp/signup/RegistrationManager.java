@@ -2,8 +2,8 @@ package com.versapp.signup;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.util.Log;
 
+import com.versapp.Logger;
 import com.versapp.connection.ConnectionManager;
 import com.versapp.connection.ConnectionService;
 
@@ -152,7 +152,7 @@ public class RegistrationManager {
         } catch (SmackException e) {
             e.printStackTrace();
         }
-        Log.d("Registration", response);
+        Logger.log("Registration", response);
 
         // THIS IS A HACK.
         if (response.contains("type='result'") || response.contains("type=\"result\"")) {

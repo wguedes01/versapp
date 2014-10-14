@@ -3,7 +3,6 @@ package com.versapp.gcm;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
-import android.util.Log;
 
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 import com.versapp.Logger;
@@ -36,9 +35,10 @@ public class GCMDeviceRegistration {
                     prefs.edit().putString(GCM_ID_PREF_KEY, deviceId);
                     prefs.edit().commit();
 
-                    Log.d(Logger.GCM_DEBUG, "Registered device on GCM and Versapp Server: " + deviceId);
+
+                    Logger.log(Logger.GCM_DEBUG, "Registered device on GCM and Versapp Server: " + deviceId);
                 } catch (IOException e) {
-                    Log.d(Logger.GCM_DEBUG, "UNABLE TO REGISTER DEVICE ON GCM SERVER");
+                    Logger.log(Logger.GCM_DEBUG, "UNABLE TO REGISTER DEVICE ON GCM SERVER");
                     e.printStackTrace();
                 }
 

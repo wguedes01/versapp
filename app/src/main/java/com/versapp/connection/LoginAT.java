@@ -3,12 +3,12 @@ package com.versapp.connection;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
-import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.versapp.DashboardActivity;
+import com.versapp.Logger;
 import com.versapp.chat.ChatMessageListener;
 import com.versapp.chat.SynchronizeChatDB;
 import com.versapp.contacts.EfficientContactManager;
@@ -201,7 +201,7 @@ public class LoginAT extends AsyncTask<String, Void, XMPPTCPConnection>{
 
             @Override
             public void processPacket(Packet packet) {
-                Log.d("ALL_PACKETS", packet.toXML().toString());
+                Logger.log("ALL_PACKETS", packet.toXML().toString());
             }
         }, new PacketFilter() {
 

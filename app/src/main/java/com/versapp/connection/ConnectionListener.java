@@ -1,7 +1,6 @@
 package com.versapp.connection;
 
 import android.content.Context;
-import android.util.Log;
 
 import com.versapp.Logger;
 
@@ -21,27 +20,27 @@ public class ConnectionListener implements org.jivesoftware.smack.ConnectionList
 
     @Override
     public void connected(XMPPConnection xmppConnection) {
-        Log.d(Logger.CONNECTION_DEBUG, "Connected.");
+        Logger.log(Logger.CONNECTION_DEBUG, "Connected.");
     }
 
     @Override
     public void authenticated(XMPPConnection xmppConnection) {
-        Log.d(Logger.CONNECTION_DEBUG, "Authenticated.");
+        Logger.log(Logger.CONNECTION_DEBUG, "Authenticated.");
     }
 
     @Override
     public void connectionClosed() {
-        Log.d(Logger.CONNECTION_DEBUG, "connectionClosed()");
+        Logger.log(Logger.CONNECTION_DEBUG, "connectionClosed()");
     }
 
     @Override
     public void connectionClosedOnError(Exception e) {
-        Log.d(Logger.CONNECTION_DEBUG, "connectionClosedOnError(). " + e.getStackTrace());
+        Logger.log(Logger.CONNECTION_DEBUG, "connectionClosedOnError(). " + e.getStackTrace());
     }
 
     @Override
     public void reconnectingIn(int seconds) {
-    Log.d(Logger.CONNECTION_DEBUG, "reconnectingIn(). Seconds: " + seconds);
+        Logger.log(Logger.CONNECTION_DEBUG, "reconnectingIn(). Seconds: " + seconds);
     reconnecting = true;
         /*
         new LoginAT(context, new Runnable() {
@@ -57,12 +56,12 @@ public class ConnectionListener implements org.jivesoftware.smack.ConnectionList
     @Override
     public void reconnectionSuccessful() {
         reconnecting = false;
-        Log.d(Logger.CONNECTION_DEBUG, "reconnectionSuccessfull()");
+        Logger.log(Logger.CONNECTION_DEBUG, "reconnectionSuccessfull()");
     }
 
     @Override
     public void reconnectionFailed(Exception e) {
         reconnecting = false;
-        Log.d(Logger.CONNECTION_DEBUG, "reconnectionFailed(). " + e.getStackTrace());
+        Logger.log(Logger.CONNECTION_DEBUG, "reconnectionFailed(). " + e.getStackTrace());
     }
 }

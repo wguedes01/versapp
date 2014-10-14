@@ -3,7 +3,6 @@ package com.versapp.connection;
 import android.app.Service;
 import android.content.Intent;
 import android.os.IBinder;
-import android.util.Log;
 
 import com.versapp.Logger;
 
@@ -74,8 +73,8 @@ public class ConnectionService extends Service {
             Packet p = iqPacketCollector.nextResult();
             String response = p.toXML().toString().replaceAll("\\r\\n|\\r|\\n", " ");
 
-            Log.d(Logger.EJABBERD_SERVER_REQUESTS_DEBUG, "Sent: " + xml);
-            Log.d(Logger.EJABBERD_SERVER_REQUESTS_DEBUG, "Received: " + response);
+            Logger.log(Logger.EJABBERD_SERVER_REQUESTS_DEBUG, "Sent: " + xml);
+            Logger.log(Logger.EJABBERD_SERVER_REQUESTS_DEBUG, "Received: " + response);
             return response;
 
         } catch (SmackException.NotConnectedException e) {
@@ -139,8 +138,8 @@ public class ConnectionService extends Service {
 
         String response = iqPacketCollector.nextResult().toXML().toString().replaceAll("\\r\\n|\\r|\\n", " ");
 
-        Log.d(Logger.EJABBERD_SERVER_REQUESTS_DEBUG, "Sent (Unauthenticated): " + xml);
-        Log.d(Logger.EJABBERD_SERVER_REQUESTS_DEBUG, "Received (Unauthenticated): " + response);
+        Logger.log(Logger.EJABBERD_SERVER_REQUESTS_DEBUG, "Sent (Unauthenticated): " + xml);
+        Logger.log(Logger.EJABBERD_SERVER_REQUESTS_DEBUG, "Received (Unauthenticated): " + response);
         return response;
 
     }

@@ -13,8 +13,9 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Base64;
-import android.util.Log;
 import android.widget.ImageView;
+
+import com.versapp.Logger;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -62,9 +63,9 @@ public class ImageManager {
         try {
             ExifInterface exif = new ExifInterface(imgPath);
             degreeRotation = this.exifOrientationToDegrees(Integer.valueOf(exif.getAttribute(ExifInterface.TAG_ORIENTATION)));
-            Log.d("MESSAGE_IMAGE", "" + degreeRotation);
+            Logger.log("MESSAGE_IMAGE", "" + degreeRotation);
         } catch (IOException e) {
-            Log.d("MESSAGE_IMAGE", "Failed to get ExifInterface");
+            Logger.log("MESSAGE_IMAGE", "Failed to get ExifInterface");
             e.printStackTrace();
         }
         return degreeRotation;
@@ -135,8 +136,8 @@ public class ImageManager {
         bMap.compress(Bitmap.CompressFormat.JPEG, quality, baos);
         byte[] b = baos.toByteArray();
         String encoded = Base64.encodeToString(b, Base64.DEFAULT);
-        Log.d("PROFILE_PIC", "" + quality);
-        Log.d("PROFILE_PIC", "" + encoded.length());
+        Logger.log("PROFILE_PIC", "" + quality);
+        Logger.log("PROFILE_PIC", "" + encoded.length());
         return (encoded.length() > 1000 && quality > 1) ? compressBitmapToString(bMap, (quality > 10) ? quality - 10 : quality - 1) : encoded;
     }
 

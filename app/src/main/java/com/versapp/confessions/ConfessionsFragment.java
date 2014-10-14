@@ -10,7 +10,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.Display;
 import android.view.GestureDetector;
 import android.view.LayoutInflater;
@@ -555,7 +554,7 @@ public class ConfessionsFragment extends Fragment {
         @Override
         protected Confession[] doInBackground(Void... params) {
 
-            Log.d(Logger.CONFESSIONS_DEBUG, "About to get confessions");
+            Logger.log(Logger.CONFESSIONS_DEBUG, "About to get confessions");
             Confession[] confessions = ConfessionManager.getInstance().downloadConfessions(getActivity());
 
             if (confessions == null){

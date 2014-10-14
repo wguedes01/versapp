@@ -28,12 +28,12 @@ public class OpenActivityFromNotification extends Activity {
 
             final long confessionId = getIntent().getLongExtra(ViewSingleConfessionActivity.CONFESSION_ID_INTENT_EXTRA, -1);
 
-            Log.d(Logger.CONNECTION_DEBUG, "Confession Id" + confessionId);
+            Logger.log(Logger.CONNECTION_DEBUG, "Confession Id" + confessionId);
 
             String username = CredentialsManager.getInstance(getApplicationContext()).getValidUsername();
             String password = CredentialsManager.getInstance(getApplicationContext()).getValidPassword();
 
-            Log.d(Logger.CONNECTION_DEBUG, "About to login");
+            Logger.log(Logger.CONNECTION_DEBUG, "About to login");
 
             if (ConnectionService.getConnection() != null && ConnectionService.getConnection().isAuthenticated()){
 

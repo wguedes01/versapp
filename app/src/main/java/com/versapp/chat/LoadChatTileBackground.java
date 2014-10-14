@@ -7,7 +7,6 @@ import android.graphics.ColorFilter;
 import android.os.AsyncTask;
 import android.os.Environment;
 import android.support.v4.util.LruCache;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 
@@ -75,10 +74,10 @@ public class LoadChatTileBackground extends AsyncTask<Void, Void, Void> {
                 colorBackground = chat.getConfession().getImageUrl();
             } else {
                 if (cache.get(chat.getConfession().getImageUrl()) != null) {
-                    Log.d(Logger.CHAT_DEBUG, "Got image from cache. Url: " + chat.getConfession().getImageUrl());
+                    Logger.log(Logger.CHAT_DEBUG, "Got image from cache. Url: " + chat.getConfession().getImageUrl());
                     bitmap = cache.get(chat.getConfession().getImageUrl());
                 } else {
-                    Log.d(Logger.CHAT_DEBUG, "Downloaded image for tile: " + chat.getConfession().getImageUrl());
+                    Logger.log(Logger.CHAT_DEBUG, "Downloaded image for tile: " + chat.getConfession().getImageUrl());
                     Bitmap image = GCSManager.getInstance(context).downloadImage(chat.getConfession().getImageUrl(), backgroundView.getWidth(), backgroundView.getHeight());
                     cache.put(chat.getConfession().getImageUrl(), image);
                     bitmap = image;
