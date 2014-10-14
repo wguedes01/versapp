@@ -150,7 +150,16 @@ public class RequestsActivity extends Activity {
             final ImageButton denyBtn = (ImageButton) convertView.findViewById(R.id.request_deny_btn);
             final ImageView icon = (ImageView) convertView.findViewById(R.id.request_list_item_icon);
 
+
+            if (currentRequest.getTitle().length() <= 10){
+                titleLabel.setTextSize(20);
+            } else if(currentRequest.getTitle().length() > 10 && currentRequest.getTitle().length() <= 30) {
+                titleLabel.setTextSize(16);
+            } else {
+                titleLabel.setTextSize(13);
+            }
             titleLabel.setText(currentRequest.getTitle());
+
             messageLabel.setText(currentRequest.getMessage());
 
             if (currentRequest instanceof FriendRequest){

@@ -42,7 +42,7 @@ public class Environments {
     public static final int PORT = 4222;
     public static final int NODE_PORT = 8052;
     public static final String VERIFY_PHONE_URL = HTTP_PROTOCOL+"://" + SERVER_IP_ADDRESS + "/verify/";
-    public static final String NUMBER_AVAILABILITY_URL = HTTP_PROTOCOL+"://" + SERVER_IP_ADDRESS + "/validate.php?";
+    public static final String NUMBER_AVAILABILITY_URL = HTTP_PROTOCOL+"://" + SERVER_IP_ADDRESS + "/v2/validate.php?";
 
     // Thoughts
     public static final String CONFESSIONS_URL =  HTTP_PROTOCOL+"://"+SERVER_IP_ADDRESS+":"+NODE_PORT+"/thoughts";
