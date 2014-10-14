@@ -6,23 +6,16 @@ import android.database.Cursor;
 import android.provider.ContactsContract;
 import android.util.Log;
 
+import com.versapp.Environments;
+import com.versapp.HTTPRequestManager;
 import com.versapp.Logger;
-import com.versapp.connection.ConnectionManager;
-import com.versapp.connection.ConnectionService;
 
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.entity.StringEntity;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.protocol.HTTP;
-import org.jivesoftware.smack.util.Base64Encoder;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Arrays;
 
 /**
@@ -30,8 +23,6 @@ import java.util.Arrays;
  */
 public class EfficientContactManager {
 
-
-    private static final String BLACK_LIST_URL =  ConnectionManager.HTTP_PROTOCOL+"://"+ConnectionManager.SERVER_IP_ADDRESS+":"+ConnectionManager.NODE_PORT+"/blacklist";
     private static final String BLACK_LIST_MODEL_FILE = "black_list_model";
     private static final String BLACK_LIST_MODEL_IS_PUBLISHED_KEY = "is_published_key";
 
@@ -94,32 +85,19 @@ public class EfficientContactManager {
         String[] phones = getPhones();
         String[] emails = getEmails();
 
-        HttpClient httpClient = new DefaultHttpClient();
-        HttpPost httpPost = new HttpPost("http://harmon.dev.versapp.co:8052/blacklist");
-
-        String sessionId = ConnectionService.getSessionId();
-
-        System.out.println("Session Id: " + sessionId);
-
-        String encoding = Base64Encoder.getInstance().encode(String.format("%s:%s", ConnectionService.getUser(), sessionId));
-
-        httpPost.setHeader("Authorization", "Basic " + encoding);
-
         JSONObject jsonObj = new JSONObject();
         jsonObj.put("phones", new JSONArray(Arrays.asList(phones)));
         jsonObj.put("emails", new JSONArray(Arrays.asList(emails)));
 
-        StringEntity e = new StringEntity(jsonObj.toString(), HTTP.UTF_8);
-        e.setContentType("application/json");
-        httpPost.setEntity(e);
+        //e.setContentType("application/json");
 
-        HttpResponse res = httpClient.execute(httpPost);
-        HttpEntity entity = res.getEntity();
+        InputStream in = HTTPRequestManager.getInstance().simpleHTTPSPost(Environments.BLACK_LIST_URL, jsonObj);
 
-        Log.d(Logger.BLM_DEBUG, "BLM response code: " + res.getStatusLine().getStatusCode());
-        if (res.getStatusLine().getStatusCode() == 200){
+        if (in != null){
             setContactsPushedToServer();
         }
+
+
 
     }
 

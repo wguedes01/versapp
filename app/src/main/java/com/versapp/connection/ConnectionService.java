@@ -70,16 +70,19 @@ public class ConnectionService extends Service {
 
         try {
             ConnectionService.getConnection().sendPacket(packet);
+
+            Packet p = iqPacketCollector.nextResult();
+            String response = p.toXML().toString().replaceAll("\\r\\n|\\r|\\n", " ");
+
+            Log.d(Logger.EJABBERD_SERVER_REQUESTS_DEBUG, "Sent: " + xml);
+            Log.d(Logger.EJABBERD_SERVER_REQUESTS_DEBUG, "Received: " + response);
+            return response;
+
         } catch (SmackException.NotConnectedException e) {
             e.printStackTrace();
         }
 
-        Packet p = iqPacketCollector.nextResult();
-        String response = p.toXML().toString().replaceAll("\\r\\n|\\r|\\n", " ");
-
-        Log.d(Logger.EJABBERD_SERVER_REQUESTS_DEBUG, "Sent: " + xml);
-        Log.d(Logger.EJABBERD_SERVER_REQUESTS_DEBUG, "Received: " + response);
-        return response;
+        return null;
 
     }
 

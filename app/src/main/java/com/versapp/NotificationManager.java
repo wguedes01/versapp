@@ -67,7 +67,6 @@ public class NotificationManager {
 
         final NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context).setSmallIcon(R.drawable.ic_new_message_owl).setContentTitle("New message").setContentText(body).setAutoCancel(true);
 
-
         new AsyncTask<Void, Void, Void>(){
 
             @Override
@@ -103,9 +102,17 @@ public class NotificationManager {
                     mBuilder.setVibrate(new long[] { 0, 100, 200, 300 });
                 }
 
+
                 int notificationId = chatUUIDNotificaitonIdMap.size();
-                chatUUIDNotificaitonIdMap.put(chatId, notificationId);
-                manager.notify(notificationId, mBuilder.build());
+
+                if (chatUUIDNotificaitonIdMap.get(chatId) == null){
+                    chatUUIDNotificaitonIdMap.put(chatId, notificationId);
+                    manager.notify(notificationId, mBuilder.build());
+                } else {
+                    manager.notify(chatUUIDNotificaitonIdMap.get(chatId), mBuilder.build());
+                }
+
+
 
                 super.onPostExecute(aVoid);
             }

@@ -1,6 +1,8 @@
 package com.versapp.chat;
 
 import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 
@@ -14,8 +16,20 @@ public class GroupChatBuilder extends ChatBuilder {
     }
 
     @Override
-    public String toJson() {
-        return String.format("{\"%s\": \"%s\", \"%s\": %s, \"%s\":\"%s\"}", ChatBuilder.POST_PARAM_CHAT_TYPE, getType(), ChatBuilder.POST_PARAM_CHAT_PARTICIPANTS, new JSONArray(getParticipants()), ChatBuilder.POST_PARAM_CHAT_NAME, getName());
+    public JSONObject toJson() {
+
+        JSONObject jsonObj = new JSONObject();
+        try {
+
+            jsonObj.put(ChatBuilder.POST_PARAM_CHAT_TYPE, getType());
+            jsonObj.put(ChatBuilder.POST_PARAM_CHAT_PARTICIPANTS, new JSONArray(getParticipants()));
+            jsonObj.put(ChatBuilder.POST_PARAM_CHAT_NAME, getName());
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return jsonObj;
     }
 
 }

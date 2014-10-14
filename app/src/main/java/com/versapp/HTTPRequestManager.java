@@ -12,11 +12,13 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.protocol.HTTP;
 import org.jivesoftware.smack.util.Base64Encoder;
+import org.json.JSONObject;
 
-import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStreamWriter;
 import java.net.MalformedURLException;
 import java.net.URL;
 
@@ -90,55 +92,38 @@ public class HTTPRequestManager {
 
     }
 
-    public InputStream simpleHTTPSPost(String urlString, StringEntity stringEntity) throws IOException {
+    public InputStream simpleHTTPSPost(String urlString, JSONObject jsonObject) throws IOException {
 
         if (ConnectionManager.MODE.equals("dev")){
-            return simpleHTTPPostDepricated(urlString, stringEntity);
+            StringEntity e = new StringEntity(jsonObject.toString(), HTTP.UTF_8);
+            return simpleHTTPPostDepricated(urlString, e);
         }
 
         URL url = new URL(urlString);
         HttpsURLConnection con = (HttpsURLConnection) url.openConnection();
+
+        con.setDoOutput(true);
+        con.setDoInput(true);
+        con.setRequestProperty("Content-Type", "application/json");
+
         con.setRequestMethod("POST");
 
         String encoding = Base64Encoder.getInstance().encode(String.format("%s:%s", ConnectionService.getUser(), ConnectionService.getSessionId()));
-        con.setRequestProperty("Authorization", encoding);
+        con.setRequestProperty("Authorization", "Basic " + encoding);
 
-        con.setRequestProperty("Content-Type", "application/json");
+        OutputStreamWriter wr= new OutputStreamWriter(con.getOutputStream());
 
-       con.setDoOutput(true);
-        DataOutputStream wr = new DataOutputStream(con.getOutputStream());
-        wr.writeBytes(stringEntity.toString());
+        wr.write(jsonObject.toString());
+
         wr.flush();
         wr.close();
 
         int responseCode = con.getResponseCode();
-        if (responseCode == 200){
+        if (responseCode    == 200){
             return con.getInputStream();
         } else {
             return null;
         }
-
-        /*
-        HttpClient httpClient = new DefaultHttpClient();
-        HttpPost httpPost = new HttpPost(url);
-
-        stringEntity.setContentType("application/json");
-        httpPost.setEntity(stringEntity);
-
-        String encoding = Base64Encoder.getInstance().encode(String.format("%s:%s", ConnectionService.getUser(), ConnectionService.getSessionId()));
-        httpPost.setHeader("Authorization", "Basic " + encoding);
-
-        HttpResponse res = httpClient.execute(httpPost);
-        HttpEntity entity = res.getEntity();
-
-        int code = res.getStatusLine().getStatusCode();
-        if (code == 200) {
-            InputStream in = entity.getContent();
-            return in;
-        } else {
-            return null;
-        }
-        */
 
     }
 

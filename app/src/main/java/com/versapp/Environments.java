@@ -59,6 +59,8 @@ public class Environments {
     public static final String JOIN_CHAT_URL = HTTP_PROTOCOL+"://"+SERVER_IP_ADDRESS+":"+NODE_PORT+"/chat/join";
     public static final String LEAVE_CHAT_URL = HTTP_PROTOCOL+"://"+SERVER_IP_ADDRESS+":"+NODE_PORT+"/chat/leave";
 
+    //BLM
+    public static final String BLACK_LIST_URL =  HTTP_PROTOCOL+"://"+ SERVER_IP_ADDRESS+ ":" +NODE_PORT+"/blacklist";
 
 /*
     // DEV

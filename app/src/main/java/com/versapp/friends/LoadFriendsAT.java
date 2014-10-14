@@ -51,7 +51,7 @@ public class LoadFriendsAT extends AsyncTask<Void, Void, ArrayList<FriendListIte
     protected void onPostExecute(final ArrayList<FriendListItem> friendListItems) {
         this.progressBar.setVisibility(View.GONE);
 
-        if (friendListItems.size() < 2){
+        if (friendListItems.size() < 3){
 
             notEnoughFriendsLabel.setVisibility(View.VISIBLE);
             int friendsCount = friendListItems.size();

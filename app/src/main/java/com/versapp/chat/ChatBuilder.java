@@ -1,5 +1,7 @@
 package com.versapp.chat;
 
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 
 /**
@@ -56,7 +58,7 @@ public abstract class ChatBuilder {
         return name;
     }
 
-    public abstract String toJson();
+    public abstract JSONObject toJson();
 
 
 }

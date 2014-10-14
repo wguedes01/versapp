@@ -9,7 +9,8 @@ import com.versapp.NotificationManager;
 import com.versapp.connection.ConnectionManager;
 import com.versapp.database.ChatsDAO;
 
-import org.apache.http.entity.StringEntity;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -84,7 +85,7 @@ public class ChatManager {
         Chat chat = null;
 
         try {
-            InputStream in = HTTPRequestManager.getInstance().simpleHTTPSPost(ConnectionManager.CREATE_CHAT_URL, new StringEntity(chatBuilder.toJson()));
+            InputStream in = HTTPRequestManager.getInstance().simpleHTTPSPost(ConnectionManager.CREATE_CHAT_URL, chatBuilder.toJson());
 
             if (in != null) {
 
@@ -244,11 +245,11 @@ public class ChatManager {
 
     public void joinGroup(Context context, GroupChat chat) {
 
-        StringEntity stringEntity = null;
         try {
-            stringEntity = new StringEntity(String.format("{\"uuid\" : \"%s\"}", chat.getUuid()));
+            JSONObject jsonObj = new JSONObject();
+            jsonObj.put("uuid", chat.getUuid());
 
-            HTTPRequestManager.getInstance().simpleHTTPSPost(ConnectionManager.JOIN_CHAT_URL, stringEntity);
+            HTTPRequestManager.getInstance().simpleHTTPSPost(ConnectionManager.JOIN_CHAT_URL, jsonObj);
 
             new ChatsDAO(context).insert(chat);
             pendingChats.remove(chat);
@@ -257,23 +258,27 @@ public class ChatManager {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
 
     }
 
     public void leaveChat(GroupChat chat) {
 
-        StringEntity stringEntity = null;
         try {
-            stringEntity = new StringEntity(String.format("{\"uuid\" : \"%s\"}", chat.getUuid()));
+            JSONObject jsonObj = new JSONObject();
+            jsonObj.put("uuid", chat.getUuid());
 
-            HTTPRequestManager.getInstance().simpleHTTPSPost(ConnectionManager.LEAVE_CHAT_URL, stringEntity);
+            HTTPRequestManager.getInstance().simpleHTTPSPost(ConnectionManager.LEAVE_CHAT_URL, jsonObj);
 
             pendingChats.remove(chat);
 
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         } catch (IOException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
             e.printStackTrace();
         }
 
