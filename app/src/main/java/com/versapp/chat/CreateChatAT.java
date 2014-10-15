@@ -54,8 +54,6 @@ public class CreateChatAT extends AsyncTask<Void, Void, Chat>{
             Toast.makeText(context, "Oops.. something went wrong. Please try again.", Toast.LENGTH_LONG).show();
         } else {
 
-            activity.finish();
-
             // go to chat.
             Intent intent = new Intent(context, ConversationActivity.class);
             intent.putExtra(ConversationActivity.CHAT_UUID_INTENT_EXTRA, chat.getUuid());

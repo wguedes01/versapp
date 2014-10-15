@@ -1,19 +1,23 @@
 package com.wguedes;
 
+import android.app.ActionBar;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 
 /**
  * Created by william on 13/10/14.
  */
 public class ExpandableImageView extends ImageView{
 
-    private int originalHeight;
-    private int originalWidth;
     private boolean expanded = false;
+
+    private ViewGroup viewGroup;
+    private RelativeLayout imageHolder;
+    private ViewGroup.LayoutParams originalLayoutParams;
 
     public ExpandableImageView(Context context) {
         super(context);
@@ -36,22 +40,41 @@ public class ExpandableImageView extends ImageView{
             @Override
             public void onClick(View v) {
 
-                final ViewGroup.LayoutParams params = getLayoutParams();
+                if (viewGroup == null){
+                    viewGroup = (ViewGroup) getParent();
+                }
+
+                if (imageHolder == null){
+                    imageHolder = new RelativeLayout(context);
+                }
+
+                if (originalLayoutParams == null) {
+                    originalLayoutParams = getLayoutParams();
+                }
+
+                imageHolder.setLayoutParams(new ActionBar.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
 
                 if (expanded){
-                    params.height = originalHeight;
-                    params.width = originalWidth;
-                } else {
-                    originalHeight = params.height;
-                    originalWidth = params.width;
+                    imageHolder.removeView(ExpandableImageView.this);
+                    viewGroup.removeView(imageHolder);
 
-                    params.height = getDrawable().getIntrinsicHeight();
-                    params.width = getDrawable().getIntrinsicWidth();
+                    ExpandableImageView.this.setLayoutParams(originalLayoutParams);
+                    viewGroup.addView(ExpandableImageView.this);
+
+                } else {
+                    RelativeLayout.LayoutParams expandedParams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                    expandedParams.addRule(RelativeLayout.CENTER_IN_PARENT, RelativeLayout.TRUE);
+
+                    viewGroup.addView(imageHolder);
+
+                    viewGroup.removeView(ExpandableImageView.this);
+                    imageHolder.addView(ExpandableImageView.this);
+                    setLayoutParams(expandedParams);
                 }
+
 
                 expanded = !expanded;
 
-                setLayoutParams(params);
             }
         });
 
