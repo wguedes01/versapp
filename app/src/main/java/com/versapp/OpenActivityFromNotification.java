@@ -2,16 +2,21 @@ package com.versapp;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 
+import com.versapp.chat.Chat;
+import com.versapp.chat.ChatManager;
 import com.versapp.chat.conversation.ConversationActivity;
 import com.versapp.confessions.ViewSingleConfessionActivity;
 import com.versapp.connection.ConnectionListener;
 import com.versapp.connection.ConnectionService;
 import com.versapp.connection.CredentialsManager;
 import com.versapp.connection.LoginAT;
+import com.versapp.database.ChatsDAO;
 import com.versapp.requests.RequestsActivity;
+
+import java.util.ArrayList;
 
 
 public class OpenActivityFromNotification extends Activity {
@@ -107,10 +112,40 @@ public class OpenActivityFromNotification extends Activity {
                     @Override
                     public void run() {
 
-                        Intent intent = new Intent(getApplicationContext(), ConversationActivity.class);
-                        intent.putExtra(ConversationActivity.CHAT_UUID_INTENT_EXTRA, getIntent().getStringExtra(ConversationActivity.CHAT_UUID_INTENT_EXTRA));
-                        intent.putExtra(ConversationActivity.FROM_NOTIFICATION_INTENT_EXTRA, true);
-                        startActivity(intent);
+
+                        if (ChatManager.getInstance().chatCount() == 0){
+
+                            new AsyncTask<Void, Void, ArrayList<Chat>>(){
+
+                                @Override
+                                protected ArrayList<Chat> doInBackground(Void... params) {
+                                    return new ChatsDAO(getApplicationContext()).getAll();
+                                }
+
+                                @Override
+                                protected void onPostExecute(ArrayList<Chat> result) {
+                                    ChatManager.getInstance().clearChats();
+                                    ChatManager.getInstance().addAll(result);
+
+                                    Intent intent = new Intent(getApplicationContext(), ConversationActivity.class);
+                                    intent.putExtra(ConversationActivity.CHAT_UUID_INTENT_EXTRA, getIntent().getStringExtra(ConversationActivity.CHAT_UUID_INTENT_EXTRA));
+                                    intent.putExtra(ConversationActivity.FROM_NOTIFICATION_INTENT_EXTRA, true);
+                                    startActivity(intent);
+
+                                    super.onPostExecute(result);
+                                }
+                            }.execute();
+
+                        } else {
+
+                            Intent intent = new Intent(getApplicationContext(), ConversationActivity.class);
+                            intent.putExtra(ConversationActivity.CHAT_UUID_INTENT_EXTRA, getIntent().getStringExtra(ConversationActivity.CHAT_UUID_INTENT_EXTRA));
+                            intent.putExtra(ConversationActivity.FROM_NOTIFICATION_INTENT_EXTRA, true);
+                            startActivity(intent);
+
+                        }
+
+
 
                         close = true;
                     }

@@ -72,8 +72,8 @@ public class NotificationManager {
             @Override
             protected Void doInBackground(Void... params) {
 
-                if (ChatManager.getInstance().getChats() == null | ChatManager.getInstance().getChats().size() == 0){
-                    ChatManager.getInstance().getChats().addAll(ChatManager.getInstance().syncLocalChatDB(context));
+                if (ChatManager.getInstance().chatCount() == 0){
+                    ChatManager.getInstance().addAll(ChatManager.getInstance().syncLocalChatDB(context));
                 } else {
 
                 }

@@ -1,4 +1,4 @@
-<?xml version="1.1" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.versapp" >
 
@@ -11,6 +11,7 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.SEND_SMS" />
     <uses-permission android:name="android.permission.RECEIVE_SMS" />
+    <uses-permission android:name="android.permission.VIBRATE" />
 
     <!-- GCM requires a Google account. -->
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
@@ -33,7 +34,7 @@
         <activity
             android:name=".LoginActivity"
             android:label="@string/app_name"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -48,22 +49,22 @@
         <activity
             android:name=".signup.SignUpNameEmailInputActivity"
             android:label="@string/title_activity_sign_up_name_email_input"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name=".signup.SignUpPhoneVerificationInputActivity"
             android:label="@string/title_activity_sign_up_phone_verification_input"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name=".signup.VerificationCodeInputActivity"
             android:label="@string/title_activity_verification_code_input"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name=".signup.SignUpUsernamePassInputActivity"
             android:label="@string/title_activity_sign_up_username_pass_input"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name=".confessions.ComposeConfessionActivity"
@@ -74,13 +75,13 @@
         <activity
             android:name=".friends.FriendListActivity"
             android:label="@string/title_activity_friend_list"
-            android:windowSoftInputMode="stateHidden"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden" >
         </activity>
         <activity
             android:name=".settings.SettingsActivity"
             android:label="@string/title_activity_settings"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait" >
         </activity>
 
         <receiver
@@ -102,19 +103,19 @@
         <activity
             android:name=".settings.AccountActivity"
             android:label="@string/title_activity_account"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name=".chat.ChatDashboardActivity"
             android:label="@string/title_activity_chat_dashboard"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name=".chat.conversation.ConversationActivity"
             android:label="@string/title_activity_conversation"
             android:parentActivityName=".chat.ChatDashboardActivity"
-            android:windowSoftInputMode="stateHidden"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".chat.ChatDashboardActivity" />
@@ -122,17 +123,21 @@
         <activity
             android:name=".requests.RequestsActivity"
             android:label="@string/title_activity_requests"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name=".confessions.ViewSingleConfessionActivity"
             android:label="@string/title_activity_view_single_confession"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name=".OpenActivityFromNotification"
             android:label="@string/title_activity_open_activity_from_notification"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name=".inviteContacts.InviteContactActivity"
+            android:label="@string/title_activity_invite_contact" >
         </activity>
     </application>
 

@@ -46,5 +46,6 @@
     <string name="activity_conversation_chat_explanation">Am I anonymous?\n Go to settings (top right) to find out.</string>
     <string name="fragment_confessions_oops_refresh_btn">Refresh</string>
     <string name="fragment_confessions_oops_label">Oops.. Something went wrong...</string>
+    <string name="title_activity_invite_contact">InviteContactActivity</string>
 
 </resources>

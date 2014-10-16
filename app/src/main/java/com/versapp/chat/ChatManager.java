@@ -26,7 +26,7 @@ import java.util.Arrays;
 public class ChatManager {
 
     private static ChatManager instance;
-    private static ArrayList<Chat> chats;
+    private static ArrayList<Chat> chats = new ArrayList<Chat>();
     private static ArrayList<Chat> pendingChats;
 
     private static Chat openChat;
@@ -40,7 +40,6 @@ public class ChatManager {
             instance = new ChatManager();
             chats = new ArrayList<Chat>();
         }
-
 
         return instance;
     }
@@ -115,14 +114,7 @@ public class ChatManager {
         return chat;
     }
 
-    public ArrayList<Chat> getChats() {
 
-        if (chats == null){
-            chats = new ArrayList<Chat>();
-        }
-
-        return chats;
-    }
 
     public  ArrayList<Chat> getPendingChats() {
 
@@ -285,7 +277,26 @@ public class ChatManager {
     }
 
     public void invalidatePendingChatCache(){
-
         pendingChats = null;
+    }
+
+    public void addChat(Chat chat){
+        chats.add(0, chat);
+    }
+
+    public int chatCount(){
+        return chats.size();
+    }
+
+    public void addAll(ArrayList<Chat> chatList){
+        chats.addAll(chatList);
+    }
+
+    public Chat getByIndex(int position){
+        return chats.get(position);
+    }
+
+    public void clearChats() {
+        chats.clear();
     }
 }

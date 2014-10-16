@@ -29,7 +29,6 @@ import java.util.ArrayList;
 public class ChatDashboardGridAdapter extends BaseAdapter {
 
     private Context context;
-    private ArrayList<Chat> chats;
     private MessagesDAO msgDb;
     private ChatsDAO chatsDAO;
     private LruCache<String, Bitmap> cache;
@@ -38,9 +37,8 @@ public class ChatDashboardGridAdapter extends BaseAdapter {
     int width = 0;
     int height = 0;
 
-    public ChatDashboardGridAdapter(Context context, ArrayList<Chat> chats, MessagesDAO db, ChatsDAO chatsDAO, Display display, LruCache<String, Bitmap> cache) {
+    public ChatDashboardGridAdapter(Context context, MessagesDAO db, ChatsDAO chatsDAO, Display display, LruCache<String, Bitmap> cache) {
         this.context = context;
-        this.chats = chats;
         this.msgDb = db;
         this.chatsDAO = chatsDAO;
         this.cache = cache;
@@ -61,12 +59,12 @@ public class ChatDashboardGridAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        return chats.size();
+        return ChatManager.getInstance().chatCount();
     }
 
     @Override
     public Object getItem(int position) {
-        return chats.get(position);
+        return ChatManager.getInstance().getByIndex(position);
     }
 
     @Override
@@ -77,7 +75,7 @@ public class ChatDashboardGridAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
-        final Chat currentChat = chats.get(position);
+        final Chat currentChat = ChatManager.getInstance().getByIndex(position);
 
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 

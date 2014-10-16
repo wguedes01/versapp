@@ -27,6 +27,7 @@ import android.widget.Toast;
 
 import com.versapp.Logger;
 import com.versapp.R;
+import com.versapp.ShareManager;
 import com.versapp.TutorialManager;
 import com.versapp.chat.ConfessionChatBuilder;
 import com.versapp.chat.CreateChatAT;
@@ -63,7 +64,6 @@ public class ConfessionsFragment extends Fragment {
     Button refreshBtn;
 
     View progressBarHolder;
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable final ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -226,7 +226,11 @@ public class ConfessionsFragment extends Fragment {
                 // if hasn't loaded thoughts yet.
                 if (selectedConfessionPosition != -1) {
 
-                    if (confessions.get(selectedConfessionPosition).isMine()){
+                    if(confessions.get(selectedConfessionPosition) instanceof ClickableConfession){
+
+                        ((ClickableConfession) confessions.get(selectedConfessionPosition)).getAction().run();
+
+                    } else if (confessions.get(selectedConfessionPosition).isMine()){
                         deleteConfession();
                     } else if(confessions.get(selectedConfessionPosition).getDegree() == Confession.GLOBAL_DEGREE) {
                         Toast.makeText(getActivity(), "This thought is from someone who's not your friend.", Toast.LENGTH_LONG).show();
@@ -290,10 +294,10 @@ public class ConfessionsFragment extends Fragment {
         startMessageBtn.setImageResource(R.drawable.confession_start_chat_btn);
         //startMessageBtn.setBackgroundColor(ConfessionsFragment.getResources().getColor(R.color.confessionBlue));
 
-        // Always update favorite and message icon
-        if (confessions.get(selectedConfessionPosition).isMine()) {
+        if (confessions.get(selectedConfessionPosition) instanceof ClickableConfession){
+            startMessageBtn.setImageResource(R.drawable.ic_twitter_white);
+        }  else if(confessions.get(selectedConfessionPosition).isMine()) {
 
-            //startMessageBtn.setImageResource(R.color.transparent);
             startMessageBtn.setImageResource(R.drawable.delete_confession);
 
         } else if(confessions.get(selectedConfessionPosition).getDegree() == Confession.FRIEND_DEGREE){ // friend
@@ -310,20 +314,22 @@ public class ConfessionsFragment extends Fragment {
             favoriteBtn.setImageResource(R.drawable.big_confession_heart_outline);
         }
 
+
         // If next confession has image, start loading now.
         if (selectedConfessionPosition < confessions.size() - 2) {
 
             Confession nextConfession = confessions.get(selectedConfessionPosition + 2);
 
-            if (!nextConfession.getImageUrl().startsWith("#")) {
+            if (nextConfession.getImageUrl() != null && !nextConfession.getImageUrl().startsWith("#")) {
 
                 System.out.print("Downloading: " + nextConfession.getBody());
 
-               cache.cacheImage(nextConfession.getImageUrl(), confessionsListView.getWidth(), confessionsListView.getWidth());
+                cache.cacheImage(nextConfession.getImageUrl(), confessionsListView.getWidth(), confessionsListView.getWidth());
 
             }
 
         }
+
 
     }
 
@@ -581,6 +587,18 @@ public class ConfessionsFragment extends Fragment {
                 selectedConfessionPosition = 0;
                 adapter.notifyDataSetChanged();
                 confessionsListView.setSelection(0);
+
+
+                Runnable shareOnTwitter = new Runnable() {
+                    @Override
+                    public void run() {
+                        ShareManager.shareOnTwitter(getActivity().getApplicationContext());
+                    }
+                };
+
+                if (ShareManager.isTwitterInstalled(getActivity().getApplicationContext())){
+                    confessions.add(3, new ClickableConfession("Help your friends find out about Versapp! Share it on twitter!", shareOnTwitter));
+                }
 
                 updateLayout();
 

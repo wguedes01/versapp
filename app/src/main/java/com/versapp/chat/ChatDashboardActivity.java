@@ -24,7 +24,6 @@ import java.util.ArrayList;
 public class ChatDashboardActivity extends Activity {
 
     private LruCache<String, Bitmap> imageCache;
-    private ArrayList<Chat> chats;
 
     private MessagesDAO messagesDAO;
     private ChatsDAO chatsDAO;
@@ -50,11 +49,10 @@ public class ChatDashboardActivity extends Activity {
         messagesDAO = new MessagesDAO(getApplicationContext());
         chatsDAO = new ChatsDAO(getApplicationContext());
 
-        chats = ChatManager.getInstance().getChats();
-        adapter = new ChatDashboardGridAdapter(getApplicationContext(), chats, messagesDAO, chatsDAO, getWindowManager().getDefaultDisplay(), imageCache);
+        adapter = new ChatDashboardGridAdapter(getApplicationContext(), messagesDAO, chatsDAO, getWindowManager().getDefaultDisplay(), imageCache);
 
         newMessageBR = new NewMessageOnDashboardBR();
-        reloadChatsBR = new ReloadChatFromDBBR(getApplicationContext(), chats, adapter);
+        reloadChatsBR = new ReloadChatFromDBBR(getApplicationContext(), adapter);
 
         mainGrid = (GridView) findViewById(R.id.activity_chat_dashboard_main_grid);
 
@@ -82,8 +80,8 @@ public class ChatDashboardActivity extends Activity {
                         noConversationsLabel.setVisibility(View.VISIBLE);
                     } else {
                         noConversationsLabel.setVisibility(View.GONE);
-                        chats.clear();
-                        chats.addAll(result);
+                        ChatManager.getInstance().clearChats();
+                        ChatManager.getInstance().addAll(result);
                         adapter.notifyDataSetChanged();
                         super.onPostExecute(result);
                     }
@@ -125,12 +123,10 @@ public class ChatDashboardActivity extends Activity {
     private class ReloadChatFromDBBR extends BroadcastReceiver{
 
         private ChatsDAO db;
-        private ArrayList<Chat> chatList;
         private BaseAdapter adapter;
 
-        private ReloadChatFromDBBR(Context context, ArrayList<Chat> chatList, BaseAdapter adapter) {
+        private ReloadChatFromDBBR(Context context, BaseAdapter adapter) {
             this.db = new ChatsDAO(context);
-            this.chatList = chatList;
             this.adapter = adapter;
         }
 
@@ -147,8 +143,8 @@ public class ChatDashboardActivity extends Activity {
 
                 @Override
                 protected void onPostExecute(ArrayList<Chat> result) {
-                    chatList.clear();
-                    chatList.addAll(result);
+                    ChatManager.getInstance().clearChats();
+                    ChatManager.getInstance().addAll(result);
                     adapter.notifyDataSetChanged();
                     super.onPostExecute(result);
                 }

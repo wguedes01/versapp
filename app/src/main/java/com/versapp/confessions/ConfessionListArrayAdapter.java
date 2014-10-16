@@ -37,12 +37,13 @@ public class ConfessionListArrayAdapter extends ArrayAdapter<Confession> {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
-        final ViewHolder holder;
         final Confession confession = confessions.get(position);
+
+        final ViewHolder holder;
 
         if (convertView == null) {
 
-            convertView = (View) ((LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(
+            convertView = ((LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(
                     R.layout.confession_list_item, parent, false);
 
             holder = new ViewHolder();
@@ -66,44 +67,58 @@ public class ConfessionListArrayAdapter extends ArrayAdapter<Confession> {
 
         }
 
-        holder.backgroundImage.setImageBitmap(null);
-        holder.backgroundImage.setBackgroundColor(activity.getResources().getColor(android.R.color.white));
-
-        holder.favoriteCount.setText(String.valueOf(confession.getNumFavorites()));
-        holder.degreeText.setText(confession.getReadableDegree());
-
         // Makes layout squared.
         int width = activity.getWindowManager().getDefaultDisplay().getWidth(); // deprecated
         RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(width, width);
         holder.confessionSizer.setLayoutParams(params);
 
-        if (confession.getBody().length() > 140) {
-            holder.body.setTextSize(25);
-        } else {
-            holder.body.setTextSize(30);
-        }
-        holder.body.setText(confession.getBody());
+        if (confession instanceof ClickableConfession){
 
-        holder.backgroundImage.setImageBitmap(null);
-        holder.backgroundImage.setBackgroundColor(activity.getResources().getColor(android.R.color.white));
+            holder.body.setText(confession.getBody());
+            holder.backgroundImage.setImageBitmap(null);
+            holder.backgroundImage.setBackgroundColor(getContext().getResources().getColor(R.color.twitterBlue));
+            holder.degreeText.setText("Versapp");
+            holder.favoriteCount.setText("100");
 
-        if (confessions.get(position).getImageUrl().charAt(0) == '#') {
-            holder.progressBar.setVisibility(View.GONE);
-            holder.backgroundImage.setBackgroundColor(Color.parseColor(confessions.get(position).getImageUrl()));
         } else {
 
-            if (!cache.isCached(confession.getImageUrl())){
-                DownloadImageAT task = new DownloadImageAT(activity, confession.getImageUrl(), holder.backgroundImage, cache, holder.progressBar);
-                holder.task = task;
-                task.execute();
+            holder.backgroundImage.setImageBitmap(null);
+            holder.backgroundImage.setBackgroundColor(activity.getResources().getColor(android.R.color.white));
+
+            holder.favoriteCount.setText(String.valueOf(confession.getNumFavorites()));
+            holder.degreeText.setText(confession.getReadableDegree());
+
+            if (confession.getBody().length() > 140) {
+                holder.body.setTextSize(25);
+            } else {
+                holder.body.setTextSize(30);
+            }
+            holder.body.setText(confession.getBody());
+
+            holder.backgroundImage.setImageBitmap(null);
+            holder.backgroundImage.setBackgroundColor(activity.getResources().getColor(android.R.color.white));
+
+            if (confessions.get(position).getImageUrl().charAt(0) == '#') {
+                holder.progressBar.setVisibility(View.GONE);
+                holder.backgroundImage.setBackgroundColor(Color.parseColor(confessions.get(position).getImageUrl()));
             } else {
 
-                holder.backgroundImage.setImageBitmap(cache.getCachedImage(confession.getImageUrl()));
-                holder.progressBar.setVisibility(View.GONE);
-               // ConfessionImageCache.setBitmapOnView(activity, holder.backgroundImage, cache.getCachedImage(confession.getImageUrl()));
+                if (!cache.isCached(confession.getImageUrl())){
+                    DownloadImageAT task = new DownloadImageAT(activity, confession.getImageUrl(), holder.backgroundImage, cache, holder.progressBar);
+                    holder.task = task;
+                    task.execute();
+                } else {
+
+                    holder.backgroundImage.setImageBitmap(cache.getCachedImage(confession.getImageUrl()));
+                    holder.progressBar.setVisibility(View.GONE);
+                    // ConfessionImageCache.setBitmapOnView(activity, holder.backgroundImage, cache.getCachedImage(confession.getImageUrl()));
+                }
+
             }
 
         }
+
+
 
         return convertView;
     }

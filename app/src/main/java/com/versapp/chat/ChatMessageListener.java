@@ -60,13 +60,13 @@ public class ChatMessageListener implements PacketListener {
         // If message is from new chat (not on local db), SYNC local db.
         if (ChatManager.getInstance().getChat(message.getThread()) == null){
 
-            ChatManager.getInstance().getChats().clear();
+            ChatManager.getInstance().clearChats();
 
             // Check if chat is on local db. If not, reload chat from server.
             if (chatsDAO.get(message.getThread()) == null) {
-                ChatManager.getInstance().getChats().addAll(ChatManager.getInstance().syncLocalChatDB(context));
+                ChatManager.getInstance().addAll(ChatManager.getInstance().syncLocalChatDB(context));
             } else {
-                ChatManager.getInstance().getChats().addAll(chatsDAO.getAll());
+                ChatManager.getInstance().addAll(chatsDAO.getAll());
             }
 
 

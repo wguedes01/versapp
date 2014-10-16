@@ -35,7 +35,7 @@ public class CreateChatAT extends AsyncTask<Void, Void, Chat>{
             chat = ChatManager.getInstance().createChat(builder);
 
             if (chat != null) {
-                ChatManager.getInstance().getChats().add(0, chat);
+                ChatManager.getInstance().addChat(chat);
                 new ChatsDAO(context).insert(chat);
             }
 
