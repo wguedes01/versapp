@@ -8,8 +8,8 @@ android {
         applicationId "com.gandwill.versapp"
         minSdkVersion 11
         targetSdkVersion 20
-        versionCode 2
-        versionName "1.0.1"
+        versionCode 3
+        versionName "1.0.2"
     }
     buildTypes {
         release {
@@ -30,4 +30,5 @@ dependencies {
     compile 'com.google.apis:google-api-services-storage:v1beta2-rev57-1.19.0'
     compile 'com.google.android.gms:play-services:5.2.08'
     compile 'com.koushikdutta.ion:ion:1.+'
+    compile files('libs/robotium-solo-5.2.1.jar')
 }

@@ -1,7 +1,5 @@
 package com.versapp;
 
-import android.util.Log;
-
 /**
  * Created by william on 20/09/14.
  */
@@ -17,7 +15,7 @@ public class Logger {
     public static final String CHAT_DEBUG = "CHAT_DEBUG";
 
     public static void log(String tag, String message){
-        Log.d(tag, message);
+        //Log.d(tag, message);
     }
 
 }

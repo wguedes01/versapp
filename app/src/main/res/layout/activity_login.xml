@@ -110,7 +110,8 @@
             android:textColor="@android:color/white"
             android:textSize="14sp"
             android:onClick="forgotPassword"
-            android:background="@color/transparent"/>
+            android:background="@color/transparent"
+            android:visibility="gone"/>
 
     </LinearLayout>
 

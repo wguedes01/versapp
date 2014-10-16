@@ -102,6 +102,7 @@ public class FriendListActivity extends Activity {
         adapter = new FriendListArrayAdapter(this, friendListItems, listMode);
         friendList.setAdapter(adapter);
 
+
         new LoadFriendsAT(adapter, progressBar, notEnoughFriendsLabel).execute();
 
         Toast.makeText(this, "Long press for more options", Toast.LENGTH_SHORT).show();
