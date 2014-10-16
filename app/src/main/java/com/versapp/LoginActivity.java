@@ -1,9 +1,12 @@
 package com.versapp;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.InputType;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
@@ -100,6 +103,31 @@ public class LoginActivity extends Activity {
 
         LoginAT loginAt = new LoginAT(this, null, progressBar, loginCover);
         loginAt.execute(username, password);
+    }
+
+    public void forgotPassword(View view){
+
+        final EditText emailEdit = new EditText(LoginActivity.this);
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
+        builder.setView(emailEdit);
+        emailEdit.setInputType(InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS);
+        builder.setTitle("Forgot Password");
+        builder.setMessage("Enter email used for your account.");
+        builder.setPositiveButton("Reset", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                CredentialsManager.getInstance(getApplicationContext()).forgotPassword(emailEdit.getText().toString());
+            }
+        });
+        builder.setNegativeButton("Cancel", null);
+        builder.setCancelable(true);
+
+        AlertDialog dialog = builder.create();
+        dialog.show();
+
+
+
     }
 
 }

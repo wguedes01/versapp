@@ -54,21 +54,15 @@ public class ChatManager {
 
         Chat[] chatArray = null;
 
-        try {
+        InputStream in = HTTPRequestManager.getInstance().sendSimpleHttpsRequest(url);
 
-            InputStream in = HTTPRequestManager.getInstance().sendSimpleHttpsRequest(url);
-
-            if (in == null) {
-                return new ArrayList<Chat>();
-            }
-
-            Reader reader = new InputStreamReader(in);
-
-            chatArray = gson.fromJson(reader, Chat[].class);
-
-        } catch (IOException e) {
-            e.printStackTrace();
+        if (in == null) {
+            return new ArrayList<Chat>();
         }
+
+        Reader reader = new InputStreamReader(in);
+
+        chatArray = gson.fromJson(reader, Chat[].class);
 
         if (chatArray != null){
             chats = new ArrayList<Chat>(Arrays.asList(chatArray));
@@ -113,8 +107,6 @@ public class ChatManager {
 
         return chat;
     }
-
-
 
     public  ArrayList<Chat> getPendingChats() {
 

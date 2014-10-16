@@ -11,7 +11,9 @@ public class ConfessionChat extends Chat {
 
     private long cid;
     private int degree;
+
     private Confession confession;
+    private boolean failedToRetrieveConfession = false;
 
     public ConfessionChat(String uuid, String name, long cid, int degree) {
         super(uuid, name);
@@ -54,5 +56,13 @@ public class ConfessionChat extends Chat {
     @Override
     public String getType() {
         return TYPE;
+    }
+
+    public boolean isFailedToRetrieveConfession() {
+        return failedToRetrieveConfession;
+    }
+
+    public void setFailedToRetrieveConfession(boolean confessionUnavailable) {
+        this.failedToRetrieveConfession = confessionUnavailable;
     }
 }

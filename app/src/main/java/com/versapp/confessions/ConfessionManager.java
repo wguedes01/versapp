@@ -46,14 +46,9 @@ public class ConfessionManager {
 
         Confession[] confessions = null;
 
-        try {
 
-            InputStream in = HTTPRequestManager.getInstance().sendSimpleHttpsRequest(ConnectionManager.CONFESSIONS_URL);
-            confessions = deserializeConfessionsStream(in);
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        InputStream in = HTTPRequestManager.getInstance().sendSimpleHttpsRequest(ConnectionManager.CONFESSIONS_URL);
+        confessions = deserializeConfessionsStream(in);
 
         return confessions;
     }
@@ -169,7 +164,7 @@ public class ConfessionManager {
         return null;
     }
 
-    public Confession getConfessionFromServer(Context context, long id){
+    public Confession getConfessionFromServer(Context context, long id) {
 
         Confession confession = null;
 
@@ -177,21 +172,15 @@ public class ConfessionManager {
         gsonBuilder.registerTypeAdapter(Confession.class, new ConfessionDeserializer());
         Gson gson = gsonBuilder.create();
 
-        try {
+        InputStream in = HTTPRequestManager.getInstance().sendSimpleHttpsRequest(ConnectionManager.GET_SINGLE_CONFESSION_URL+"/"+id);
 
-            InputStream in = HTTPRequestManager.getInstance().sendSimpleHttpsRequest(ConnectionManager.GET_SINGLE_CONFESSION_URL+"/"+id);
+        if (in != null){
+            Reader reader = new InputStreamReader(in);
 
-            if (in != null){
-                Reader reader = new InputStreamReader(in);
+            confession = gson.fromJson(reader, Confession.class);
 
-                confession = gson.fromJson(reader, Confession.class);
-
-            } else {
-                return null;
-            }
-
-        } catch (IOException e) {
-            e.printStackTrace();
+        } else {
+            return null;
         }
 
         return confession;

@@ -2,6 +2,11 @@ package com.versapp.connection;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.widget.Toast;
+
+import com.google.gson.JsonObject;
+import com.koushikdutta.async.future.FutureCallback;
+import com.koushikdutta.ion.Ion;
 
 /**
  * Created by william on 21/09/14.
@@ -50,6 +55,24 @@ public class CredentialsManager {
 
     public String getValidPassword(){
         return preferences.getString(PASSWORD_KEY, null);
+    }
+
+    public void forgotPassword(String email){
+
+        Ion.with(context).load(ConnectionManager.FORGOT_PASSWORD_URL + email) // url/email
+        .asJsonObject().setCallback(new FutureCallback<JsonObject>() {
+                @Override
+                public void onCompleted(Exception e, JsonObject result) {
+
+                    if (e == null){
+                        Toast.makeText(context, "Reset password email sent.", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(context, "Oops.. something went wrong. Try again.", Toast.LENGTH_SHORT).show();
+                    }
+
+                }
+            });
+
     }
 
 }

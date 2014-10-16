@@ -54,7 +54,10 @@ public class ViewSingleConfessionActivity extends Activity {
 
             @Override
             protected Confession doInBackground(Void... params) {
+
+
                 return ConfessionManager.getInstance().getConfessionFromServer(getApplicationContext(), confessionId);
+
             }
 
             @Override

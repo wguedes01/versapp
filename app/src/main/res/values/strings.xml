@@ -47,5 +47,6 @@
     <string name="fragment_confessions_oops_refresh_btn">Refresh</string>
     <string name="fragment_confessions_oops_label">Oops.. Something went wrong...</string>
     <string name="title_activity_invite_contact">InviteContactActivity</string>
+    <string name="forgot_password_label">Forgot Password?</string>
 
 </resources>

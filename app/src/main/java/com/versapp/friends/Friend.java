@@ -56,6 +56,6 @@ public class Friend implements Comparable<Friend>{
 
     @Override
     public int compareTo(Friend another) {
-        return name.compareTo(another.name);
+        return name.toUpperCase().compareTo(another.name.toUpperCase());
     }
 }

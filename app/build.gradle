@@ -29,4 +29,5 @@ dependencies {
     compile 'com.google.code.gson:gson:1.7.2'
     compile 'com.google.apis:google-api-services-storage:v1beta2-rev57-1.19.0'
     compile 'com.google.android.gms:play-services:5.2.08'
+    compile 'com.koushikdutta.ion:ion:1.+'
 }

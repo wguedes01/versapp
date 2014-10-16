@@ -27,7 +27,7 @@ public class ConfessionImageCache {
         this.gcsManager = GCSManager.getInstance(activity);
     }
 
-    private LruCache<String, Bitmap> cache = new LruCache<String, Bitmap>(3);
+    private LruCache<String, Bitmap> cache = new LruCache<String, Bitmap>(5);
 
     public void addToCache(String key, Bitmap bitmap){
         if (cache.get(key) == null) {

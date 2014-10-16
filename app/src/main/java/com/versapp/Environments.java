@@ -61,6 +61,8 @@ public class Environments {
     //BLM
     public static final String BLACK_LIST_URL =  HTTP_PROTOCOL+"://"+ SERVER_IP_ADDRESS+ ":" +NODE_PORT+"/blacklist";
 
+    public static final String FORGOT_PASSWORD_URL =  HTTP_PROTOCOL+"://"+ SERVER_IP_ADDRESS+ ":" +NODE_PORT+"/password/forgot/trigger/";
+
 /*
     // DEV
     public static String MODE = "dev";

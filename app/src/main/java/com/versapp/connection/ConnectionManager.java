@@ -24,6 +24,7 @@ public class ConnectionManager {
     public static final int NODE_PORT = Environments.NODE_PORT;
     public static final String VERIFY_PHONE_URL = Environments.VERIFY_PHONE_URL;
     public static final String NUMBER_AVAILABILITY_URL = Environments.NUMBER_AVAILABILITY_URL;
+    public static final String FORGOT_PASSWORD_URL = Environments.FORGOT_PASSWORD_URL;
 
     // Thoughts
     public static final String CONFESSIONS_URL =  Environments.CONFESSIONS_URL;

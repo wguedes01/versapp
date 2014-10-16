@@ -7,7 +7,7 @@ import java.util.ArrayList;
 /**
  * Created by william on 27/09/14.
  */
-public abstract class ChatBuilder {
+public abstract class ChatBuilder{
 
     public static final String POST_PARAM_CHAT_TYPE = "type";
     public static final String POST_PARAM_CHAT_PARTICIPANTS = "participants";

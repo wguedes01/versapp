@@ -16,6 +16,7 @@ import org.apache.http.protocol.HTTP;
 import org.jivesoftware.smack.util.Base64Encoder;
 import org.json.JSONObject;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStreamWriter;
@@ -127,10 +128,14 @@ public class HTTPRequestManager {
 
     }
 
-    public InputStream sendSimpleHttpsRequest(String urlString) throws IOException {
+    public InputStream sendSimpleHttpsRequest(String urlString) {
 
         if (ConnectionManager.MODE.equals("dev")){
-            return sendSimpleHttpRequestDEPRICATED(urlString);
+            try {
+                return sendSimpleHttpRequestDEPRICATED(urlString);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
 
         String https_url = urlString;
@@ -146,6 +151,8 @@ public class HTTPRequestManager {
 
             return con.getInputStream();
 
+        } catch (FileNotFoundException e){
+            e.printStackTrace();
         } catch (MalformedURLException e) {
             e.printStackTrace();
         } catch (IOException e) {

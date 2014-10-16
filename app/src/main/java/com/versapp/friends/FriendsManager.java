@@ -14,7 +14,6 @@ import org.jivesoftware.smack.SmackException;
 import org.jivesoftware.smack.packet.Presence;
 import org.jivesoftware.smack.tcp.XMPPTCPConnection;
 
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
@@ -51,13 +50,9 @@ public class FriendsManager {
 
         Friend[] friends = null;
         InputStream in = null;
-        try {
 
-            in = HTTPRequestManager.getInstance().sendSimpleHttpsRequest(ConnectionManager.FRIEND_URL);
+        in = HTTPRequestManager.getInstance().sendSimpleHttpsRequest(ConnectionManager.FRIEND_URL);
 
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
 
         if (in != null){
             Reader reader = new InputStreamReader(in);
@@ -90,13 +85,8 @@ public class FriendsManager {
 
         Friend[] friends = null;
         InputStream in = null;
-        try {
 
-            in = HTTPRequestManager.getInstance().sendSimpleHttpsRequest(ConnectionManager.PENDING_FRIEND_URL);
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        in = HTTPRequestManager.getInstance().sendSimpleHttpsRequest(ConnectionManager.PENDING_FRIEND_URL);
 
         if (in != null){
             Reader reader = new InputStreamReader(in);

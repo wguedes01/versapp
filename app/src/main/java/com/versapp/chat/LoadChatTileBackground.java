@@ -13,6 +13,7 @@ import android.widget.ImageView;
 import com.versapp.GCSManager;
 import com.versapp.Logger;
 import com.versapp.R;
+import com.versapp.confessions.Confession;
 import com.versapp.confessions.ConfessionManager;
 
 import java.io.File;
@@ -61,11 +62,19 @@ public class LoadChatTileBackground extends AsyncTask<Void, Void, Void> {
         colorBackground = null;
 
         // Get confession
-        if (chat.getConfession() == null){
-           chat.setConfession(ConfessionManager.getInstance().getConfessionFromServer(context, chat.getCid()));
+        if (chat.getConfession() == null && !chat.isFailedToRetrieveConfession()){
+           Logger.log(Logger.CHAT_DEBUG, "Getting confession: " + chat.getCid());
+           Confession conf = ConfessionManager.getInstance().getConfessionFromServer(context, chat.getCid());
+
+            if (conf != null) {
+                chat.setConfession(conf);
+            }  else {
+                chat.setFailedToRetrieveConfession(true);
+            }
+
+        } else {
+            Logger.log(Logger.CHAT_DEBUG, "Confession was in memory " + chat.getCid());
         }
-
-
 
         if (chat.getConfession() != null){
 
