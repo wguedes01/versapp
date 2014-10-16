@@ -14,6 +14,7 @@ import com.versapp.connection.ConnectionService;
 import com.versapp.connection.CredentialsManager;
 import com.versapp.connection.LoginAT;
 import com.versapp.database.ChatsDAO;
+import com.versapp.friends.FriendListActivity;
 import com.versapp.requests.RequestsActivity;
 
 import java.util.ArrayList;
@@ -152,6 +153,38 @@ public class OpenActivityFromNotification extends Activity {
                 }, null, null).execute(username, password);
 
             }
+
+        } else if(getIntent().getStringExtra(OPEN_ACTIVITY_INTENT_EXTRA).equals(FriendListActivity.class.getName())){
+
+
+            String username = CredentialsManager.getInstance(getApplicationContext()).getValidUsername();
+            String password = CredentialsManager.getInstance(getApplicationContext()).getValidPassword();
+
+            if (ConnectionListener.reconnecting ||(ConnectionService.getConnection() != null && ConnectionService.getConnection().isAuthenticated())){
+
+                Intent intent = new Intent(getApplicationContext(), FriendListActivity.class);
+                intent.putExtra(FriendListActivity.LIST_MODE_INTENT_EXTRA, FriendListActivity.OPTS_MODE);
+                startActivity(intent);
+
+                close = true;
+
+            } else {
+
+                new LoginAT(this, new Runnable() {
+                    @Override
+                    public void run() {
+
+                        Intent intent = new Intent(getApplicationContext(), FriendListActivity.class);
+                        intent.putExtra(FriendListActivity.LIST_MODE_INTENT_EXTRA, FriendListActivity.OPTS_MODE);
+                        startActivity(intent);
+
+                        close = true;
+                    }
+                }, null, null).execute(username, password);
+
+            }
+
+        } else {
 
         }
 

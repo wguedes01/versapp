@@ -11,6 +11,7 @@ import com.versapp.chat.ChatDashboardActivity;
 import com.versapp.chat.ChatManager;
 import com.versapp.chat.conversation.ConversationActivity;
 import com.versapp.confessions.ViewSingleConfessionActivity;
+import com.versapp.friends.FriendListActivity;
 import com.versapp.requests.RequestsActivity;
 import com.versapp.settings.SettingsActivity;
 
@@ -133,19 +134,20 @@ public class NotificationManager {
 
         final NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context).setSmallIcon(R.drawable.ic_new_friend_notification).setContentTitle("You've got a new friend").setContentText(message).setAutoCancel(true);
 
-        //Intent homeIntent = new Intent(context, DashboardActivity.class);
+        Intent homeIntent = new Intent(context, DashboardActivity.class);
 
-        //Intent intent = new Intent(context, OpenActivityFromNotification.class);
-        //intent.putExtra(ViewSingleConfessionActivity.CONFESSION_ID_INTENT_EXTRA, confessionId);
+        Intent intent = new Intent(context, OpenActivityFromNotification.class);
+        intent.putExtra(OpenActivityFromNotification.OPEN_ACTIVITY_INTENT_EXTRA, FriendListActivity.class.getName());
 
-        //PendingIntent pendingIntent = PendingIntent.getActivities(context, 0, new Intent[] {homeIntent, intent}, PendingIntent.FLAG_ONE_SHOT);
+        PendingIntent pendingIntent = PendingIntent.getActivities(context, 0, new Intent[] {homeIntent, intent}, PendingIntent.FLAG_ONE_SHOT);
 
-        //mBuilder.setContentIntent(pendingIntent);
-       // mBuilder.setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION));
-        //mBuilder.setVibrate(new long[] { 0, 100, 200, 300 });
+        mBuilder.setContentIntent(pendingIntent);
+        if (SettingsActivity.isNotificationEnabled(context)){
+            mBuilder.setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION));
+            mBuilder.setVibrate(new long[] { 0, 100, 200, 300 });
+        }
 
         manager.notify(500, mBuilder.build());
-
     }
 
     public void displayGroupInvitationNotification(String message) {

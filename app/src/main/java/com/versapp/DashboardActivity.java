@@ -80,6 +80,7 @@ public class DashboardActivity extends FragmentActivity {
     @Override
     public void onBackPressed() {
         //pager.setCurrentItem(0);
+        NotificationManager.getInstance(getApplicationContext()).displayBLMNewFriendNotification("New friend", "username");
         super.onBackPressed();
     }
 
