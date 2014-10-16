@@ -75,17 +75,19 @@ public class ChatDashboardActivity extends Activity {
             @Override
             protected void onPostExecute(ArrayList<Chat> result) {
 
+                ChatManager.getInstance().clearChats();
+
                 if (result != null){
                     if (result.size() == 0) {
                         noConversationsLabel.setVisibility(View.VISIBLE);
                     } else {
                         noConversationsLabel.setVisibility(View.GONE);
-                        ChatManager.getInstance().clearChats();
                         ChatManager.getInstance().addAll(result);
-                        adapter.notifyDataSetChanged();
                         super.onPostExecute(result);
                     }
                 }
+
+                adapter.notifyDataSetChanged();
 
 
             }

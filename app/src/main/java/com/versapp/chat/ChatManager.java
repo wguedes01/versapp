@@ -204,7 +204,6 @@ public class ChatManager {
     public void leaveChat(Context context, Chat chat){
 
         new ChatsDAO(context).delete(chat.getUuid());
-
         chat.leave();
     }
 
