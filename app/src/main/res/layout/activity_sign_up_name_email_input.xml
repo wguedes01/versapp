@@ -43,7 +43,8 @@
         android:layout_marginTop="10dp"
         android:gravity="center"
         android:hint="@string/sign_up_name_hint"
-        android:background="@color/orangeBeauty"><requestFocus></requestFocus></EditText>
+        android:background="@color/orangeBeauty"
+        android:maxLength="40"><requestFocus></requestFocus></EditText>
 
     <EditText
         android:layout_width="match_parent"
@@ -60,7 +61,8 @@
         android:layout_marginRight="10dp"
         android:layout_marginTop="10dp"
         android:gravity="center"
-        android:background="@color/orangeBeauty"/>
+        android:background="@color/orangeBeauty"
+        android:maxLength="60"/>
 
     <Button
         android:layout_width="match_parent"

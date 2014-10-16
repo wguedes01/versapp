@@ -42,7 +42,8 @@
         android:background="@color/orangeBeauty"
         android:id="@+id/sign_up_phone_edit"
         android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:maxLength="20"/>
 
     <ImageView
         android:layout_width="320dp"
