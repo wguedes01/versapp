@@ -7,6 +7,8 @@ import android.support.v4.util.LruCache;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -19,13 +21,13 @@ import java.util.ArrayList;
 /**
  * Created by william on 29/09/14.
  */
-public class ConversationListArrayAdapter extends ArrayAdapter<Message> {
+public class ConversationListArrayAdapter extends ArrayAdapter<ConversationActivity.ChatMessage> {
 
     private Context context;
-    private ArrayList<Message> messages;
+    private ArrayList<ConversationActivity.ChatMessage> messages;
     private LruCache<String, Bitmap> cache;
 
-    public ConversationListArrayAdapter(Context context, ArrayList<Message> messages, LruCache<String, Bitmap> cache) {
+    public ConversationListArrayAdapter(Context context, ArrayList<ConversationActivity.ChatMessage> messages, LruCache<String, Bitmap> cache) {
         super(context, R.layout.conversation_list_item, messages);
         this.context = context;
         this.messages = messages;
@@ -35,7 +37,8 @@ public class ConversationListArrayAdapter extends ArrayAdapter<Message> {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
-        final Message currentMessage = messages.get(position);
+        final ConversationActivity.ChatMessage currentChatMessage = messages.get(position);
+        final Message currentMessage = currentChatMessage.message;
 
         final ViewHolder holder = new ViewHolder();
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -83,6 +86,13 @@ public class ConversationListArrayAdapter extends ArrayAdapter<Message> {
                 }.execute();
 
             }
+        }
+
+
+        if (currentChatMessage.animate) {
+            Animation anim = AnimationUtils.loadAnimation(context, R.anim.chat_bubble_anim);
+            convertView.startAnimation(anim);
+            currentChatMessage.animate = false;
         }
 
         return convertView;

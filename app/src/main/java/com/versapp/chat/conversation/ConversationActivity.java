@@ -55,7 +55,7 @@ public class ConversationActivity extends Activity {
 
     BroadcastReceiver newMessageBR;
 
-    private ArrayList<Message> messages;
+    private ArrayList<ChatMessage> messages;
 
     private ListView messagesListView;
     private ArrayAdapter adapter;
@@ -84,7 +84,7 @@ public class ConversationActivity extends Activity {
 
         cache = new LruCache<String, Bitmap>(3);
 
-        messages = new ArrayList<Message>();
+        messages = new ArrayList<ChatMessage>();
 
         messagesListView = (ListView) findViewById(R.id.activity_conversation_main_list);
         messageEditText = (EditText) findViewById(R.id.activity_conversation_message_edit_text);
@@ -155,7 +155,7 @@ public class ConversationActivity extends Activity {
                         @Override
                         protected void onPostExecute(Message message) {
 
-                            messages.add(message);
+                            messages.add(new ChatMessage(message, true));
                             adapter.notifyDataSetChanged();
 
                             super.onPostExecute(message);
@@ -179,7 +179,10 @@ public class ConversationActivity extends Activity {
 
                 if (msgs != null){
 
-                    messages.addAll(msgs);
+                    for (Message msg : msgs){
+                        messages.add(new ChatMessage(msg));
+                    }
+
                     adapter.notifyDataSetChanged();
 
                     if (msgs.size() > 0){
@@ -522,6 +525,21 @@ public class ConversationActivity extends Activity {
     public void closeExplanationLabel(View view){
         chatExplanationLabel.setVisibility(View.GONE);
         TutorialManager.getInstance(getApplicationContext()).setChatExplained();
+    }
+
+    public class ChatMessage {
+
+        public Message message;
+        public boolean animate = false;
+
+        private ChatMessage(Message message) {
+            this.message = message;
+        }
+
+        private ChatMessage(Message message, boolean animate) {
+            this.message = message;
+            this.animate = animate;
+        }
     }
 
 }

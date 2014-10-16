@@ -84,6 +84,7 @@
     <orderEntry type="library" exported="" name="asmack-android-8-4.0.4" level="project" />
     <orderEntry type="library" exported="" name="jsr305-1.3.9" level="project" />
     <orderEntry type="library" exported="" name="google-api-services-storage-v1beta2-rev57-1.19.0" level="project" />
+    <orderEntry type="library" exported="" name="ActiveAndroid" level="project" />
     <orderEntry type="library" exported="" name="google-http-client-android-1.17.0-rc" level="project" />
     <orderEntry type="library" exported="" name="jackson-core-2.1.3" level="project" />
     <orderEntry type="library" exported="" name="google-api-client-1.19.0" level="project" />

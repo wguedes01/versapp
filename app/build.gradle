@@ -31,4 +31,5 @@ dependencies {
     compile 'com.google.android.gms:play-services:5.2.08'
     compile 'com.koushikdutta.ion:ion:1.+'
     compile files('libs/robotium-solo-5.2.1.jar')
+    compile files('libs/ActiveAndroid.jar')
 }
