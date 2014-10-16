@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.versapp.chat.ChatDashboardActivity"
-    android:background="@drawable/blue_owl_repeat_bg"
+    android:background="@color/twitterBlue"
     >
 
     <GridView
@@ -15,16 +15,14 @@
 
     <TextView
         android:id="@+id/activity_chat_dashboard_no_chats_message"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:text="@string/no_chats_message"
         android:textColor="@android:color/white"
-        android:textSize="20dp"
-        android:padding="10dp"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="10dp"
-        android:background="@color/orangeBeauty"
-        android:visibility="gone"/>
-
+        android:textSize="18sp"
+        android:background="@color/veryDarkTransparent"
+        android:layout_centerInParent="true"
+        android:visibility="gone"
+        android:gravity="center"/>
 
 </RelativeLayout>

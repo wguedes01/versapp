@@ -23,7 +23,7 @@
     <string name="varification_code_input_header">Verify</string>
     <string name="sign_up_verification_code_hint">Code</string>
     <string name="title_activity_compose_confession">Compose Thought</string>
-    <string name="compose_confession_hintt">What\'s up?</string>
+    <string name="compose_confession_hintt">Share a thought...</string>
     <string name="compose_confession_swipe_to_change_color_text">Swipe to change color</string>
     <string name="title_activity_friend_list">Friends</string>
     <string name="search_friend">Search</string>

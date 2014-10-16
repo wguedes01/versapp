@@ -596,8 +596,10 @@ public class ConfessionsFragment extends Fragment {
                     }
                 };
 
-                if (ShareManager.isTwitterInstalled(getActivity().getApplicationContext())){
-                    confessions.add(3, new ClickableConfession("Help your friends find out about Versapp! Share it on twitter!", shareOnTwitter));
+                if (ShareManager.isTwitterInstalled(getActivity().getApplicationContext()) && !ShareManager.isSharedOnTwitter(getActivity().getApplicationContext())){
+                    if (confessions.size() > 3){
+                        confessions.add(3, new ClickableConfession("Help your friends find out about Versapp! Share it on twitter!", shareOnTwitter));
+                    }
                 }
 
                 updateLayout();

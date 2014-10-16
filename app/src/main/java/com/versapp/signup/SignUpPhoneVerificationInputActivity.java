@@ -70,7 +70,6 @@ public class SignUpPhoneVerificationInputActivity extends Activity {
 
         }  else {
 
-
             // validate phone number.
             final String phone = phoneEdit.getText().toString();
 

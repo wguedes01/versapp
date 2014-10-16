@@ -63,12 +63,6 @@
         android:layout_above="@id/activity_friend_create_group_btn"
         android:background="@android:color/white"></View>
 
-    <ImageView
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:layout_centerInParent="true"
-        android:src="@drawable/ic_twitter_blue"/>
-
     <ListView
         android:layout_below="@id/activity_friend_action_bar"
         android:id="@+id/activity_friend_list_main_list"
