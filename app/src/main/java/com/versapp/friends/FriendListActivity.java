@@ -105,8 +105,6 @@ public class FriendListActivity extends Activity {
 
         new LoadFriendsAT(adapter, progressBar, notEnoughFriendsLabel).execute();
 
-        Toast.makeText(this, "Long press for more options", Toast.LENGTH_SHORT).show();
-
     }
 
     private void setSingleSelectionMode(ListView list){

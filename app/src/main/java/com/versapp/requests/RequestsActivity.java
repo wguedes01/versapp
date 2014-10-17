@@ -14,7 +14,6 @@ import android.widget.GridView;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.versapp.R;
 import com.versapp.chat.Chat;
@@ -31,10 +30,14 @@ public class RequestsActivity extends Activity {
     private BaseAdapter adapter;
     private ArrayList<Request> requests;
 
+    private View noNotificationsMask;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_requests);
+
+        noNotificationsMask = findViewById(R.id.activity_requests_no_notifications);
 
         requests = new ArrayList<Request>();
 
@@ -68,7 +71,10 @@ public class RequestsActivity extends Activity {
             protected void onPostExecute(ArrayList<Request> result) {
 
                 if (result.size() == 0){
-                    Toast.makeText(getApplicationContext(), "You have no notifications", Toast.LENGTH_LONG).show();
+                    //Toast.makeText(getApplicationContext(), "You have no notifications", Toast.LENGTH_LONG).show();
+                    //noNotificationsMask.setVisibility(View.VISIBLE);
+                } else {
+                    //noNotificationsMask.setVisibility(View.GONE);
                 }
 
                 requests.addAll(result);
@@ -226,6 +232,17 @@ public class RequestsActivity extends Activity {
 
         }
 
+        @Override
+        public void notifyDataSetChanged() {
+            super.notifyDataSetChanged();
+
+            if (getCount() == 0){
+                noNotificationsMask.setVisibility(View.VISIBLE);
+            } else {
+                noNotificationsMask.setVisibility(View.GONE);
+            }
+
+        }
     }
 
 

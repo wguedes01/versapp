@@ -14,4 +14,16 @@
         android:horizontalSpacing="4dp"
         android:layout_margin="2dp"></GridView>
 
+    <TextView
+        android:id="@+id/activity_requests_no_notifications"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="@string/no_notifications"
+        android:textColor="@android:color/white"
+        android:textSize="18sp"
+        android:background="@color/veryDarkTransparent"
+        android:layout_centerInParent="true"
+        android:visibility="gone"
+        android:gravity="center"/>
+
 </RelativeLayout>

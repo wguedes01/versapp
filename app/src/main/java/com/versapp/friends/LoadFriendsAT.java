@@ -5,6 +5,7 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -74,6 +75,7 @@ public class LoadFriendsAT extends AsyncTask<Void, Void, ArrayList<FriendListIte
         } else {
             adapter.addAll(friendListItems);
             adapter.notifyDataSetChanged();
+            Toast.makeText(adapter.getContext(), "Long press for more options", Toast.LENGTH_SHORT).show();
         }
 
         new AsyncTask<Void, Void, ArrayList<String>>(){
