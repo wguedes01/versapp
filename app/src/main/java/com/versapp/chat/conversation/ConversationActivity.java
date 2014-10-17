@@ -313,7 +313,13 @@ public class ConversationActivity extends Activity {
                 imageManager.setTargetWidth(width);
 
                 try {
-                    return cropBitmap(imageManager.getScaledBitmapImage(selectedImagePath));
+                    // Hack this. Sometimes the Samsung system doesn't create the path to the image taken in time.
+                    if (selectedImagePath != null) {
+                        return cropBitmap(imageManager.getScaledBitmapImage(selectedImagePath));
+                    } else {
+                        return null;
+                    }
+
                 } catch (IOException e) {
                     e.printStackTrace();
                     return null;

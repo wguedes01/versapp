@@ -1,12 +1,12 @@
 package com.versapp.confessions;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Point;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -27,10 +27,12 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
+import com.soundcloud.android.crop.Crop;
 import com.versapp.GCSManager;
+import com.versapp.NewImageManager;
 import com.versapp.R;
-import com.versapp.util.ImageManager;
 
+import java.io.File;
 import java.io.IOException;
 
 public class ComposeConfessionActivity extends FragmentActivity {
@@ -276,7 +278,7 @@ public class ComposeConfessionActivity extends FragmentActivity {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 if (which == 0) {
-                    browsePictures();
+                    Crop.pickImage(ComposeConfessionActivity.this);
                 } else if (which == 1) {
                     takePicture();
                 }
@@ -286,26 +288,7 @@ public class ComposeConfessionActivity extends FragmentActivity {
 
     }
 
-    private static final int LOAD_IMAGE_REQUEST_CODE = 1;
     private static final int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 100;
-
-    private void browsePictures(View v) {
-        Intent intent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-        startActivityForResult(intent, LOAD_IMAGE_REQUEST_CODE);
-    }
-
-    public void takePicture(View v) {
-        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        startActivityForResult(intent, CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE);
-    }
-
-    public void browsePictures() {
-        Intent intent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-        intent.setType("image/*");
-        intent.setAction(Intent.ACTION_GET_CONTENT);
-        intent.putExtra(Intent.EXTRA_LOCAL_ONLY, true);
-        startActivityForResult(intent, LOAD_IMAGE_REQUEST_CODE);
-    }
 
     public void takePicture() {
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
@@ -314,119 +297,33 @@ public class ComposeConfessionActivity extends FragmentActivity {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (resultCode == Activity.RESULT_OK && requestCode == LOAD_IMAGE_REQUEST_CODE && data != null) {
-            handlePictureSelectedIntent(data);
-        } else if (requestCode == CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE && resultCode == Activity.RESULT_OK && data != null) {
-            handlePictureTakenIntent(data);
+
+        if ((requestCode == Crop.REQUEST_PICK || requestCode == CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE) && resultCode == RESULT_OK) {
+            beginCrop(data.getData());
+        } else if (requestCode == Crop.REQUEST_CROP) {
+            handleCrop(resultCode, data);
         }
-    }
-
-    public void handlePictureTakenIntent(final Intent intent) {
-
-        new AsyncTask<Void, Void, Bitmap>(){
-
-            @Override
-            protected Bitmap doInBackground(Void... params) {
-
-                Display display = getWindowManager().getDefaultDisplay();
-
-                int width = 0;
-                int height = 0;
-
-                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.HONEYCOMB_MR2) {
-                    Point size = new Point();
-                    display.getSize(size);
-                    width = size.x;
-                    height = size.y;
-
-                } else {
-                    width = display.getWidth();
-                    height = display.getHeight();
-                }
-
-
-                ImageManager imageManager = new ImageManager();
-                String selectedImagePath = imageManager.getSelectedImagePath(intent, getApplicationContext());
-                imageManager.setTargetHeight(width);
-                imageManager.setTargetWidth(width);
-
-                try {
-                    return cropBitmap(imageManager.getScaledBitmapImage(selectedImagePath));
-                } catch (IOException e) {
-                    e.printStackTrace();
-                    return null;
-                }
-
-            }
-
-            @Override
-            protected void onPostExecute(Bitmap bitmap) {
-
-                if (bitmap != null){
-                    setMessagePicture(bitmap);
-                } else {
-                    Toast.makeText(getApplicationContext(), "Unable to load picture. Try again.", Toast.LENGTH_SHORT).show();
-                }
-
-
-                super.onPostExecute(bitmap);
-            }
-        }.execute();
 
     }
 
-    public void handlePictureSelectedIntent(final Intent intent) {
-
-        new AsyncTask<Void, Void, Bitmap>(){
-
-            @Override
-            protected Bitmap doInBackground(Void... params) {
-
-                ImageManager imageManager = new ImageManager();
-                String selectedImagePath = imageManager.getSelectedImagePath(intent, getApplicationContext());
-                imageManager.setTargetHeight(500);
-                imageManager.setTargetWidth(500);
-
-                try {
-
-                    Bitmap image = imageManager.getScaledBitmapImage(selectedImagePath);
-
-                    if(image != null){
-                        return cropBitmap(image);
-                    } else {
-                        return null;
-                    }
-
-                } catch (IOException e) {
-                    e.printStackTrace();
-                    return null;
-                }
-
-            }
-
-            @Override
-            protected void onPostExecute(Bitmap bitmap) {
-
-                if (bitmap != null){
-                    setMessagePicture(bitmap);
-                } else {
-                    Toast.makeText(getApplicationContext(), "Unable to load picture. Try again.", Toast.LENGTH_SHORT).show();
-                }
-
-                super.onPostExecute(bitmap);
-            }
-
-        }.execute();
-
+    private void beginCrop(Uri source) {
+        Uri outputUri = Uri.fromFile(new File(getCacheDir(), "cropped"));
+        new Crop(source).output(outputUri).asSquare().start(this);
     }
 
-    protected Bitmap cropBitmap(Bitmap image) {
-        if (image.getWidth() >= image.getHeight()) {
-            return Bitmap.createBitmap(image, (int) 0, 0, (int) image.getWidth(), image.getHeight());
-        } else {
-            double height = image.getWidth();
-            double inset = 0.5 * (image.getHeight() - height);
-            return Bitmap.createBitmap(image, 0, (int) inset, image.getWidth(), (int) height);
+    private void handleCrop(int resultCode, Intent result) {
+        if (resultCode == RESULT_OK) {
+
+            try {
+                Bitmap image = NewImageManager.correctImageRotation(this, Crop.getOutput(result));
+                setMessagePicture(image);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+
+        } else if (resultCode == Crop.RESULT_ERROR) {
+            Toast.makeText(this, Crop.getError(result).getMessage(), Toast.LENGTH_SHORT).show();
         }
     }
 

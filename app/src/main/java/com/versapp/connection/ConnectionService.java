@@ -71,11 +71,15 @@ public class ConnectionService extends Service {
             ConnectionService.getConnection().sendPacket(packet);
 
             Packet p = iqPacketCollector.nextResult();
-            String response = p.toXML().toString().replaceAll("\\r\\n|\\r|\\n", " ");
 
-            Logger.log(Logger.EJABBERD_SERVER_REQUESTS_DEBUG, "Sent: " + xml);
-            Logger.log(Logger.EJABBERD_SERVER_REQUESTS_DEBUG, "Received: " + response);
-            return response;
+            if (p != null){
+                String response = p.toXML().toString().replaceAll("\\r\\n|\\r|\\n", " ");
+                Logger.log(Logger.EJABBERD_SERVER_REQUESTS_DEBUG, "Sent: " + xml);
+                Logger.log(Logger.EJABBERD_SERVER_REQUESTS_DEBUG, "Received: " + response);
+                return  response;
+            }
+
+            return null;
 
         } catch (SmackException.NotConnectedException e) {
             e.printStackTrace();

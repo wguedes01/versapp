@@ -60,7 +60,7 @@ public class NotificationManager {
             mBuilder.setVibrate(new long[] { 0, 100, 200, 300 });
         }
 
-        manager.notify(0, mBuilder.build());
+        manager.notify(100, mBuilder.build());
 
     }
 
