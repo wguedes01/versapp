@@ -66,7 +66,8 @@
         style="@style/confessionsListView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@android:color/black" />
+        android:background="@android:color/black"
+        android:layout_above="@id/big_confession_dashboard"/>
 
     <LinearLayout
         android:layout_width="match_parent"

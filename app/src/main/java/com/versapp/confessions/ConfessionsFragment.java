@@ -352,9 +352,9 @@ public class ConfessionsFragment extends Fragment {
             height = display.getHeight();
         }
 
-        RelativeLayout.LayoutParams paramsList = (RelativeLayout.LayoutParams) confessionsListView.getLayoutParams();
-        paramsList.height = height - (80 + width / 2);
-        confessionsListView.setLayoutParams(paramsList);
+        //RelativeLayout.LayoutParams paramsList = (RelativeLayout.LayoutParams) confessionsListView.getLayoutParams();
+       // paramsList.height = height - (width / 2);
+        //confessionsListView.setLayoutParams(paramsList);
 
         LinearLayout dashboard = (LinearLayout) convertView.findViewById(R.id.big_confession_dashboard);
         RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) dashboard.getLayoutParams();
