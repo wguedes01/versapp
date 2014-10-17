@@ -15,10 +15,10 @@ import com.versapp.database.MessagesDAO;
 public class MessageReceivedBR extends BroadcastReceiver {
 
     private String chatUUID;
-    private ArrayAdapter<Message> adapter;
+    private ArrayAdapter<ChatMessage> adapter;
     private MessagesDAO messagesDAO;
 
-    public MessageReceivedBR(String chatUUID, ArrayAdapter<Message> adapter) {
+    public MessageReceivedBR(String chatUUID, ArrayAdapter<ChatMessage> adapter) {
         this.chatUUID = chatUUID;
         this.adapter = adapter;
     }
@@ -43,7 +43,7 @@ public class MessageReceivedBR extends BroadcastReceiver {
                 // get message from database.
                 Message message =messagesDAO.get(messageId);
 
-                adapter.add(message);
+                adapter.add(new ChatMessage(message, true));
                 adapter.notifyDataSetChanged();
             }
 

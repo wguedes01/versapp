@@ -58,20 +58,18 @@ public class ImageManager {
         return list.size() > 0;
     }
 
-    public float getRotationDegrees(String imgPath) {
+    public float getRotationDegrees(String imgPath) throws IOException {
         float degreeRotation = 0;
-        try {
+        if (imgPath != null){
             ExifInterface exif = new ExifInterface(imgPath);
             degreeRotation = this.exifOrientationToDegrees(Integer.valueOf(exif.getAttribute(ExifInterface.TAG_ORIENTATION)));
-            Logger.log("MESSAGE_IMAGE", "" + degreeRotation);
-        } catch (IOException e) {
-            Logger.log("MESSAGE_IMAGE", "Failed to get ExifInterface");
-            e.printStackTrace();
+            return degreeRotation;
         }
-        return degreeRotation;
+
+        return 0;
     }
 
-    public Bitmap getScaledBitmapImage(String path) {
+    public Bitmap getScaledBitmapImage(String path) throws IOException {
 
         BitmapFactory.Options bmOptions = new BitmapFactory.Options();
         bmOptions.inJustDecodeBounds = true;
@@ -94,7 +92,7 @@ public class ImageManager {
         return bMap;
     }
 
-    public Bitmap getUnscaledBitmapImage(String path) {
+    public Bitmap getUnscaledBitmapImage(String path) throws IOException {
         float degreeRotation = getRotationDegrees(path);
         Bitmap bMap = BitmapFactory.decodeFile(path);
         if (degreeRotation != 0) {
@@ -103,7 +101,7 @@ public class ImageManager {
         return bMap;
     }
 
-    public void setScaledImageBitmap(String path) {
+    public void setScaledImageBitmap(String path) throws IOException {
         if (this.imageView != null) {
             this.imageView.setImageBitmap(getScaledBitmapImage(path));
         }

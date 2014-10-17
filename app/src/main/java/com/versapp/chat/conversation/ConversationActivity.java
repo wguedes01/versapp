@@ -307,20 +307,28 @@ public class ConversationActivity extends Activity {
                     height = display.getHeight();
                 }
 
-
                 ImageManager imageManager = new ImageManager();
                 String selectedImagePath = imageManager.getSelectedImagePath(intent, getApplicationContext());
                 imageManager.setTargetHeight(width);
                 imageManager.setTargetWidth(width);
 
-                return cropBitmap(imageManager.getScaledBitmapImage(selectedImagePath));
-
+                try {
+                    return cropBitmap(imageManager.getScaledBitmapImage(selectedImagePath));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    return null;
+                }
             }
 
             @Override
             protected void onPostExecute(Bitmap bitmap) {
 
-                setMessagePicture(bitmap);
+                if (bitmap != null) {
+                    setMessagePicture(bitmap);
+                } else {
+                    Toast.makeText(getApplicationContext(), "Unable to use selected image. Please choose an image stored on your phone.", Toast.LENGTH_SHORT).show();
+                }
+
 
                 super.onPostExecute(bitmap);
             }
@@ -341,7 +349,12 @@ public class ConversationActivity extends Activity {
                 imageManager.setTargetHeight(500);
                 imageManager.setTargetWidth(500);
 
-                return cropBitmap(imageManager.getScaledBitmapImage(selectedImagePath));
+                try {
+                    return cropBitmap(imageManager.getScaledBitmapImage(selectedImagePath));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    return null;
+                }
 
             }
 
@@ -525,21 +538,6 @@ public class ConversationActivity extends Activity {
     public void closeExplanationLabel(View view){
         chatExplanationLabel.setVisibility(View.GONE);
         TutorialManager.getInstance(getApplicationContext()).setChatExplained();
-    }
-
-    public class ChatMessage {
-
-        public Message message;
-        public boolean animate = false;
-
-        private ChatMessage(Message message) {
-            this.message = message;
-        }
-
-        private ChatMessage(Message message, boolean animate) {
-            this.message = message;
-            this.animate = animate;
-        }
     }
 
 }

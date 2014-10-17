@@ -2,7 +2,6 @@ package com.versapp.confessions;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -30,7 +29,6 @@ import android.widget.Toast;
 
 import com.versapp.GCSManager;
 import com.versapp.R;
-import com.versapp.ShareManager;
 import com.versapp.util.ImageManager;
 
 import java.io.IOException;
@@ -258,27 +256,6 @@ public class ComposeConfessionActivity extends FragmentActivity {
 
                 if (confession != null) {
                     ConfessionsFragment.addConfession(confession);
-
-                    if (ShareManager.isTwitterInstalled(getApplicationContext())){
-
-                        if (!ShareManager.isSharedOnTwitter(getApplicationContext())){
-                            AlertDialog.Builder builder = new AlertDialog.Builder(ComposeConfessionActivity.this);
-                            builder.setTitle("Awesome!");
-                            builder.setMessage("Help your friends find out about Versapp!  Tell them you've joined it!");
-                            builder.setPositiveButton("Tell them", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-
-                                }
-                            });
-                            builder.setNegativeButton("Not now", null);
-
-                            Dialog dialog = builder.create();
-                            dialog.show();
-                        }
-
-                    }
-
                     finish();
                 } else {
                     Toast.makeText(ComposeConfessionActivity.this, "Failed to create thought. Please try again.", Toast.LENGTH_LONG).show();
@@ -373,14 +350,24 @@ public class ComposeConfessionActivity extends FragmentActivity {
                 imageManager.setTargetHeight(width);
                 imageManager.setTargetWidth(width);
 
-                return cropBitmap(imageManager.getScaledBitmapImage(selectedImagePath));
+                try {
+                    return cropBitmap(imageManager.getScaledBitmapImage(selectedImagePath));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    return null;
+                }
 
             }
 
             @Override
             protected void onPostExecute(Bitmap bitmap) {
 
-                setMessagePicture(bitmap);
+                if (bitmap != null){
+                    setMessagePicture(bitmap);
+                } else {
+                    Toast.makeText(getApplicationContext(), "Unable to load picture. Try again.", Toast.LENGTH_SHORT).show();
+                }
+
 
                 super.onPostExecute(bitmap);
             }
@@ -400,14 +387,31 @@ public class ComposeConfessionActivity extends FragmentActivity {
                 imageManager.setTargetHeight(500);
                 imageManager.setTargetWidth(500);
 
-                return cropBitmap(imageManager.getScaledBitmapImage(selectedImagePath));
+                try {
+
+                    Bitmap image = imageManager.getScaledBitmapImage(selectedImagePath);
+
+                    if(image != null){
+                        return cropBitmap(image);
+                    } else {
+                        return null;
+                    }
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    return null;
+                }
 
             }
 
             @Override
             protected void onPostExecute(Bitmap bitmap) {
 
-                setMessagePicture(bitmap);
+                if (bitmap != null){
+                    setMessagePicture(bitmap);
+                } else {
+                    Toast.makeText(getApplicationContext(), "Unable to load picture. Try again.", Toast.LENGTH_SHORT).show();
+                }
 
                 super.onPostExecute(bitmap);
             }

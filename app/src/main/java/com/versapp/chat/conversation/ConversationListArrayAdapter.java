@@ -21,37 +21,38 @@ import java.util.ArrayList;
 /**
  * Created by william on 29/09/14.
  */
-public class ConversationListArrayAdapter extends ArrayAdapter<ConversationActivity.ChatMessage> {
+public class ConversationListArrayAdapter extends ArrayAdapter<ChatMessage> {
 
     private Context context;
-    private ArrayList<ConversationActivity.ChatMessage> messages;
     private LruCache<String, Bitmap> cache;
 
-    public ConversationListArrayAdapter(Context context, ArrayList<ConversationActivity.ChatMessage> messages, LruCache<String, Bitmap> cache) {
+    public ConversationListArrayAdapter(Context context, ArrayList<ChatMessage> messages, LruCache<String, Bitmap> cache) {
         super(context, R.layout.conversation_list_item, messages);
         this.context = context;
-        this.messages = messages;
         this.cache = cache;
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
-        final ConversationActivity.ChatMessage currentChatMessage = messages.get(position);
+        final ChatMessage currentChatMessage = getItem(position);
         final Message currentMessage = currentChatMessage.message;
+
+        Animation showAnimation = null;
 
         final ViewHolder holder = new ViewHolder();
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
         convertView = inflater.inflate(R.layout.conversation_list_item, parent, false);
 
-
         if (currentMessage.isMine()){
             holder.image = (ImageView) convertView.findViewById(R.id.conversation_list_item_message_image_mine);
             holder.body = (TextView) convertView.findViewById(R.id.conversation_list_item_message_content_mine);
+            showAnimation = AnimationUtils.loadAnimation(context, R.anim.chat_bubble_right_anim);
         } else {
             holder.image = (ImageView) convertView.findViewById(R.id.conversation_list_item_message_image_theirs);
             holder.body = (TextView) convertView.findViewById(R.id.conversation_list_item_message_content_theirs);
+            showAnimation = AnimationUtils.loadAnimation(context, R.anim.chat_bubble_left_anim);
         }
 
         if (currentMessage.getBody() != null && !currentMessage.getBody().trim().equals("")){
@@ -88,10 +89,8 @@ public class ConversationListArrayAdapter extends ArrayAdapter<ConversationActiv
             }
         }
 
-
         if (currentChatMessage.animate) {
-            Animation anim = AnimationUtils.loadAnimation(context, R.anim.chat_bubble_anim);
-            convertView.startAnimation(anim);
+            convertView.startAnimation(showAnimation);
             currentChatMessage.animate = false;
         }
 
