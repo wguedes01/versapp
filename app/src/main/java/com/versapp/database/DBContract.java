@@ -52,6 +52,13 @@ public class DBContract {
 
     }
 
+    public static abstract class ReportedConfessionsTable implements BaseColumns {
+
+        public static final String TABLE_NAME = "reported_confessions";
+        public static final String COLUMN_NAME_ID = "confession_id";
+
+    }
+
 
 
 }

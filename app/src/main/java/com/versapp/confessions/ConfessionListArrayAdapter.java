@@ -118,8 +118,6 @@ public class ConfessionListArrayAdapter extends ArrayAdapter<Confession> {
 
         }
 
-
-
         return convertView;
     }
 

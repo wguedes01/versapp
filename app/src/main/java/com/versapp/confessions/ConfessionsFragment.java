@@ -437,6 +437,7 @@ public class ConfessionsFragment extends Fragment {
             public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
                 return true;
             };
+
         });
 
         @Override
@@ -493,6 +494,8 @@ public class ConfessionsFragment extends Fragment {
 
             return false;
         }
+
+
     }
 
     private boolean supportSmoothScrollToPositionFromTop() {
@@ -561,7 +564,7 @@ public class ConfessionsFragment extends Fragment {
         protected Confession[] doInBackground(Void... params) {
 
             Logger.log(Logger.CONFESSIONS_DEBUG, "About to get confessions");
-            Confession[] confessions = ConfessionManager.getInstance().downloadConfessions(getActivity());
+            Confession[] confessions = ConfessionManager.getInstance().getConfessions(getActivity());
 
             if (confessions == null){
                 return null;
@@ -572,7 +575,6 @@ public class ConfessionsFragment extends Fragment {
             }
 
             return confessions;
-
         }
 
         @Override

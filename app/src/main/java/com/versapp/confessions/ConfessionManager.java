@@ -7,6 +7,7 @@ import com.google.gson.GsonBuilder;
 import com.versapp.HTTPRequestManager;
 import com.versapp.connection.ConnectionManager;
 import com.versapp.connection.ConnectionService;
+import com.versapp.database.ReportedConfessionsDAO;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -20,6 +21,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.net.URLEncoder;
+import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -42,10 +44,36 @@ public class ConfessionManager {
         return instance;
     }
 
-    protected Confession[] downloadConfessions(Context context){
+    protected Confession[] getConfessions(Context context){
+
+        Confession[] confessions = downloadConfessions(context);
+
+        ArrayList<Long> blockedIds = new ReportedConfessionsDAO(context).getAll();
+
+        if (blockedIds.size() <= 0){
+            return confessions;
+        } else {
+
+            Confession[] filteredConfessions = new Confession[confessions.length];
+
+            int i = 0;
+            while( i < confessions.length){
+
+                if (!blockedIds.contains(confessions[i].getId())){
+                    filteredConfessions[filteredConfessions.length] = confessions[i];
+                }
+
+                i++;
+            }
+
+
+            return filteredConfessions;
+        }
+    }
+
+    private Confession[] downloadConfessions(Context context){
 
         Confession[] confessions = null;
-
 
         InputStream in = HTTPRequestManager.getInstance().sendSimpleHttpsRequest(ConnectionManager.CONFESSIONS_URL);
         confessions = deserializeConfessionsStream(in);

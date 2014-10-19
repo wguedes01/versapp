@@ -41,6 +41,9 @@ public class DBHelper extends SQLiteOpenHelper {
             DBContract.ParticipantsTable.COLUMN_NAME_USERNAME + TEXT_TYPE + COMMA_SEP +
             DBContract.ParticipantsTable.COLUMN_NAME_NAME + TEXT_TYPE + ")";
 
+    private static final String SQL_CREATE_REPORTED_CONFESSIONS_TABLE = "CREATE TABLE " + DBContract.ReportedConfessionsTable.TABLE_NAME + " (" +
+            DBContract.ReportedConfessionsTable.COLUMN_NAME_ID + INTEGER_TYPE + " PRIMARY KEY " + ")";
+
     private static final String SQL_DELETE_FRIENDS = "DROP TABLE IF EXISTS " + DBContract.FriendsTable.TABLE_NAME;
 
     private static final String SQL_DELETE_MESSAGES = "DROP TABLE IF EXISTS " + DBContract.MessagesTable.TABLE_NAME;
@@ -48,6 +51,8 @@ public class DBHelper extends SQLiteOpenHelper {
     private static final String SQL_DELETE_CHATS = "DROP TABLE IF EXISTS " + DBContract.ChatsTable.TABLE_NAME;
 
     private static final String SQL_DELETE_PARTICIPANTS = "DROP TABLE IF EXISTS " + DBContract.ParticipantsTable.TABLE_NAME;
+
+    private static final String SQL_DELETE_REPORTED_CONFESSIONS = "DROP TABLE IF EXISTS " + DBContract.ReportedConfessionsTable.TABLE_NAME;
 
     private static DBHelper instance;
 
@@ -70,6 +75,7 @@ public class DBHelper extends SQLiteOpenHelper {
         db.execSQL(SQL_CREATE_MESSAGES_TABLE);
         db.execSQL(SQL_CREATE_CHATS_TABLE);
         db.execSQL(SQL_CREATE_PARTICIPANTS_TABLE);
+        db.execSQL(SQL_CREATE_REPORTED_CONFESSIONS_TABLE);
     }
 
     @Override
@@ -78,6 +84,7 @@ public class DBHelper extends SQLiteOpenHelper {
         db.execSQL(SQL_DELETE_MESSAGES);
         db.execSQL(SQL_DELETE_CHATS);
         db.execSQL(SQL_DELETE_PARTICIPANTS);
+        db.execSQL(SQL_DELETE_REPORTED_CONFESSIONS);
         onCreate(db);
     }
 
