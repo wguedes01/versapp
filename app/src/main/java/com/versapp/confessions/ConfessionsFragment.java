@@ -364,8 +364,6 @@ public class ConfessionsFragment extends Fragment {
 
     }
 
-
-
     private class CustomTouchableElementListener implements View.OnTouchListener {
 
         private GestureDetector gestureDetector;
@@ -378,7 +376,6 @@ public class ConfessionsFragment extends Fragment {
         public boolean onTouch(View v, MotionEvent event) {
 
             gestureDetector.onTouchEvent(event);
-
             return true;
         }
 
@@ -421,7 +418,6 @@ public class ConfessionsFragment extends Fragment {
 
         @Override
         public boolean onSingleTapUp(MotionEvent e) {
-
             onClickRunnable.run();
             return super.onSingleTapUp(e);
         }
@@ -468,6 +464,7 @@ public class ConfessionsFragment extends Fragment {
 
                 return true;
             }
+
 
             // Check if it's fling.
             if (flingRecongnizer.onTouchEvent(event)) {

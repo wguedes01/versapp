@@ -23,7 +23,10 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
 import com.versapp.GCSManager;
+import com.versapp.MainApplication;
 import com.versapp.R;
 import com.versapp.TutorialManager;
 import com.versapp.chat.Chat;
@@ -75,6 +78,11 @@ public class ConversationActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_conversation);
+
+        Tracker tracker = ((MainApplication) getApplicationContext()).getTracker();
+        tracker.setScreenName(getClass().getName());
+        tracker.send(new HitBuilders.AppViewBuilder().build());
+
 
         chatUUID = getIntent().getStringExtra(CHAT_UUID_INTENT_EXTRA);
 

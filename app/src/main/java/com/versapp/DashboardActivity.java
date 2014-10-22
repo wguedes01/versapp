@@ -7,6 +7,9 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.View;
 
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
+import com.versapp.chat.SynchronizeChatDB;
 import com.versapp.confessions.ConfessionsFragment;
 
 
@@ -21,6 +24,10 @@ public class DashboardActivity extends FragmentActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dashboard);
+
+        Tracker tracker = ((MainApplication) getApplicationContext()).getTracker();
+        tracker.setScreenName("DashboardActivity");
+        tracker.send(new HitBuilders.AppViewBuilder().build());
 
         pager = (ViewPager) findViewById(R.id.main_view_pager);
         adapter = new FragmentPagerAdapter(getSupportFragmentManager()) {
@@ -62,6 +69,14 @@ public class DashboardActivity extends FragmentActivity {
 
                     if (i == CONFESSIONS_PAGE){ // confessions page.
                         swipeToConfessionsLabel.setVisibility(View.GONE);
+
+                        // Get tracker.
+                        Tracker t = ((MainApplication) getApplication()).getTracker();
+                        // Build and send an Event.
+                        t.send(new HitBuilders.EventBuilder()
+                                .setCategory("Swipes")
+                                .setAction("Swipe to Thoughts")
+                                .build());
                     }
                 }
 
@@ -73,7 +88,7 @@ public class DashboardActivity extends FragmentActivity {
 
         }
 
-
+        new SynchronizeChatDB(getApplicationContext()).execute();
     }
 
     @Override

@@ -11,7 +11,10 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
 import com.versapp.Environments;
+import com.versapp.MainApplication;
 import com.versapp.R;
 
 import java.io.IOException;
@@ -24,6 +27,10 @@ public class SignUpPhoneVerificationInputActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up_phone_verification_input);
+
+        Tracker tracker = ((MainApplication) getApplicationContext()).getTracker();
+        tracker.setScreenName(getClass().getName());
+        tracker.send(new HitBuilders.AppViewBuilder().build());
 
         phoneEdit = (EditText) findViewById(R.id.sign_up_phone_edit);
 

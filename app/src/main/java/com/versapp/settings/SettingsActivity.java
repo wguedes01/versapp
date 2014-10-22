@@ -21,7 +21,10 @@ import android.widget.GridView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
 import com.versapp.LoginActivity;
+import com.versapp.MainApplication;
 import com.versapp.R;
 import com.versapp.connection.ConnectionManager;
 import com.versapp.connection.ConnectionService;
@@ -47,6 +50,10 @@ public class SettingsActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
+
+        Tracker tracker = ((MainApplication) getApplicationContext()).getTracker();
+        tracker.setScreenName(getClass().getName());
+        tracker.send(new HitBuilders.AppViewBuilder().build());
 
         ArrayList<SettingsButton> buttons = new ArrayList<SettingsButton>();
         buttons.add(new SettingsButton("Home", new HomeOnClickListener()));

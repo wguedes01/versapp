@@ -91,7 +91,19 @@ public class ConnectionService extends Service {
 
     public static String getSessionId() {
 
-        String sessionId = "";
+        String sessionId = sendSessionIdRequest();
+
+        int i = 0;
+        while(sessionId == null && i < 10){
+            sessionId = sendSessionIdRequest();
+        }
+
+        return sessionId;
+    }
+
+    private static String sendSessionIdRequest(){
+
+        String sessionId = null;
 
         String packetId = "get_session_id";
         String xml = "<iq type='get' id='" + packetId + "' from='" + ConnectionService.getConnection().getUser() + "' to='"
@@ -99,11 +111,13 @@ public class ConnectionService extends Service {
 
         String response = sendCustomXMLPacket(xml, packetId);
 
-        Pattern p = Pattern.compile(">(.*?)<");
-        Matcher m = p.matcher(response);
+        if (response != null){
+            Pattern p = Pattern.compile(">(.*?)<");
+            Matcher m = p.matcher(response);
 
-        if (m.find()) {
-            sessionId = m.group(1);
+            if (m.find()) {
+                sessionId = m.group(1);
+            }
         }
 
         return sessionId;

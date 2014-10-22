@@ -15,6 +15,9 @@ import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.TextView;
 
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
+import com.versapp.MainApplication;
 import com.versapp.R;
 import com.versapp.database.ChatsDAO;
 import com.versapp.database.MessagesDAO;
@@ -41,6 +44,10 @@ public class ChatDashboardActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat_dashboard);
+
+        Tracker tracker = ((MainApplication) getApplicationContext()).getTracker();
+        tracker.setScreenName("ChatDashboardActivity");
+        tracker.send(new HitBuilders.AppViewBuilder().build());
 
         noConversationsLabel = (TextView) findViewById(R.id.activity_chat_dashboard_no_chats_message);
 

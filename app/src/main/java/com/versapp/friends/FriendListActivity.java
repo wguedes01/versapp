@@ -18,6 +18,9 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
+import com.versapp.MainApplication;
 import com.versapp.R;
 import com.versapp.chat.CreateChatAT;
 import com.versapp.chat.GroupChatBuilder;
@@ -95,6 +98,9 @@ public class FriendListActivity extends Activity {
             setMultiSelectionMode(friendList);
         } else { // opts
             setOptionMode(friendList);
+             Tracker tracker = ((MainApplication) getApplicationContext()).getTracker();
+             tracker.setScreenName("ViewFriends");
+             tracker.send(new HitBuilders.AppViewBuilder().build());
         }
 
         setOnLongClickListener(friendList);
