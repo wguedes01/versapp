@@ -51,16 +51,16 @@ public class FriendListArrayAdapter extends ArrayAdapter<FriendListItem> {
 
         if (friend.isBlocked()){
             nameText.setTextColor(getContext().getResources().getColor(android.R.color.holo_red_dark));
-            selectionIcon.setImageResource(R.drawable.friend_blocked_circle);
+           // selectionIcon.setImageResource(R.drawable.friend_blocked_circle);
         } else if (friendListItem.isSelected()) {
             if (listMode.equals(FriendListActivity.MULTI_SELECTION_MODE)) {
-                selectionIcon.setImageResource(R.drawable.select_friend_filled);
+             //   selectionIcon.setImageResource(R.drawable.select_friend_filled);
             } else {
                 selectionIcon.setVisibility(View.GONE);
             }
         } else {
             if (listMode.equals(FriendListActivity.MULTI_SELECTION_MODE)) {
-                selectionIcon.setImageResource(R.drawable.select_friend_outline);
+             //   selectionIcon.setImageResource(R.drawable.select_friend_outline);
             } else {
                 selectionIcon.setVisibility(View.GONE);
             }

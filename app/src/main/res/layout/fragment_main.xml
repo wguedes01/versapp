@@ -37,7 +37,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
-                android:src="@drawable/dashboard_start_one_to_one_image"
                 android:paddingBottom="10dp"/>
 
             <TextView
@@ -72,7 +71,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
-                android:src="@drawable/dashboard_start_group_image"
                 android:paddingBottom="10dp"/>
 
             <TextView
@@ -117,7 +115,6 @@
                     android:layout_width="80dp"
                     android:layout_height="80dp"
                     android:layout_centerInParent="true"
-                    android:src="@drawable/dashboard_notification_count_0"
                     android:paddingBottom="10dp"/>
 
                 <TextView
@@ -156,7 +153,6 @@
                     android:layout_width="80dp"
                     android:layout_height="80dp"
                     android:layout_centerInParent="true"
-                    android:src="@drawable/dashboard_settings_icon"
                     android:paddingBottom="10dp"/>
 
                 <TextView
@@ -209,7 +205,6 @@
             android:id="@+id/fragment_main_go_to_msg_image"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_owl_happy_tilt"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="5dp"
             android:layout_above="@id/fragment_main_go_to_msg_image_label"/>

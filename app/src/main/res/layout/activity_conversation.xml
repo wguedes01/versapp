@@ -17,7 +17,6 @@
             android:layout_centerVertical="true"
             android:layout_margin="5dp"
             android:layout_alignParentLeft="true"
-            android:src="@drawable/ic_back_arrow"
             android:onClick="back"
             android:background="@color/transparent"/>
 
@@ -41,7 +40,6 @@
             android:layout_height="30dp"
             android:layout_centerVertical="true"
             android:layout_alignParentRight="true"
-            android:src="@drawable/ic_settings"
             android:onClick="openSettings"
             android:scaleType="fitXY"
             android:layout_marginRight="5dp"

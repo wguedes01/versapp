@@ -169,9 +169,9 @@ public class RequestsActivity extends Activity {
             messageLabel.setText(currentRequest.getMessage());
 
             if (currentRequest instanceof FriendRequest){
-                icon.setImageResource(R.drawable.ic_friend_request);
+               // icon.setImageResource(R.drawable.ic_friend_request);
             } else if(currentRequest instanceof GroupInvitationRequest){
-                icon.setImageResource(R.drawable.ic_group_request);
+               // icon.setImageResource(R.drawable.ic_group_request);
             }
 
             acceptBtn.setOnClickListener(new View.OnClickListener() {

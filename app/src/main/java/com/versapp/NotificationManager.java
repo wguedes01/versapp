@@ -44,7 +44,7 @@ public class NotificationManager {
 
     public void displayConfessionFavoritedNotification(final long confessionId){
 
-        final NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context).setSmallIcon(R.drawable.ic_confession_favorited_notification).setContentTitle("Yay!").setContentText("Someone liked your thought!").setAutoCancel(true);
+        final NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context).setContentTitle("Yay!").setContentText("Someone liked your thought!").setAutoCancel(true);
 
         Intent homeIntent = new Intent(context, DashboardActivity.class);
 
@@ -66,7 +66,7 @@ public class NotificationManager {
 
     public void displayNewMessageNotification(final String chatId, String body) {
 
-        final NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context).setSmallIcon(R.drawable.ic_new_message_owl).setContentTitle("New message").setContentText(body).setAutoCancel(true);
+        final NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context).setContentTitle("New message").setContentText(body).setAutoCancel(true);
 
         new AsyncTask<Void, Void, Void>(){
 
@@ -132,7 +132,7 @@ public class NotificationManager {
 
     public void displayBLMNewFriendNotification(String message, String username) {
 
-        final NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context).setSmallIcon(R.drawable.ic_new_friend_notification).setContentTitle("You've got a new friend").setContentText(message).setAutoCancel(true);
+        final NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context).setContentTitle("You've got a new friend").setContentText(message).setAutoCancel(true);
 
         Intent homeIntent = new Intent(context, DashboardActivity.class);
 
@@ -152,7 +152,7 @@ public class NotificationManager {
 
     public void displayGroupInvitationNotification(String message) {
 
-        final NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context).setSmallIcon(R.drawable.ic_group_invitation_notification).setContentTitle("Group Invitation").setContentText(message).setAutoCancel(true);
+        final NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context).setContentTitle("Group Invitation").setContentText(message).setAutoCancel(true);
 
         Intent homeIntent = new Intent(context, DashboardActivity.class);
 

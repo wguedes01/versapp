@@ -67,6 +67,9 @@ public class ConfessionListArrayAdapter extends ArrayAdapter<Confession> {
 
         }
 
+        // By doing this, we save lots of memory. It detaches old tasks from the heap.
+        holder.task = null;
+
         // Makes layout squared.
         int width = activity.getWindowManager().getDefaultDisplay().getWidth(); // deprecated
         RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(width, width);

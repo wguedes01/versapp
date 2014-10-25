@@ -28,8 +28,7 @@
                 android:layout_centerInParent="true"
                 android:padding="30dp"
                 android:scaleType="fitCenter"
-                android:background="@color/confessionBlue"
-                android:src="@drawable/confession_start_chat_btn" />
+                android:background="@color/confessionBlue" />
         </RelativeLayout>
 
         <RelativeLayout
@@ -48,8 +47,7 @@
                 android:layout_height="match_parent"
                 android:background="@color/transparent"
                 android:padding="30dp"
-                android:scaleType="fitCenter"
-                android:src="@drawable/big_confession_heart_outline" />
+                android:scaleType="fitCenter" />
         </RelativeLayout>
     </LinearLayout>
 
@@ -58,8 +56,7 @@
         android:layout_width="80dp"
         android:layout_height="40dp"
         android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:background="@drawable/compose_confession_btn_bg" />
+        android:layout_centerHorizontal="true" />
 
     <ListView
         android:id="@+id/fragment_big_confessions_list_view"
@@ -72,8 +69,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="60dp"
-        android:layout_above="@id/big_confession_dashboard"
-        android:background="@drawable/big_confession_listview_gradient" >
+        android:layout_above="@id/big_confession_dashboard" >
     </LinearLayout>
 
     <RelativeLayout
@@ -90,7 +86,6 @@
         <ImageView
             android:layout_width="100dp"
             android:layout_height="100dp"
-            android:src="@drawable/ic_owl_only"
             android:layout_centerInParent="true"/>
     </RelativeLayout>
 
@@ -101,7 +96,6 @@
         android:gravity="center"
         android:padding="10dp"
         android:text="Click on the + sign below"
-        android:background="@drawable/round_dark_background"
         android:textColor="@android:color/white"
         android:textSize="25sp"
         android:layout_centerHorizontal="true"
@@ -118,7 +112,6 @@
         android:padding="10dp"
         android:layout_marginBottom="50dp"
         android:text="Swipe Up or Down"
-        android:background="@drawable/round_dark_background"
         android:textColor="@android:color/white"
         android:textSize="25sp"
         android:layout_centerInParent="true"
@@ -133,7 +126,6 @@
         android:padding="10dp"
         android:layout_marginBottom="50dp"
         android:text="@string/create_first_confession_chat"
-        android:background="@drawable/round_dark_background"
         android:textColor="@android:color/white"
         android:textSize="22sp"
         android:layout_centerInParent="true"
@@ -154,7 +146,6 @@
             android:id="@+id/fragment_confessions_oops_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/round_dark_background"
             android:text="@string/fragment_confessions_oops_label"
             android:textSize="18sp"
             android:textColor="@android:color/white"

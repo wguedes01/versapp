@@ -52,8 +52,7 @@
         <ImageView
             android:layout_width="12dp"
             android:layout_height="12dp"
-            android:layout_gravity="center_vertical"
-            android:src="@drawable/big_confession_heart_filled_white" />
+            android:layout_gravity="center_vertical" />
     </LinearLayout>
 
     <ImageView

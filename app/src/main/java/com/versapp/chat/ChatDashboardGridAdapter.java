@@ -17,11 +17,8 @@ import android.widget.TextView;
 
 import com.versapp.R;
 import com.versapp.chat.conversation.ConversationActivity;
-import com.versapp.chat.conversation.Message;
 import com.versapp.database.ChatsDAO;
 import com.versapp.database.MessagesDAO;
-
-import java.util.ArrayList;
 
 /**
  * Created by william on 06/10/14.
@@ -80,26 +77,34 @@ public class ChatDashboardGridAdapter extends BaseAdapter {
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
         final ViewHolder holder;
-        //if (convertView == null){
+        if (convertView == null) {
 
-        convertView = inflater.inflate(R.layout.chat_dashboard_item, parent, false);
+            convertView = inflater.inflate(R.layout.chat_dashboard_item, parent, false);
 
-        holder = new ViewHolder();
-        holder.nameText = (TextView) convertView.findViewById(R.id.activity_chat_dashboard_chat_name);
-        holder.lastMsgText = (TextView) convertView.findViewById(R.id.activity_chat_dashboard_last_message);
-        holder.progressBar = convertView.findViewById(R.id.activity_chat_dashboard_progress_bar);
-        holder.oneToOneUnknownIcon = (ImageView) convertView.findViewById(R.id.activity_chat_dashboard_one_to_one_tile_icon_unknown);
-        holder.oneToOneOwnerIcon = (ImageView) convertView.findViewById(R.id.activity_chat_dashboard_one_to_one_tile_icon_owner);
-        holder.groupIcon = (ImageView) convertView.findViewById(R.id.activity_chat_dashboard_group_tile_icon);
-        holder.backgroundImageView = (ImageView) convertView.findViewById(R.id.activity_chat_dashboard_background_image_view);
-        holder.newMsgIcon = convertView.findViewById(R.id.activity_chat_dashboard_new_message_icon);
-        holder.iconHolder = convertView.findViewById(R.id.activity_chat_dashboard_ic_holder);
+            holder = new ViewHolder();
+            holder.nameText = (TextView) convertView.findViewById(R.id.activity_chat_dashboard_chat_name);
+            holder.lastMsgText = (TextView) convertView.findViewById(R.id.activity_chat_dashboard_last_message);
+            holder.progressBar = convertView.findViewById(R.id.activity_chat_dashboard_progress_bar);
+            holder.oneToOneUnknownIcon = (ImageView) convertView.findViewById(R.id.activity_chat_dashboard_one_to_one_tile_icon_unknown);
+            holder.oneToOneOwnerIcon = (ImageView) convertView.findViewById(R.id.activity_chat_dashboard_one_to_one_tile_icon_owner);
+            holder.groupIcon = (ImageView) convertView.findViewById(R.id.activity_chat_dashboard_group_tile_icon);
+            holder.backgroundImageView = (ImageView) convertView.findViewById(R.id.activity_chat_dashboard_background_image_view);
+            holder.newMsgIcon = convertView.findViewById(R.id.activity_chat_dashboard_new_message_icon);
+            holder.iconHolder = convertView.findViewById(R.id.activity_chat_dashboard_ic_holder);
 
-        convertView.setTag(holder);
+            convertView.setTag(holder);
+        } else {
+            holder = (ViewHolder) convertView.getTag();
+
+            if (holder.task != null) {
+                holder.task.cancel(true);
+            }
+
+        }
 
         // Ensures old image is not used when recycling a view.
-        //holder.backgroundImageView.setImageBitmap(null);
-        //holder.progressBar.setVisibility(View.GONE);
+        holder.backgroundImageView.setImageBitmap(null);
+        holder.progressBar.setVisibility(View.GONE);
 
         if (currentChat.getName().length() <= 20){
             holder.nameText.setTextSize(25);
@@ -117,6 +122,7 @@ public class ChatDashboardGridAdapter extends BaseAdapter {
         holder.oneToOneUnknownIcon.setVisibility(View.GONE);
         holder.groupIcon.setVisibility(View.GONE);
 
+        /*
         new AsyncTask<Void, Void, Message>(){
 
             @Override
@@ -148,13 +154,15 @@ public class ChatDashboardGridAdapter extends BaseAdapter {
 
         }.execute();
 
+        */
+
         holder.iconHolder.setVisibility(View.VISIBLE);
 
         if (currentChat instanceof ConfessionChat){
 
             holder.iconHolder.setVisibility(View.GONE);
-            holder.task = new LoadChatTileBackground(context, (ConfessionChat) currentChat, cache, holder.backgroundImageView, holder.progressBar);
-            holder.task.execute();
+           // holder.task = new LoadChatTileBackground(context, (ConfessionChat) currentChat, cache, holder.backgroundImageView, holder.progressBar);
+           // holder.task.execute();
 
         } else if(currentChat instanceof OneToOneChat) {
 

@@ -3,7 +3,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.versapp.LoginActivity"
-    android:background="@drawable/owl_bg_login"
     android:orientation="vertical"    >
 
     <LinearLayout
@@ -118,8 +117,7 @@
     <LinearLayout
         android:id="@+id/login_cover"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@drawable/logo_screen"></LinearLayout>
+        android:layout_height="match_parent"></LinearLayout>
 
     <ProgressBar
         android:id="@+id/activity_login_progress_bar"

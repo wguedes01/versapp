@@ -95,8 +95,13 @@ public class ConfessionImageCache {
 
             @Override
             protected void onPostExecute(Bitmap bitmap) {
-                addToCache(imageUrl, bitmap);
-                super.onPostExecute(bitmap);
+
+                if (bitmap != null) {
+                    addToCache(imageUrl, bitmap);
+                    super.onPostExecute(bitmap);
+                }
+
+
             }
         }.execute();
 

@@ -2,8 +2,7 @@
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@drawable/dashboard_btn_bg">
+    android:layout_height="match_parent">
 
     <TextView
         android:id="@+id/settings_btn_item_title"

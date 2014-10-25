@@ -178,22 +178,22 @@ public class MainFragment extends Fragment {
                 newMessageIcon.setVisibility(View.GONE);
                 break;
             case 1:
-                newMessageIcon.setImageResource(R.drawable.new_message_icon_1);
+                //newMessageIcon.setImageResource(R.drawable.new_message_icon_1);
                 break;
             case 2:
-                newMessageIcon.setImageResource(R.drawable.new_message_icon_2);
+               // newMessageIcon.setImageResource(R.drawable.new_message_icon_2);
                 break;
             case 3:
-                newMessageIcon.setImageResource(R.drawable.new_message_icon_3);
+               // newMessageIcon.setImageResource(R.drawable.new_message_icon_3);
                 break;
             case 4:
-                newMessageIcon.setImageResource(R.drawable.new_message_icon_4);
+               // newMessageIcon.setImageResource(R.drawable.new_message_icon_4);
                 break;
             case 5:
-                newMessageIcon.setImageResource(R.drawable.new_message_icon_5);
+               // newMessageIcon.setImageResource(R.drawable.new_message_icon_5);
                 break;
             default:
-                newMessageIcon.setImageResource(R.drawable.new_message_icon_5_plus);
+               // newMessageIcon.setImageResource(R.drawable.new_message_icon_5_plus);
                 break;
         }
 
@@ -222,7 +222,7 @@ public class MainFragment extends Fragment {
 
                 switch (integer){
                     case 0:
-                        notificationsBtnBackground.setImageResource(R.drawable.dashboard_notification_count_0);
+                       // notificationsBtnBackground.setImageResource(R.drawable.dashboard_notification_count_0);
 
                         /*
                         notificationsBtn.setOnClickListener(new View.OnClickListener() {
@@ -234,22 +234,22 @@ public class MainFragment extends Fragment {
                         */
                         break;
                     case 1:
-                        notificationsBtnBackground.setImageResource(R.drawable.dashboard_notification_count_1);
+                       // notificationsBtnBackground.setImageResource(R.drawable.dashboard_notification_count_1);
                         break;
                     case 2:
-                        notificationsBtnBackground.setImageResource(R.drawable.dashboard_notification_count_2);
+                      //  notificationsBtnBackground.setImageResource(R.drawable.dashboard_notification_count_2);
                         break;
                     case 3:
-                        notificationsBtnBackground.setImageResource(R.drawable.dashboard_notification_count_3);
+                      //  notificationsBtnBackground.setImageResource(R.drawable.dashboard_notification_count_3);
                         break;
                     case 4:
-                        notificationsBtnBackground.setImageResource(R.drawable.dashboard_notification_count_4);
+                       // notificationsBtnBackground.setImageResource(R.drawable.dashboard_notification_count_4);
                         break;
                     case 5:
-                        notificationsBtnBackground.setImageResource(R.drawable.dashboard_notification_count_5);
+                       // notificationsBtnBackground.setImageResource(R.drawable.dashboard_notification_count_5);
                         break;
                     default:
-                        notificationsBtnBackground.setImageResource(R.drawable.dashboard_notification_count_5_plus);
+                       // notificationsBtnBackground.setImageResource(R.drawable.dashboard_notification_count_5_plus);
                         break;
                 }
 
