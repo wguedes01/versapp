@@ -144,7 +144,8 @@ public class ChatsDAO {
 
             String ownerId = cursor.getString(ownerIdIndex);
 
-            ArrayList<Participant> participants = new ParticipantsDAO(context).getAll(uuid);
+            //ArrayList<Participant> participants = new ParticipantsDAO(context).getAll(uuid);
+            ArrayList<Participant> participants = new ArrayList<Participant>();
 
             chat = new GroupChat(uuid, name, ownerId, participants);
         } else if(type.equals(ConfessionChat.TYPE)) {
@@ -182,7 +183,7 @@ public class ChatsDAO {
 
             // Deleting all participants is faster than checking if it exists and then updating.
             participantsDAO.deleteAll(chat.getUuid());
-            for (Participant p : ((GroupChat) chat).getParticipants()){
+            for (Participant p : ((GroupChat) chat).getParticipants(context)){
                 participantsDAO.insert(chat.getUuid(), p);
             }
 

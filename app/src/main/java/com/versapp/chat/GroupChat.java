@@ -1,5 +1,9 @@
 package com.versapp.chat;
 
+import android.content.Context;
+
+import com.versapp.database.ParticipantsDAO;
+
 import java.util.ArrayList;
 
 /**
@@ -34,8 +38,10 @@ public class GroupChat extends Chat {
         this.ownerId = ownerId;
     }
 
-    public ArrayList<Participant> getParticipants() {
-        return participants;
+    public ArrayList<Participant> getParticipants(Context context) {
+        // Lazy initialization allows us to save memory. This action doesn't happen often enough to
+        // makes us want to store this in memory.
+        return new ParticipantsDAO(context).getAll(getUuid());
     }
 
     public void setParticipants(ArrayList<Participant> participants) {

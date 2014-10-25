@@ -420,16 +420,18 @@ public class ConversationActivity extends Activity {
                             AlertDialog.Builder participantsDialog = new AlertDialog.Builder(ConversationActivity.this);
                             String[] options = null;
 
-                            if (((GroupChat) chat).getParticipants().size() == 0){
+                            if (((GroupChat) chat).getParticipants(getApplicationContext()).size() == 0){
                                 options = new String[1];
                                 options[0] = "No participants";
 
                             } else {
 
-                                options =  new String[((GroupChat) chat).getParticipants().size()];
+                                ArrayList<Participant> participants = ((GroupChat) chat).getParticipants(getApplicationContext());
+
+                                options =  new String[participants.size()];
 
                                 int i = 0;
-                                for (Participant p : ((GroupChat) chat).getParticipants()){
+                                for (Participant p : participants){
                                     options[i] = p.getUsername();
                                     i++;
                                 }
