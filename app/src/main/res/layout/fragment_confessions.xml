@@ -58,13 +58,21 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true" />
 
-    <ListView
-        android:id="@+id/fragment_big_confessions_list_view"
-        style="@style/confessionsListView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@android:color/black"
-        android:layout_above="@id/big_confession_dashboard"/>
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/fragment_confessions_swipe_refresh"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/big_confession_dashboard">
+
+        <ListView
+            android:id="@+id/fragment_big_confessions_list_view"
+            style="@style/confessionsListView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@android:color/black"/>
+
+    </android.support.v4.widget.SwipeRefreshLayout>
+
 
     <LinearLayout
         android:layout_width="match_parent"

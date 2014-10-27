@@ -24,6 +24,8 @@ public class ConnectionService extends Service {
     private static String user;
     private static String jid;
 
+    public static String sessionId;
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -91,14 +93,21 @@ public class ConnectionService extends Service {
 
     public static String getSessionId() {
 
-        String sessionId = sendSessionIdRequest();
-
-        int i = 0;
-        while(sessionId == null && i < 10){
+        if (sessionId == null) {
             sessionId = sendSessionIdRequest();
+            System.out.println("got id from server");
+        } else {
+            System.out.println("got id from cache");
         }
 
+
         return sessionId;
+
+        //int i = 0;
+        //while(sessionId == null && i < 10){
+        //    sessionId = sendSessionIdRequest();
+        //}
+        //return sessionId;
     }
 
     private static String sendSessionIdRequest(){

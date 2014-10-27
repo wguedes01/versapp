@@ -92,9 +92,9 @@ public class EfficientContactManager {
 
         InputStream in = HTTPRequestManager.getInstance().simpleHTTPSPost(Environments.BLACK_LIST_URL, jsonObj);
 
-        if (in != null){
+        //if (in != null){
             setContactsPushedToServer();
-        }
+       // }
 
 
 

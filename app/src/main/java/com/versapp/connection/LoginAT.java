@@ -149,7 +149,9 @@ public class LoginAT extends AsyncTask<String, Void, XMPPTCPConnection>{
 
                         @Override
                         protected void onPostExecute(Void aVoid) {
+
                             super.onPostExecute(aVoid);
+
                         }
                     }.execute();
 

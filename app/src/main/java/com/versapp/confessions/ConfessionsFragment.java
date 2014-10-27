@@ -10,6 +10,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.Display;
 import android.view.GestureDetector;
 import android.view.LayoutInflater;
@@ -69,6 +70,51 @@ public class ConfessionsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable final ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         View convertView = inflater.inflate(R.layout.fragment_confessions, container, false);
+
+        final SwipeRefreshLayout refreshLayout = (SwipeRefreshLayout) convertView.findViewById(R.id.fragment_confessions_swipe_refresh);
+
+        refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+
+                new AsyncTask<Void, Void, Confession[]>(){
+
+                    @Override
+                    protected Confession[] doInBackground(Void... params) {
+                        Confession[] confessions = ConfessionManager.getInstance().getConfessions(getActivity());
+
+                        if (confessions == null){
+                            return null;
+                        } else {
+                            List< Confession > list = Arrays.asList(confessions);
+                            Collections.reverse(list);
+                            confessions = (Confession[]) list.toArray();
+                        }
+
+                        return confessions;
+                    }
+
+                    @Override
+                    protected void onPostExecute(Confession[] result) {
+                        super.onPostExecute(result);
+
+                        if (result != null){
+                            confessions.clear();
+                            confessions.addAll(Arrays.asList(result));
+                            adapter.notifyDataSetChanged();
+                            updateLayout();
+                        }
+
+                        refreshLayout.setRefreshing(false);
+                    }
+
+
+                }.execute();
+
+
+            }
+        });
+
 
         confessions = new ArrayList<Confession>();
 

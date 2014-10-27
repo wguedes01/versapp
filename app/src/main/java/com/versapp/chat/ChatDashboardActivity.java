@@ -64,6 +64,8 @@ public class ChatDashboardActivity extends Activity {
         mainGrid = (GridView) findViewById(R.id.activity_chat_dashboard_main_grid);
 
         mainGrid.setAdapter((android.widget.ListAdapter) adapter);
+
+        new SynchronizeChatDB(getApplicationContext()).execute();
     }
 
 

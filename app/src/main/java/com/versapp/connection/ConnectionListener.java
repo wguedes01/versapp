@@ -30,11 +30,13 @@ public class ConnectionListener implements org.jivesoftware.smack.ConnectionList
 
     @Override
     public void connectionClosed() {
+        ConnectionService.sessionId = null;
         Logger.log(Logger.CONNECTION_DEBUG, "connectionClosed()");
     }
 
     @Override
     public void connectionClosedOnError(Exception e) {
+        ConnectionService.sessionId = null;
         Logger.log(Logger.CONNECTION_DEBUG, "connectionClosedOnError(). " + e.getStackTrace());
     }
 
