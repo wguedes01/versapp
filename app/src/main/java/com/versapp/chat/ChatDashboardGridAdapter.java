@@ -17,6 +17,7 @@ import android.widget.TextView;
 
 import com.versapp.R;
 import com.versapp.chat.conversation.ConversationActivity;
+import com.versapp.chat.conversation.Message;
 import com.versapp.database.ChatsDAO;
 import com.versapp.database.MessagesDAO;
 
@@ -77,7 +78,7 @@ public class ChatDashboardGridAdapter extends BaseAdapter {
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
         final ViewHolder holder;
-        if (convertView == null) {
+        //if (convertView == null) {
 
             convertView = inflater.inflate(R.layout.chat_dashboard_item, parent, false);
 
@@ -93,14 +94,16 @@ public class ChatDashboardGridAdapter extends BaseAdapter {
             holder.iconHolder = convertView.findViewById(R.id.activity_chat_dashboard_ic_holder);
 
             convertView.setTag(holder);
-        } else {
-            holder = (ViewHolder) convertView.getTag();
+        //} else {
+        //    holder = (ViewHolder) convertView.getTag();
 
-            if (holder.task != null) {
-                holder.task.cancel(true);
-            }
+        //    if (holder.task != null) {
+         //       holder.task.cancel(true);
+        //    }
 
-        }
+        //}
+
+        holder.task = null;
 
         // Ensures old image is not used when recycling a view.
         holder.backgroundImageView.setImageBitmap(null);
@@ -122,7 +125,7 @@ public class ChatDashboardGridAdapter extends BaseAdapter {
         holder.oneToOneUnknownIcon.setVisibility(View.GONE);
         holder.groupIcon.setVisibility(View.GONE);
 
-        /*
+
         new AsyncTask<Void, Void, Message>(){
 
             @Override
@@ -154,15 +157,14 @@ public class ChatDashboardGridAdapter extends BaseAdapter {
 
         }.execute();
 
-        */
 
         holder.iconHolder.setVisibility(View.VISIBLE);
 
         if (currentChat instanceof ConfessionChat){
 
             holder.iconHolder.setVisibility(View.GONE);
-           // holder.task = new LoadChatTileBackground(context, (ConfessionChat) currentChat, cache, holder.backgroundImageView, holder.progressBar);
-           // holder.task.execute();
+            holder.task = new LoadChatTileBackground(context, (ConfessionChat) currentChat, cache, holder.backgroundImageView, holder.progressBar);
+            holder.task.execute();
 
         } else if(currentChat instanceof OneToOneChat) {
 
