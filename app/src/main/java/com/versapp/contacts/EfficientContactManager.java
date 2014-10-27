@@ -31,7 +31,7 @@ public class EfficientContactManager {
 
 
     private EfficientContactManager(Context context) {
-        this.context = context;
+        this.context = context.getApplicationContext();
         this.preferences = context.getSharedPreferences(BLACK_LIST_MODEL_FILE, Context.MODE_PRIVATE);
     }
 

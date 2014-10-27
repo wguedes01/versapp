@@ -46,7 +46,7 @@ public class RegistrationManager {
 
 
     private RegistrationManager(Context context) {
-        this.context = context;
+        this.context = context.getApplicationContext();
         preferences = context.getSharedPreferences(REGISTRATION_INFO, Context.MODE_PRIVATE);
     }
 

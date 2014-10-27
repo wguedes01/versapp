@@ -41,7 +41,7 @@ public class GCSManager {
     private Storage storage;
 
     private GCSManager(Context context) {
-        this.context = context;
+        this.context = context.getApplicationContext();
     }
 
     public static GCSManager getInstance(Context context){

@@ -22,10 +22,9 @@ public class CredentialsManager {
     private SharedPreferences preferences;
 
     private CredentialsManager(Context context) {
-        this.context = context;
+        this.context = context.getApplicationContext();
         this.preferences = context.getSharedPreferences(CREDENTIALS, Context.MODE_PRIVATE);
     }
-
 
     public static CredentialsManager getInstance(Context context) {
 

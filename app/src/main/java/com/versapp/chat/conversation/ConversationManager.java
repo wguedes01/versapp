@@ -22,7 +22,7 @@ public class ConversationManager {
     private MessagesDAO messagesDAO;
 
     private ConversationManager(Context context) {
-        this.context = context;
+        this.context = context.getApplicationContext();
         this.messagesDAO = new MessagesDAO(context);
     }
 

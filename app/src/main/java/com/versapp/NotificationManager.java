@@ -29,7 +29,7 @@ public class NotificationManager {
     private HashMap<String, Integer> chatUUIDNotificaitonIdMap = new HashMap<String, Integer>();
 
     private NotificationManager(Context context) {
-        this.context = context;
+        this.context = context.getApplicationContext();
         this.manager = (android.app.NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
     }
 

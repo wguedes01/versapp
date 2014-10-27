@@ -22,7 +22,7 @@ public class TutorialManager {
     private SharedPreferences prefs;
 
     private TutorialManager(Context context) {
-        this.context = context;
+        this.context = context.getApplicationContext();
         this.prefs = context.getSharedPreferences(SHARED_PREFERENCES_TUTORIAL, Context.MODE_PRIVATE);
     }
 

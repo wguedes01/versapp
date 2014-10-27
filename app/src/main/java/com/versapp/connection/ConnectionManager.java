@@ -45,7 +45,7 @@ public class ConnectionManager {
     private static ConnectionManager instance;
 
     private ConnectionManager(Context context) {
-        this.context = context;
+        this.context = context.getApplicationContext();
     }
 
     public static ConnectionManager getInstance(Context context) {
