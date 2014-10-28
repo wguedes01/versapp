@@ -60,7 +60,7 @@ public class ConversationListArrayAdapter extends ArrayAdapter<ChatMessage> {
             holder.body.setText(currentMessage.getBody());
         }
 
-        String imageUrl = currentMessage.getImageUrl();
+        final String imageUrl = currentMessage.getImageUrl();
 
         if (currentMessage.getImageUrl() != null  && !currentMessage.getImageUrl().equals("")) {
             holder.image.setVisibility(View.VISIBLE);
@@ -72,7 +72,8 @@ public class ConversationListArrayAdapter extends ArrayAdapter<ChatMessage> {
                 new AsyncTask<Void, Void, Bitmap>(){
                     @Override
                     protected Bitmap doInBackground(Void... params) {
-                        return GCSManager.getInstance(context).downloadImage(currentMessage.getImageUrl(), holder.image.getWidth(), holder.image.getHeight());
+
+                        return GCSManager.getInstance(context).downloadImage(currentMessage.getImageUrl(), 200, 200);
                     }
 
                     @Override
