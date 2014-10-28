@@ -9,6 +9,7 @@ import android.graphics.Point;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -17,10 +18,10 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.Display;
 import android.view.KeyEvent;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -29,11 +30,13 @@ import android.widget.Toast;
 
 import com.soundcloud.android.crop.Crop;
 import com.versapp.GCSManager;
+import com.versapp.Logger;
 import com.versapp.NewImageManager;
 import com.versapp.R;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.UUID;
 
 public class ComposeConfessionActivity extends FragmentActivity {
 
@@ -48,6 +51,8 @@ public class ComposeConfessionActivity extends FragmentActivity {
 
     RelativeLayout frame;
     RelativeLayout buttonsMenu;
+
+    private Uri pathToPicture;
 
     private static String selectedBackgroundColor;
     private static final String[] backgroundColors = {"#008CF4","#3DD8F5","#6913C1","#8D51CB","#FFA319","#F7E200","#6FC10B","#9EDE4F","#F23637","#FF4662" };
@@ -148,8 +153,13 @@ public class ComposeConfessionActivity extends FragmentActivity {
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+    }
+
+    @Override
     protected void onStop() {
-        ((InputMethodManager) getSystemService(INPUT_METHOD_SERVICE)).hideSoftInputFromWindow(bodyEdit.getWindowToken(), 0);
+        //((InputMethodManager) getSystemService(INPUT_METHOD_SERVICE)).hideSoftInputFromWindow(bodyEdit.getWindowToken(), 0);
         super.onStop();
     }
 
@@ -291,19 +301,44 @@ public class ComposeConfessionActivity extends FragmentActivity {
     private static final int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 100;
 
     public void takePicture() {
-        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        startActivityForResult(intent, CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE);
+        //Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        //startActivityForResult(intent, CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE);
+        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
+
+            File storageDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
+
+            File photoFile = null;
+            try {
+                photoFile = File.createTempFile(UUID.randomUUID().toString(), ".jpg",storageDir);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            if (photoFile != null) {
+                pathToPicture = Uri.fromFile(photoFile);
+                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(photoFile));
+                startActivityForResult(takePictureIntent, CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE);
+            }
+
+        }
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-
         if ((requestCode == Crop.REQUEST_PICK || requestCode == CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE) && resultCode == RESULT_OK) {
-            beginCrop(data.getData());
+
+            Log.d(Logger.CHAT_DEBUG, "OK....." + data);
+
+            if (data != null) { // picture selected from camera
+                beginCrop(data.getData());
+            } else {
+                beginCrop(pathToPicture);
+            }
+
         } else if (requestCode == Crop.REQUEST_CROP) {
             handleCrop(resultCode, data);
         }
-
     }
 
     private void beginCrop(Uri source) {
@@ -329,14 +364,12 @@ public class ComposeConfessionActivity extends FragmentActivity {
 
     protected void setMessagePicture(final Bitmap scaledImage) {
 
-     /*
-        int highlightColor = getApplicationContext().getResources().getColor(R.color.);
-        PorterDuffColorFilter colorFilter = new PorterDuffColorFilter(highlightColor, PorterDuff.Mode.SRC_ATOP);
-        backgroundPictureImageView.setColorFilter(colorFilter);
-*/
+        if (ConfessionImageCache.isAboveWhiteThreshold(scaledImage)){
+            ConfessionImageCache.applyDarkLayer(backgroundPictureImageView);
+        }
+
         backgroundImage = scaledImage;
         backgroundPictureImageView.setImageBitmap(scaledImage);
-
     }
 
 

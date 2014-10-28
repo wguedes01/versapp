@@ -47,7 +47,7 @@ public class ConfessionImageCache {
 
         if (isAboveWhiteThreshold(image)) {
             ColorFilter filter = new ColorFilter();
-            view.setColorFilter(Color.rgb(130, 130, 130), android.graphics.PorterDuff.Mode.MULTIPLY);
+            applyDarkLayer(view);
         } else {
             view.setColorFilter(null);
         }
@@ -55,7 +55,11 @@ public class ConfessionImageCache {
         view.setImageBitmap(image);
     }
 
-    private static boolean isAboveWhiteThreshold(Bitmap image) {
+    public static void applyDarkLayer(ImageView view) {
+        view.setColorFilter(Color.rgb(130, 130, 130), android.graphics.PorterDuff.Mode.MULTIPLY);
+    }
+
+    public static boolean isAboveWhiteThreshold(Bitmap image) {
 
         int border = (int) (image.getWidth() * 0.2);
 

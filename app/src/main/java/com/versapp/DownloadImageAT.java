@@ -20,12 +20,17 @@ public class DownloadImageAT extends AsyncTask<Void, Void, Bitmap> {
     ConfessionImageCache cache;
     ProgressBar progressBar;
 
-    public DownloadImageAT(Context context, String key, ImageView imageView, ConfessionImageCache cache, ProgressBar progressBar) {
+    int width;
+    int height;
+
+    public DownloadImageAT(Context context, String key, ImageView imageView, ConfessionImageCache cache, ProgressBar progressBar, int width, int height) {
         this.context = context;
         this.key = key;
         this.imageView = imageView;
         this.cache = cache;
         this.progressBar = progressBar;
+        this.width = width;
+        this.height = height;
     }
 
     @Override
@@ -37,7 +42,7 @@ public class DownloadImageAT extends AsyncTask<Void, Void, Bitmap> {
     @Override
     protected Bitmap doInBackground(Void... params) {
 
-        Bitmap image = GCSManager.getInstance(context).downloadImage(key, imageView.getWidth(), imageView.getHeight());
+        Bitmap image = GCSManager.getInstance(context).downloadImage(key, width, height);
 
         return image;
     }

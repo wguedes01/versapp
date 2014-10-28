@@ -26,7 +26,9 @@ public class NewImageManager {
 
         Bitmap bitmap = MediaStore.Images.Media.getBitmap(context.getContentResolver(), uri);
 
-        return Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
+        bitmap = Bitmap.createScaledBitmap(bitmap, 500, 500, false);
+
+       return Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
     }
 
     /** Get rotation in degrees */

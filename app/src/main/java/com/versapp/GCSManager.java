@@ -214,12 +214,15 @@ public class GCSManager {
         final BitmapFactory.Options options = new BitmapFactory.Options();
         options.inJustDecodeBounds = true;
         BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length, options);
+        int photoW = options.outWidth;
+        int photoH = options.outHeight;
 
-        // Calculate inSampleSize
-        options.inSampleSize = calculateInSampleSize(options, reqWidth, reqHeight);
+        int scaleFactor = Math.min(photoW/reqWidth, photoH/reqHeight);
 
         // Decode bitmap with inSampleSize set
         options.inJustDecodeBounds = false;
+        options.inSampleSize = scaleFactor;
+        options.inPurgeable = true;
         Bitmap image = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length, options);
 
         return image;

@@ -71,7 +71,7 @@ public class ConfessionListArrayAdapter extends ArrayAdapter<Confession> {
         holder.task = null;
 
         // Makes layout squared.
-        int width = activity.getWindowManager().getDefaultDisplay().getWidth(); // deprecated
+        final int width = activity.getWindowManager().getDefaultDisplay().getWidth(); // deprecated
         RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(width, width);
         holder.confessionSizer.setLayoutParams(params);
 
@@ -98,16 +98,14 @@ public class ConfessionListArrayAdapter extends ArrayAdapter<Confession> {
             }
             holder.body.setText(confession.getBody());
 
-            holder.backgroundImage.setImageBitmap(null);
-            holder.backgroundImage.setBackgroundColor(activity.getResources().getColor(android.R.color.white));
-
             if (confessions.get(position).getImageUrl().charAt(0) == '#') {
                 holder.progressBar.setVisibility(View.GONE);
                 holder.backgroundImage.setBackgroundColor(Color.parseColor(confessions.get(position).getImageUrl()));
             } else {
 
                 if (!cache.isCached(confession.getImageUrl())){
-                    DownloadImageAT task = new DownloadImageAT(activity, confession.getImageUrl(), holder.backgroundImage, cache, holder.progressBar);
+                    int w = holder.backgroundImage.getWidth();
+                    DownloadImageAT task = new DownloadImageAT(activity, confession.getImageUrl(), holder.backgroundImage, cache, holder.progressBar, width, width);
                     holder.task = task;
                     task.execute();
                 } else {
@@ -123,6 +121,7 @@ public class ConfessionListArrayAdapter extends ArrayAdapter<Confession> {
 
         return convertView;
     }
+
 
     private class ViewHolder {
         ImageView backgroundImage;
