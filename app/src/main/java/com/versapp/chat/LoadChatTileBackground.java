@@ -12,7 +12,6 @@ import android.widget.ImageView;
 
 import com.versapp.GCSManager;
 import com.versapp.Logger;
-import com.versapp.R;
 import com.versapp.confessions.Confession;
 import com.versapp.confessions.ConfessionManager;
 
@@ -119,7 +118,7 @@ public class LoadChatTileBackground extends AsyncTask<Void, Void, Void> {
                     if (colorBackground != null) {
                         backgroundView.setBackgroundColor(Color.parseColor(colorBackground));
                     } else {
-                        backgroundView.setBackgroundColor(context.getResources().getColor(R.color.confessionBlue));
+                        //backgroundView.setBackgroundColor(context.getResources().getColor(R.color.confessionBlue));
                     }
 
 

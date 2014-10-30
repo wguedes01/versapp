@@ -3,9 +3,11 @@ package com.versapp.chat;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.graphics.Point;
 import android.os.AsyncTask;
 import android.support.v4.util.LruCache;
+import android.util.Log;
 import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,9 +17,15 @@ import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.koushikdutta.ion.Ion;
+import com.koushikdutta.ion.future.ImageViewFuture;
+import com.versapp.Logger;
 import com.versapp.R;
 import com.versapp.chat.conversation.ConversationActivity;
 import com.versapp.chat.conversation.Message;
+import com.versapp.confessions.Confession;
+import com.versapp.confessions.ConfessionManager;
+import com.versapp.connection.ConnectionService;
 import com.versapp.database.ChatsDAO;
 import com.versapp.database.MessagesDAO;
 
@@ -103,6 +111,11 @@ public class ChatDashboardGridAdapter extends BaseAdapter {
 
         //}
 
+        if (holder.imageViewFuture != null) {
+            //holder.imageViewFuture.cancel();
+            holder.imageViewFuture = null;
+        }
+
         holder.task = null;
 
         // Ensures old image is not used when recycling a view.
@@ -162,9 +175,70 @@ public class ChatDashboardGridAdapter extends BaseAdapter {
 
         if (currentChat instanceof ConfessionChat){
 
+            holder.task = new AsyncTask<Long, Void, Confession>(){
+
+                @Override
+                protected Confession doInBackground(Long... params) {
+                    long confessionId = params[0];
+
+                    if (((ConfessionChat) currentChat).getConfession() != null) {
+                        return ((ConfessionChat) currentChat).getConfession();
+                    }
+
+                    if (!((ConfessionChat) currentChat).isFailedToRetrieveConfession()){
+                        return ConfessionManager.getInstance().getConfessionFromServer(context, confessionId);
+                    }
+
+                    return null;
+                }
+
+                @Override
+                protected void onPostExecute(Confession confession) {
+
+                    if (confession != null) {
+
+                        if (confession.getImageUrl().startsWith("#")){
+
+                            holder.backgroundImageView.setBackgroundColor(Color.parseColor(confession.getImageUrl()));
+
+                        } else {
+                            holder.backgroundImageView.setImageBitmap(null);
+                            Log.d(Logger.CHAT_DEBUG, "Downloading image for: " + confession.getBody() + ": " + confession.getImageUrl());
+                            ImageViewFuture imageViewFuture = Ion.with(context)
+                                    .load("https://versapp.co/v2/download.php?cache="+confession.getId())//.noCache()
+                                    .setBodyParameter("bucket", "msgpics")
+                                    .setBodyParameter("name", confession.getImageUrl())
+                                    .setBodyParameter("username", ConnectionService.getUser())
+                                    .setBodyParameter("session", ConnectionService.getSessionId())
+                                    .withBitmap()
+                                    .error(android.R.drawable.alert_dark_frame)
+                                    .animateIn(android.R.anim.fade_in)
+                                    .intoImageView(holder.backgroundImageView);
+
+                            // Attaches to holder so it can be cancelled when holder is "recycled".
+                            holder.imageViewFuture = imageViewFuture;
+                        }
+
+                    } else {
+                        // Set default background.
+                        //holder.backgroundImageView.setBackgroundColor(context.getResources().getColor(R.color.confessionBlue));
+
+                        // Indicate failed to retreive this confession, do not try again.
+                        ((ConfessionChat) currentChat).setFailedToRetrieveConfession(true);
+                    }
+
+                    super.onPostExecute(confession);
+                }
+
+            };
+
+            holder.task.execute(((ConfessionChat) currentChat).getCid());
+
+            /*
             holder.iconHolder.setVisibility(View.GONE);
             holder.task = new LoadChatTileBackground(context, (ConfessionChat) currentChat, cache, holder.backgroundImageView, holder.progressBar);
             holder.task.execute();
+            */
 
         } else if(currentChat instanceof OneToOneChat) {
 
@@ -212,9 +286,10 @@ public class ChatDashboardGridAdapter extends BaseAdapter {
         ImageView oneToOneUnknownIcon;
         ImageView oneToOneOwnerIcon;
         ImageView groupIcon;
-        AsyncTask<Void, Void, Void> task;
+        AsyncTask<Long, Void, Confession> task;
         View newMsgIcon;
         View iconHolder;
+        ImageViewFuture imageViewFuture;
     }
 
 
