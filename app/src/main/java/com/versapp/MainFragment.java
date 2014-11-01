@@ -21,6 +21,7 @@ import android.widget.RelativeLayout;
 
 import com.versapp.chat.Chat;
 import com.versapp.chat.ChatDashboardActivity;
+import com.versapp.chat.ChatListActivity;
 import com.versapp.chat.ChatManager;
 import com.versapp.chat.ChatMessageListener;
 import com.versapp.chat.SynchronizeChatDB;
@@ -79,7 +80,8 @@ public class MainFragment extends Fragment {
         goToMessagesBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getActivity(), ChatDashboardActivity.class));
+                //startActivity(new Intent(getActivity(), ChatDashboardActivity.class));
+                startActivity(new Intent(getActivity(), ChatListActivity.class));
             }
         });
 

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/chat_grid_item_container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    android:padding="1dp">
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/blue" />
+
+    <ImageView
+        android:id="@+id/chat_grid_item_background_image"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+    <TextView
+        android:id="@+id/chat_grid_item_chat_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:padding="2dp"
+        android:ellipsize="end"
+        android:layout_centerInParent="true"
+        android:textSize="30dp"
+        android:textColor="@android:color/white"/>
+
+    <TextView
+        android:id="@+id/chat_grid_item_last_msg"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:textColor="@android:color/white"
+        android:singleLine="true"
+        android:ellipsize="end"
+        android:textSize="16sp"
+        android:padding="2dp"
+        android:gravity="center"/>
+
+</RelativeLayout>

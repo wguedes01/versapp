@@ -26,19 +26,22 @@
     <!-- This app has permission to register and receive data message. -->
     <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
 
+    <!-- To auto-complete the email text field in the login form with the user's emails -->
+    <uses-permission android:name="android.permission.READ_PROFILE" />
+
     <application
-        android:name=".MainApplication"
+        android:name="com.versapp.MainApplication"
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@android:style/Theme.Holo.NoActionBar" >
-
-        <meta-data android:name="com.google.android.gms.version"
+        <meta-data
+            android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
 
         <activity android:name="com.soundcloud.android.crop.CropImageActivity" />
         <activity
-            android:name=".LoginActivity"
+            android:name="com.versapp.LoginActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait" >
             <intent-filter>
@@ -48,50 +51,50 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".DashboardActivity"
+            android:name="com.versapp.DashboardActivity"
             android:label="@string/title_activity_dashboard"
             android:screenOrientation="portrait" >
         </activity>
         <activity
-            android:name=".signup.SignUpNameEmailInputActivity"
+            android:name="com.versapp.signup.SignUpNameEmailInputActivity"
             android:label="@string/title_activity_sign_up_name_email_input"
             android:screenOrientation="portrait" >
         </activity>
         <activity
-            android:name=".signup.SignUpPhoneVerificationInputActivity"
+            android:name="com.versapp.signup.SignUpPhoneVerificationInputActivity"
             android:label="@string/title_activity_sign_up_phone_verification_input"
             android:screenOrientation="portrait" >
         </activity>
         <activity
-            android:name=".signup.VerificationCodeInputActivity"
+            android:name="com.versapp.signup.VerificationCodeInputActivity"
             android:label="@string/title_activity_verification_code_input"
             android:screenOrientation="portrait" >
         </activity>
         <activity
-            android:name=".signup.SignUpUsernamePassInputActivity"
+            android:name="com.versapp.signup.SignUpUsernamePassInputActivity"
             android:label="@string/title_activity_sign_up_username_pass_input"
             android:screenOrientation="portrait" >
         </activity>
         <activity
-            android:name=".confessions.ComposeConfessionActivity"
+            android:name="com.versapp.confessions.ComposeConfessionActivity"
             android:configChanges="keyboardHidden"
             android:label="@string/title_activity_compose_confession"
             android:screenOrientation="portrait" >
         </activity>
         <activity
-            android:name=".friends.FriendListActivity"
+            android:name="com.versapp.friends.FriendListActivity"
             android:label="@string/title_activity_friend_list"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" >
         </activity>
         <activity
-            android:name=".settings.SettingsActivity"
+            android:name="com.versapp.settings.SettingsActivity"
             android:label="@string/title_activity_settings"
             android:screenOrientation="portrait" >
         </activity>
 
         <receiver
-            android:name=".GCMBroadcastReceiver"
+            android:name="com.versapp.GCMBroadcastReceiver"
             android:permission="com.google.android.c2dm.permission.SEND" >
             <intent-filter>
 
@@ -104,22 +107,22 @@
             </intent-filter>
         </receiver>
 
-        <service android:name=".GCMIntentService" />
+        <service android:name="com.versapp.GCMIntentService" />
 
         <activity
-            android:name=".settings.AccountActivity"
+            android:name="com.versapp.settings.AccountActivity"
             android:label="@string/title_activity_account"
             android:screenOrientation="portrait" >
         </activity>
         <activity
-            android:name=".chat.ChatDashboardActivity"
+            android:name="com.versapp.chat.ChatDashboardActivity"
             android:label="@string/title_activity_chat_dashboard"
             android:screenOrientation="portrait" >
         </activity>
         <activity
-            android:name=".chat.conversation.ConversationActivity"
+            android:name="com.versapp.chat.conversation.ConversationActivity"
             android:label="@string/title_activity_conversation"
-            android:parentActivityName=".chat.ChatDashboardActivity"
+            android:parentActivityName="com.versapp.chat.ChatDashboardActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" >
             <meta-data
@@ -127,27 +130,28 @@
                 android:value=".chat.ChatDashboardActivity" />
         </activity>
         <activity
-            android:name=".requests.RequestsActivity"
+            android:name="com.versapp.requests.RequestsActivity"
             android:label="@string/title_activity_requests"
             android:screenOrientation="portrait" >
         </activity>
         <activity
-            android:name=".confessions.ViewSingleConfessionActivity"
+            android:name="com.versapp.confessions.ViewSingleConfessionActivity"
             android:label="@string/title_activity_view_single_confession"
             android:screenOrientation="portrait" >
         </activity>
         <activity
-            android:name=".OpenActivityFromNotification"
+            android:name="com.versapp.OpenActivityFromNotification"
             android:label="@string/title_activity_open_activity_from_notification"
             android:screenOrientation="portrait" >
         </activity>
         <activity
-            android:name=".inviteContacts.InviteContactActivity"
+            android:name="com.versapp.inviteContacts.InviteContactActivity"
             android:label="@string/title_activity_invite_contact" >
         </activity>
+        <activity
+            android:name="com.versapp.chat.ChatListActivity"
+            android:label="@string/title_activity_chat_list" >
+        </activity>
     </application>
-
-    <!-- To auto-complete the email text field in the login form with the user's emails -->
-    <uses-permission android:name="android.permission.READ_PROFILE" />
 
 </manifest>

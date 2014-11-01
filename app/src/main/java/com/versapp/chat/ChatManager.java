@@ -26,7 +26,7 @@ import java.util.Arrays;
 public class ChatManager {
 
     private static ChatManager instance;
-    private static ArrayList<Chat> chats = new ArrayList<Chat>();
+    //private static ArrayList<Chat> chats = new ArrayList<Chat>();
     private static ArrayList<Chat> pendingChats;
 
     private static Chat openChat;
@@ -38,7 +38,7 @@ public class ChatManager {
 
         if (instance == null){
             instance = new ChatManager();
-            chats = new ArrayList<Chat>();
+            //chats = new ArrayList<Chat>();
         }
 
         return instance;
@@ -119,11 +119,12 @@ public class ChatManager {
 
     public void moveToTop(String chatId){
         Chat chat =  remove(chatId);
-        chats.add(0, chat);
+        //chats.add(0, chat);
     }
 
     private Chat remove(String chatId){
 
+        /*
         if (chats == null || chats.size() <= 0){
             return null;
         }
@@ -137,11 +138,12 @@ public class ChatManager {
 
             i++;
         }
-
+*/
         return null;
     }
 
     public Chat getChat(String chatUUID){
+        /*
         if (chats.size() <= 0){
             return null;
         }
@@ -155,8 +157,9 @@ public class ChatManager {
 
             i++;
         }
-
+        */
         return null;
+
     }
 
     public ArrayList<Chat> syncLocalChatDB(Context context){
@@ -272,22 +275,24 @@ public class ChatManager {
     }
 
     public void addChat(Chat chat){
-        chats.add(0, chat);
+        //chats.add(0, chat);
     }
 
     public int chatCount(){
-        return chats.size();
+        //return chats.size();
+        return 0;
     }
 
     public void addAll(ArrayList<Chat> chatList){
-        chats.addAll(chatList);
+       // chats.addAll(chatList);
     }
 
     public Chat getByIndex(int position){
-        return chats.get(position);
+       // return chats.get(position);
+        return null;
     }
 
     public void clearChats() {
-        chats.clear();
+        //chats.clear();
     }
 }

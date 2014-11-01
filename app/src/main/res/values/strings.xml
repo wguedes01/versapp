@@ -49,5 +49,6 @@
     <string name="title_activity_invite_contact">InviteContactActivity</string>
     <string name="forgot_password_label">Forgot Password?</string>
     <string name="no_notifications">You don\'t have any notifications at this moment.</string>
+    <string name="title_activity_chat_list">ChatListActivity</string>
 
 </resources>
