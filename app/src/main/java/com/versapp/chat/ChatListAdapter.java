@@ -3,8 +3,10 @@ package com.versapp.chat;
 import android.app.ActionBar;
 import android.content.Context;
 import android.database.DataSetObserver;
+import android.graphics.Color;
 import android.graphics.Point;
 import android.os.AsyncTask;
+import android.util.Log;
 import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,8 +18,14 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.koushikdutta.ion.Ion;
+import com.koushikdutta.ion.future.ImageViewFuture;
+import com.versapp.Logger;
 import com.versapp.R;
 import com.versapp.chat.conversation.Message;
+import com.versapp.confessions.Confession;
+import com.versapp.confessions.ConfessionManager;
+import com.versapp.connection.ConnectionService;
 import com.versapp.database.MessagesDAO;
 
 import java.util.ArrayList;
@@ -70,6 +78,10 @@ public class ChatListAdapter extends BaseAdapter {
             holder = (ViewHolder) convertView.getTag();
         }
 
+        if (holder.task != null){
+            holder.task.cancel(true);
+        }
+
         if (currentChat.getName().length() <= 20){
             holder.name.setTextSize(25);
         } else if((currentChat.getName().length() > 20) && (currentChat.getName().length() <= 35)) {
@@ -114,7 +126,73 @@ public class ChatListAdapter extends BaseAdapter {
 
         }.execute();
 
+        holder.backgroundImage.setImageBitmap(null);
+        holder.backgroundImage.setBackgroundColor(context.getResources().getColor(R.color.confessionBlue));
         //holder.backgroundImage
+        if (currentChat instanceof ConfessionChat){
+
+            holder.task = new AsyncTask<Long, Void, Confession>(){
+
+                @Override
+                protected Confession doInBackground(Long... params) {
+                    long confessionId = params[0];
+
+                    if (((ConfessionChat) currentChat).getConfession() != null) {
+                        return ((ConfessionChat) currentChat).getConfession();
+                    }
+
+                    if (!((ConfessionChat) currentChat).isFailedToRetrieveConfession()){
+                        return ConfessionManager.getInstance().getConfessionFromServer(context, confessionId);
+                    }
+
+                    return null;
+                }
+
+                @Override
+                protected void onPostExecute(Confession confession) {
+
+                    if (isCancelled())
+                        return;
+
+                    if (confession != null) {
+
+                        if (confession.getImageUrl().startsWith("#")){
+
+                            holder.backgroundImage.setBackgroundColor(Color.parseColor(confession.getImageUrl()));
+
+                        } else {
+                            holder.backgroundImage.setImageBitmap(null);
+                            Log.d(Logger.CHAT_DEBUG, "Downloading image for: " + confession.getBody() + ": " + confession.getImageUrl());
+                            ImageViewFuture imageViewFuture = Ion.with(context)
+                                    .load("https://versapp.co/v2/download.php?cache="+confession.getId())//.noCache()
+                                    .setBodyParameter("bucket", "msgpics")
+                                    .setBodyParameter("name", confession.getImageUrl())
+                                    .setBodyParameter("username", ConnectionService.getUser())
+                                    .setBodyParameter("session", ConnectionService.getSessionId())
+                                    .withBitmap()
+                                    .error(android.R.drawable.alert_dark_frame)
+                                    .animateIn(android.R.anim.fade_in)
+                                    .intoImageView(holder.backgroundImage);
+                        }
+
+                    } else {
+                        // Set default background.
+                        //holder.backgroundImageView.setBackgroundColor(context.getResources().getColor(R.color.confessionBlue));
+
+                        // Indicate failed to retreive this confession, do not try again.
+                        ((ConfessionChat) currentChat).setFailedToRetrieveConfession(true);
+                    }
+
+                    super.onPostExecute(confession);
+                }
+
+            };
+
+            holder.task.execute(((ConfessionChat) currentChat).getCid());
+
+
+        }
+
 
         // Adjust square.
         GridView.LayoutParams params = (GridView.LayoutParams) convertView.getLayoutParams();
@@ -139,6 +217,7 @@ public class ChatListAdapter extends BaseAdapter {
         TextView lastMsg;
         ImageView backgroundImage;
         View container;
+        AsyncTask<Long, Void, Confession> task;
     }
 
     @Override

@@ -110,7 +110,7 @@ public class ChatListActivity extends Activity {
             } else {
                 moveChatToTop(chatIdOnMessage);
             }
-            
+
             adapter.notifyDataSetChanged();
 
         }
