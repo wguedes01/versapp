@@ -113,7 +113,7 @@ public class OpenActivityFromNotification extends Activity {
                     @Override
                     public void run() {
 
-
+/*
                         if (ChatManager.getInstance().chatCount() == 0){
 
                             new AsyncTask<Void, Void, ArrayList<Chat>>(){
@@ -138,13 +138,13 @@ public class OpenActivityFromNotification extends Activity {
                             }.execute();
 
                         } else {
-
+*/
                             Intent intent = new Intent(getApplicationContext(), ConversationActivity.class);
                             intent.putExtra(ConversationActivity.CHAT_UUID_INTENT_EXTRA, getIntent().getStringExtra(ConversationActivity.CHAT_UUID_INTENT_EXTRA));
                             intent.putExtra(ConversationActivity.FROM_NOTIFICATION_INTENT_EXTRA, true);
                             startActivity(intent);
 
-                        }
+                        //}
 
 
 

@@ -4,6 +4,7 @@ import android.app.ActionBar;
 import android.content.Context;
 import android.database.DataSetObserver;
 import android.graphics.Point;
+import android.os.AsyncTask;
 import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,6 +17,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.versapp.R;
+import com.versapp.chat.conversation.Message;
+import com.versapp.database.MessagesDAO;
 
 import java.util.ArrayList;
 
@@ -26,13 +29,15 @@ public class ChatListAdapter extends BaseAdapter {
 
     Context context;
     ArrayList<Chat> chats;
+    MessagesDAO messagesDAO;
 
     Display display;
     int width = 0;
 
-    public ChatListAdapter(Context context, ArrayList<Chat> chats, Display display) {
+    public ChatListAdapter(Context context, ArrayList<Chat> chats, Display display, MessagesDAO messagesDAO) {
         this.context = context;
         this.chats = chats;
+        this.messagesDAO = messagesDAO;
 
 
         this.display = display;
@@ -50,7 +55,7 @@ public class ChatListAdapter extends BaseAdapter {
 
         final Chat currentChat = chats.get(position);
 
-        ViewHolder holder;
+        final ViewHolder holder;
         if (convertView == null){
             convertView = LayoutInflater.from(context).inflate(R.layout.chat_grid_item, parent, false);
             holder = new ViewHolder();
@@ -76,9 +81,42 @@ public class ChatListAdapter extends BaseAdapter {
         }
 
         holder.name.setText(currentChat.getName());
-        holder.lastMsg.setText("test last message");
+
+        // Populate last message.
+        new AsyncTask<Void, Void, Message>(){
+
+            @Override
+            protected Message doInBackground(Void... params) {
+                return messagesDAO.getLastMessageByChat(currentChat.getUuid());
+            }
+
+            @Override
+            protected void onPostExecute(Message msg) {
+
+
+                if (msg != null){
+
+                    holder.lastMsg.setText(msg.getBody());
+
+                    // if last message timestamp is larger than last time opened. Highlight
+                    if (currentChat.hasNewMessage(msg)){
+                        holder.lastMsg.setVisibility(View.VISIBLE);
+                    } else {
+                        holder.lastMsg.setVisibility(View.GONE);
+                    }
+
+                } else {
+                    holder.lastMsg.setText("");
+                }
+
+                super.onPostExecute(msg);
+            }
+
+        }.execute();
+
         //holder.backgroundImage
 
+        // Adjust square.
         GridView.LayoutParams params = (GridView.LayoutParams) convertView.getLayoutParams();
         params.height = width/2;
         convertView.setLayoutParams(params);

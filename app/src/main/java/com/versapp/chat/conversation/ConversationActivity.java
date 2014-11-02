@@ -88,7 +88,8 @@ public class ConversationActivity extends Activity {
 
         chatsDAO = new ChatsDAO(getApplicationContext());
 
-        currentChat = ChatManager.getInstance().getChat(chatUUID);
+        //currentChat = ChatManager.getInstance().getChat(chatUUID);
+        currentChat = chatsDAO.get(chatUUID);
 
         cache = new LruCache<String, Bitmap>(3);
 
@@ -401,7 +402,7 @@ public class ConversationActivity extends Activity {
 
     public void openSettings(View view){
 
-        final Chat chat = ChatManager.getInstance().getChat(chatUUID);
+        final Chat chat = chatsDAO.get(chatUUID);
 
         if (chat.getType().equals(GroupChat.TYPE)){
 

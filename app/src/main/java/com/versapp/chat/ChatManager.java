@@ -117,50 +117,6 @@ public class ChatManager {
         return pendingChats;
     }
 
-    public void moveToTop(String chatId){
-        Chat chat =  remove(chatId);
-        //chats.add(0, chat);
-    }
-
-    private Chat remove(String chatId){
-
-        /*
-        if (chats == null || chats.size() <= 0){
-            return null;
-        }
-
-        int i = 0;
-        while(i < chats.size()){
-
-            if (chats.get(i).getUuid().equals(chatId)){
-                return chats.remove(i);
-            }
-
-            i++;
-        }
-*/
-        return null;
-    }
-
-    public Chat getChat(String chatUUID){
-        /*
-        if (chats.size() <= 0){
-            return null;
-        }
-
-        int i = 0;
-        while(i < chats.size()){
-
-            if (chats.get(i).getUuid().equals(chatUUID)){
-                return chats.get(i);
-            }
-
-            i++;
-        }
-        */
-        return null;
-
-    }
 
     public ArrayList<Chat> syncLocalChatDB(Context context){
 
@@ -274,25 +230,6 @@ public class ChatManager {
         pendingChats = null;
     }
 
-    public void addChat(Chat chat){
-        //chats.add(0, chat);
-    }
 
-    public int chatCount(){
-        //return chats.size();
-        return 0;
-    }
 
-    public void addAll(ArrayList<Chat> chatList){
-       // chats.addAll(chatList);
-    }
-
-    public Chat getByIndex(int position){
-       // return chats.get(position);
-        return null;
-    }
-
-    public void clearChats() {
-        //chats.clear();
-    }
 }

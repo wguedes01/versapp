@@ -73,11 +73,11 @@ public class NotificationManager {
             @Override
             protected Void doInBackground(Void... params) {
 
-                if (ChatManager.getInstance().chatCount() == 0){
-                    ChatManager.getInstance().addAll(ChatManager.getInstance().syncLocalChatDB(context));
-                } else {
-
-                }
+                //if (ChatManager.getInstance().chatCount() == 0){
+                //    ChatManager.getInstance().addAll(ChatManager.getInstance().syncLocalChatDB(context));
+                //} else {
+//
+                //}
 
                 return null;
             }

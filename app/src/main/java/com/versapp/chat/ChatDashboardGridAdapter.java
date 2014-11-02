@@ -65,12 +65,12 @@ public class ChatDashboardGridAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        return ChatManager.getInstance().chatCount();
+        return 0;
     }
 
     @Override
     public Object getItem(int position) {
-        return ChatManager.getInstance().getByIndex(position);
+        return null;
     }
 
     @Override
@@ -81,7 +81,7 @@ public class ChatDashboardGridAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
-        final Chat currentChat = ChatManager.getInstance().getByIndex(position);
+        final Chat currentChat = null;
 
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 

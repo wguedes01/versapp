@@ -22,6 +22,7 @@ public class ChatMessageListener implements PacketListener {
     public static final String NEW_MESSAGE_ACTION = "NEW_MESSAGE_ACTION";
     public static final String CHAT_ID_ON_MESSAGE_INTENT_EXTRA = "CHAT_ID_ON_MESSAGE";
     public static final String MESSAGE_ID_INTENT_EXTRA = "MESSAGE_ID";
+    public static final String IS_NEW_CHAT_INTENT_EXTRA = "IS_NEW_CHAT";
 
     private Context context;
     private MessagesDAO messagesDAO;
@@ -57,17 +58,21 @@ public class ChatMessageListener implements PacketListener {
 
         Message message = new Message(thread, body, imageUrl, timestamp, false);
 
+        boolean isNewChat = false;
         // If message is from new chat (not on local db), SYNC local db.
-        if (ChatManager.getInstance().getChat(message.getThread()) == null){
-
+        if (chatsDAO.get(message.getThread()) == null){
+            isNewChat = true;
+            ChatManager.getInstance().syncLocalChatDB(context);
+            /*
             ChatManager.getInstance().clearChats();
 
             // Check if chat is on local db. If not, reload chat from server.
             if (chatsDAO.get(message.getThread()) == null) {
-                ChatManager.getInstance().addAll(ChatManager.getInstance().syncLocalChatDB(context));
+                //ChatManager.getInstance().addAll(ChatManager.getInstance().syncLocalChatDB(context));
             } else {
-                ChatManager.getInstance().addAll(chatsDAO.getAll());
+                //ChatManager.getInstance().addAll(chatsDAO.getAll());
             }
+            */
 
 
         }
@@ -85,9 +90,11 @@ public class ChatMessageListener implements PacketListener {
         long messageId = messagesDAO.insert(message);
 
         // Send broadcast.
+
         Intent intent = new Intent(NEW_MESSAGE_ACTION);
         intent.putExtra(CHAT_ID_ON_MESSAGE_INTENT_EXTRA, message.getThread());
         intent.putExtra(MESSAGE_ID_INTENT_EXTRA, messageId);
+        intent.putExtra(IS_NEW_CHAT_INTENT_EXTRA, isNewChat);
         LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
 
         // Show notification if user is not currently looking at the chat.

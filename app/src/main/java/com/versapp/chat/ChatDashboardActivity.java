@@ -84,14 +84,14 @@ public class ChatDashboardActivity extends Activity {
             @Override
             protected void onPostExecute(ArrayList<Chat> result) {
 
-                ChatManager.getInstance().clearChats();
+               // ChatManager.getInstance().clearChats();
 
                 if (result != null){
                     if (result.size() == 0) {
                         noConversationsLabel.setVisibility(View.VISIBLE);
                     } else {
                         noConversationsLabel.setVisibility(View.GONE);
-                        ChatManager.getInstance().addAll(result);
+                        //ChatManager.getInstance().addAll(result);
                         super.onPostExecute(result);
                     }
                 }
@@ -124,7 +124,7 @@ public class ChatDashboardActivity extends Activity {
             String chatIdOnMessage = intent.getStringExtra(ChatMessageListener.CHAT_ID_ON_MESSAGE_INTENT_EXTRA);
 
             if (chatIdOnMessage != null){
-                ChatManager.getInstance().moveToTop(chatIdOnMessage);
+                //ChatManager.getInstance().moveToTop(chatIdOnMessage);
                 adapter.notifyDataSetChanged();
             }
 
@@ -154,8 +154,8 @@ public class ChatDashboardActivity extends Activity {
 
                 @Override
                 protected void onPostExecute(ArrayList<Chat> result) {
-                    ChatManager.getInstance().clearChats();
-                    ChatManager.getInstance().addAll(result);
+                    //ChatManager.getInstance().clearChats();
+                    //ChatManager.getInstance().addAll(result);
                     adapter.notifyDataSetChanged();
                     super.onPostExecute(result);
                 }
