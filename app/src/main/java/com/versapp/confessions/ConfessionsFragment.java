@@ -115,7 +115,6 @@ public class ConfessionsFragment extends Fragment {
             }
         });
 
-
         confessions = new ArrayList<Confession>();
 
         cache = new ConfessionImageCache(getActivity());
@@ -239,9 +238,9 @@ public class ConfessionsFragment extends Fragment {
                 if (selectedConfessionPosition != -1){
 
                     if (!confessions.get(selectedConfessionPosition).isFavorited()) {
-                       // favoriteBtn.setImageResource(R.drawable.big_confession_heart_filled);
+                        favoriteBtn.setImageResource(R.drawable.big_confession_heart_filled);
                     } else {
-                       // favoriteBtn.setImageResource(R.drawable.big_confession_heart_outline);
+                        favoriteBtn.setImageResource(R.drawable.big_confession_heart_outline);
                     }
 
                     new AsyncTask<Void, Void, Void>() {
@@ -338,27 +337,25 @@ public class ConfessionsFragment extends Fragment {
     private static void updateLayout() {
 
 
-       // startMessageBtn.setImageResource(R.drawable.confession_start_chat_btn);
-        //startMessageBtn.setBackgroundColor(ConfessionsFragment.getResources().getColor(R.color.confessionBlue));
+         startMessageBtn.setImageResource(R.drawable.confession_start_chat_btn);
+        //startMessageBtn.setBackgroundColor(R.color.confessionBlue);
 
         if (confessions.get(selectedConfessionPosition) instanceof ClickableConfession){
-          //  startMessageBtn.setImageResource(R.drawable.ic_twitter_white);
+           // startMessageBtn.setImageResource(R.drawable.ic_twitter_white);
         }  else if(confessions.get(selectedConfessionPosition).isMine()) {
-
-           // startMessageBtn.setImageResource(R.drawable.delete_confession);
-
+            startMessageBtn.setImageResource(R.drawable.delete_confession);
         } else if(confessions.get(selectedConfessionPosition).getDegree() == Confession.FRIEND_DEGREE){ // friend
-          //  startMessageBtn.setImageResource(R.drawable.confession_start_chat_btn);
+            startMessageBtn.setImageResource(R.drawable.confession_start_chat_btn);
         }  else if(confessions.get(selectedConfessionPosition).getDegree() == Confession.FRIEND_OF_FRIEND_DEGREE){ // friend of friend
-          //  startMessageBtn.setImageResource(R.drawable.confession_start_chat_btn);
+            startMessageBtn.setImageResource(R.drawable.confession_start_chat_btn);
         } else { // 7 - global
-          //  startMessageBtn.setImageResource(R.drawable.big_confession_global_icon);
+            startMessageBtn.setImageResource(R.drawable.big_confession_global_icon);
         }
 
         if (confessions.get(selectedConfessionPosition).isFavorited()) {
-         //   favoriteBtn.setImageResource(R.drawable.big_confession_heart_filled);
+            favoriteBtn.setImageResource(R.drawable.big_confession_heart_filled);
         } else {
-         //   favoriteBtn.setImageResource(R.drawable.big_confession_heart_outline);
+            favoriteBtn.setImageResource(R.drawable.big_confession_heart_outline);
         }
 
 
