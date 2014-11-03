@@ -207,15 +207,15 @@
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="5dp"
-            android:layout_above="@id/fragment_main_go_to_msg_image_label"/>
+            android:layout_above="@id/fragment_main_go_to_msg_image_label"
+            android:src="@drawable/ic_owl_happy_tilt" />
 
         <ImageView
             android:id="@+id/fragment_main_new_message_icon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_toRightOf="@id/fragment_main_go_to_msg_image"
-            android:layout_margin="10dp"
-            android:visibility="gone"/>
+            android:layout_margin="10dp"/>
 
 
         <ImageButton

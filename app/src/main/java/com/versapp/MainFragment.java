@@ -180,22 +180,22 @@ public class MainFragment extends Fragment {
                 newMessageIcon.setVisibility(View.GONE);
                 break;
             case 1:
-                //newMessageIcon.setImageResource(R.drawable.new_message_icon_1);
+                newMessageIcon.setImageResource(R.drawable.new_message_icon_1);
                 break;
             case 2:
-               // newMessageIcon.setImageResource(R.drawable.new_message_icon_2);
+                newMessageIcon.setImageResource(R.drawable.new_message_icon_2);
                 break;
             case 3:
-               // newMessageIcon.setImageResource(R.drawable.new_message_icon_3);
+                newMessageIcon.setImageResource(R.drawable.new_message_icon_3);
                 break;
             case 4:
-               // newMessageIcon.setImageResource(R.drawable.new_message_icon_4);
+                newMessageIcon.setImageResource(R.drawable.new_message_icon_4);
                 break;
             case 5:
-               // newMessageIcon.setImageResource(R.drawable.new_message_icon_5);
+                newMessageIcon.setImageResource(R.drawable.new_message_icon_5);
                 break;
             default:
-               // newMessageIcon.setImageResource(R.drawable.new_message_icon_5_plus);
+                newMessageIcon.setImageResource(R.drawable.new_message_icon_5_plus);
                 break;
         }
 

@@ -72,6 +72,9 @@ public class ChatListAdapter extends BaseAdapter {
             holder.lastMsg = (TextView) convertView.findViewById(R.id.chat_grid_item_last_msg);
             holder.backgroundImage = (ImageView) convertView.findViewById(R.id.chat_grid_item_background_image);
             holder.container = convertView.findViewById(R.id.chat_grid_item_container);
+            holder.groupIcon = convertView.findViewById(R.id.chat_grid_item_group_icon);
+            holder.onetoOneIcon = convertView.findViewById(R.id.chat_grid_item_one_to_one_icon);
+            holder.unknownIcon = convertView.findViewById(R.id.chat_grid_item_unknown_icon);
 
             convertView.setTag(holder);
         } else {
@@ -93,6 +96,23 @@ public class ChatListAdapter extends BaseAdapter {
         }
 
         holder.name.setText(currentChat.getName());
+
+        holder.groupIcon.setVisibility(View.GONE);
+        holder.unknownIcon.setVisibility(View.GONE);
+        holder.onetoOneIcon.setVisibility(View.GONE);
+
+        // decide which icon to show
+        if (currentChat instanceof OneToOneChat){
+
+            if (((OneToOneChat) currentChat).isOwner()){
+                holder.onetoOneIcon.setVisibility(View.VISIBLE);
+            } else {
+                holder.unknownIcon.setVisibility(View.VISIBLE);
+            }
+
+        } else if(currentChat instanceof GroupChat){
+            holder.groupIcon.setVisibility(View.VISIBLE);
+        }
 
         // Populate last message.
         new AsyncTask<Void, Void, Message>(){
@@ -213,6 +233,9 @@ public class ChatListAdapter extends BaseAdapter {
         ImageView backgroundImage;
         View container;
         AsyncTask<Long, Void, Confession> task;
+        public View groupIcon;
+        public View onetoOneIcon;
+        public View unknownIcon;
     }
 
     @Override

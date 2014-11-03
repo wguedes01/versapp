@@ -7,8 +7,7 @@ import android.media.RingtoneManager;
 import android.os.AsyncTask;
 import android.support.v4.app.NotificationCompat;
 
-import com.versapp.chat.ChatDashboardActivity;
-import com.versapp.chat.ChatManager;
+import com.versapp.chat.ChatListActivity;
 import com.versapp.chat.conversation.ConversationActivity;
 import com.versapp.confessions.ViewSingleConfessionActivity;
 import com.versapp.friends.FriendListActivity;
@@ -66,58 +65,38 @@ public class NotificationManager {
 
     public void displayNewMessageNotification(final String chatId, String body) {
 
-        final NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context).setContentTitle("New message").setContentText(body).setAutoCancel(true);
+        final NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context).setContentTitle("New message").setContentText(body).setAutoCancel(true).setSmallIcon(R.drawable.ic_new_message_owl);
 
-        new AsyncTask<Void, Void, Void>(){
+        Intent homeIntent = new Intent(context, DashboardActivity.class);
 
-            @Override
-            protected Void doInBackground(Void... params) {
+        Intent backIntent = new Intent(context, ChatListActivity.class);
+        backIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
-                //if (ChatManager.getInstance().chatCount() == 0){
-                //    ChatManager.getInstance().addAll(ChatManager.getInstance().syncLocalChatDB(context));
-                //} else {
-//
-                //}
+        Intent intent = new Intent(context, OpenActivityFromNotification.class);
+        intent.putExtra(ConversationActivity.CHAT_UUID_INTENT_EXTRA, chatId);
+        intent.putExtra(ConversationActivity.FROM_NOTIFICATION_INTENT_EXTRA, true);
+        intent.putExtra(OpenActivityFromNotification.OPEN_ACTIVITY_INTENT_EXTRA, ConversationActivity.class.getName());
 
-                return null;
-            }
+        PendingIntent pendingIntent = PendingIntent.getActivities(context, 0, new Intent[] {homeIntent, backIntent, intent}, PendingIntent.FLAG_ONE_SHOT);
 
-            @Override
-            protected void onPostExecute(Void aVoid) {
-
-                Intent homeIntent = new Intent(context, DashboardActivity.class);
-
-                Intent backIntent = new Intent(context, ChatDashboardActivity.class);
-                backIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TOP);
-
-                Intent intent = new Intent(context, OpenActivityFromNotification.class);
-                intent.putExtra(ConversationActivity.CHAT_UUID_INTENT_EXTRA, chatId);
-                intent.putExtra(ConversationActivity.FROM_NOTIFICATION_INTENT_EXTRA, true);
-                intent.putExtra(OpenActivityFromNotification.OPEN_ACTIVITY_INTENT_EXTRA, ConversationActivity.class.getName());
-
-                PendingIntent pendingIntent = PendingIntent.getActivities(context, 0, new Intent[] {homeIntent, backIntent, intent}, PendingIntent.FLAG_ONE_SHOT);
-
-                mBuilder.setContentIntent(pendingIntent);
-                if (SettingsActivity.isNotificationEnabled(context)){
-                    mBuilder.setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION));
-                    mBuilder.setVibrate(new long[] { 0, 100, 200, 300 });
-                }
+        mBuilder.setContentIntent(pendingIntent);
+        if (SettingsActivity.isNotificationEnabled(context)){
+            mBuilder.setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION));
+            mBuilder.setVibrate(new long[] { 0, 100, 200, 300 });
+        }
 
 
-                int notificationId = chatUUIDNotificaitonIdMap.size();
+        int notificationId = chatUUIDNotificaitonIdMap.size();
 
-                if (chatUUIDNotificaitonIdMap.get(chatId) == null){
-                    chatUUIDNotificaitonIdMap.put(chatId, notificationId);
-                    manager.notify(notificationId, mBuilder.build());
-                } else {
-                    manager.notify(chatUUIDNotificaitonIdMap.get(chatId), mBuilder.build());
-                }
+        if (chatUUIDNotificaitonIdMap.get(chatId) == null){
+            chatUUIDNotificaitonIdMap.put(chatId, notificationId);
+            manager.notify(notificationId, mBuilder.build());
+        } else {
+            manager.notify(chatUUIDNotificaitonIdMap.get(chatId), mBuilder.build());
+        }
 
 
 
-                super.onPostExecute(aVoid);
-            }
-        }.execute();
 
     }
 
