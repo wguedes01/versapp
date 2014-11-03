@@ -63,7 +63,7 @@ public class SettingsActivity extends Activity {
         buttons.add(new SettingsButton("Friends", new FriendsOnClickListener()));
         buttons.add(new SettingsButton("Support", new SupportOnClickListener()));
 
-        notificationsBtn = new SettingsButton("Notifications\n" + (isNotificationEnabled(getApplicationContext()) ? "Enabled" : "Disabled"), new ToggleNotificationsOnClickListener());
+        notificationsBtn = new SettingsButton("Sound & Vibrate\n" + (isNotificationEnabled(getApplicationContext()) ? "Enabled" : "Disabled"), new ToggleNotificationsOnClickListener());
         buttons.add(notificationsBtn);
 
         buttons.add(new SettingsButton("Logout", new LogoutOnClickListener()));
