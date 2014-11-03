@@ -341,7 +341,7 @@ public class ConfessionsFragment extends Fragment {
         //startMessageBtn.setBackgroundColor(R.color.confessionBlue);
 
         if (confessions.get(selectedConfessionPosition) instanceof ClickableConfession){
-           // startMessageBtn.setImageResource(R.drawable.ic_twitter_white);
+            startMessageBtn.setImageResource(R.drawable.ic_twitter_white);
         }  else if(confessions.get(selectedConfessionPosition).isMine()) {
             startMessageBtn.setImageResource(R.drawable.delete_confession);
         } else if(confessions.get(selectedConfessionPosition).getDegree() == Confession.FRIEND_DEGREE){ // friend
