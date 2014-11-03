@@ -72,6 +72,11 @@ public class ChatListAdapter extends BaseAdapter {
             holder.lastMsg = (TextView) convertView.findViewById(R.id.chat_grid_item_last_msg);
             holder.backgroundImage = (ImageView) convertView.findViewById(R.id.chat_grid_item_background_image);
             holder.container = convertView.findViewById(R.id.chat_grid_item_container);
+
+            // New message indicator
+            holder.newMessageIndicator = convertView.findViewById(R.id.chat_grid_item_new_message_indicator);
+
+            // Chat type indicators
             holder.groupIcon = convertView.findViewById(R.id.chat_grid_item_group_icon);
             holder.onetoOneIcon = convertView.findViewById(R.id.chat_grid_item_one_to_one_icon);
             holder.unknownIcon = convertView.findViewById(R.id.chat_grid_item_unknown_icon);
@@ -125,8 +130,13 @@ public class ChatListAdapter extends BaseAdapter {
             @Override
             protected void onPostExecute(Message msg) {
 
-
                 if (msg != null){
+
+                    if (currentChat.hasNewMessage(msg)){
+                        holder.newMessageIndicator.setVisibility(View.VISIBLE);
+                    } else {
+                        holder.newMessageIndicator.setVisibility(View.GONE);
+                    }
 
                     holder.lastMsg.setText(msg.getBody());
 
@@ -236,6 +246,7 @@ public class ChatListAdapter extends BaseAdapter {
         public View groupIcon;
         public View onetoOneIcon;
         public View unknownIcon;
+        public View newMessageIndicator;
     }
 
     @Override
