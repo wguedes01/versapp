@@ -224,34 +224,25 @@ public class MainFragment extends Fragment {
 
                 switch (integer){
                     case 0:
-                       // notificationsBtnBackground.setImageResource(R.drawable.dashboard_notification_count_0);
-
-                        /*
-                        notificationsBtn.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                Toast.makeText(getActivity().getApplicationContext(), "No notifications at the moment", Toast.LENGTH_SHORT).show();
-                            }
-                        });
-                        */
+                        notificationsBtnBackground.setImageResource(R.drawable.dashboard_notification_count_0);
                         break;
                     case 1:
-                       // notificationsBtnBackground.setImageResource(R.drawable.dashboard_notification_count_1);
+                        notificationsBtnBackground.setImageResource(R.drawable.dashboard_notification_count_1);
                         break;
                     case 2:
-                      //  notificationsBtnBackground.setImageResource(R.drawable.dashboard_notification_count_2);
+                        notificationsBtnBackground.setImageResource(R.drawable.dashboard_notification_count_2);
                         break;
                     case 3:
-                      //  notificationsBtnBackground.setImageResource(R.drawable.dashboard_notification_count_3);
+                        notificationsBtnBackground.setImageResource(R.drawable.dashboard_notification_count_3);
                         break;
                     case 4:
-                       // notificationsBtnBackground.setImageResource(R.drawable.dashboard_notification_count_4);
+                        notificationsBtnBackground.setImageResource(R.drawable.dashboard_notification_count_4);
                         break;
                     case 5:
-                       // notificationsBtnBackground.setImageResource(R.drawable.dashboard_notification_count_5);
+                        notificationsBtnBackground.setImageResource(R.drawable.dashboard_notification_count_5);
                         break;
                     default:
-                       // notificationsBtnBackground.setImageResource(R.drawable.dashboard_notification_count_5_plus);
+                        notificationsBtnBackground.setImageResource(R.drawable.dashboard_notification_count_5_plus);
                         break;
                 }
 

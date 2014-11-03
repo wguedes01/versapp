@@ -67,16 +67,13 @@ public class ChatListActivity extends Activity {
 
             @Override
             protected ArrayList<Chat> doInBackground(Void... params) {
-                //return ChatManager.getInstance().getJoinedChatsFromServer();
                 return chatsDAO.getAll();
             }
 
             @Override
             protected void onPostExecute(ArrayList<Chat> result) {
-
                 chats.addAll(result);
                 adapter.notifyDataSetChanged();
-
                 super.onPostExecute(result);
             }
         }.execute();
