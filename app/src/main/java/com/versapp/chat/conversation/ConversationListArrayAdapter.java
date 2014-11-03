@@ -48,10 +48,12 @@ public class ConversationListArrayAdapter extends ArrayAdapter<ChatMessage> {
         if (currentMessage.isMine()){
             holder.image = (ImageView) convertView.findViewById(R.id.conversation_list_item_message_image_mine);
             holder.body = (TextView) convertView.findViewById(R.id.conversation_list_item_message_content_mine);
+            holder.bubbleHolder = convertView.findViewById(R.id.conversation_list_item_message_content_mine_holder);
             showAnimation = AnimationUtils.loadAnimation(context, R.anim.chat_bubble_right_anim);
         } else {
             holder.image = (ImageView) convertView.findViewById(R.id.conversation_list_item_message_image_theirs);
             holder.body = (TextView) convertView.findViewById(R.id.conversation_list_item_message_content_theirs);
+            holder.bubbleHolder = convertView.findViewById(R.id.conversation_list_item_message_content_theirs_holder);
             showAnimation = AnimationUtils.loadAnimation(context, R.anim.chat_bubble_left_anim);
         }
 
@@ -59,6 +61,9 @@ public class ConversationListArrayAdapter extends ArrayAdapter<ChatMessage> {
             holder.body.setVisibility(View.VISIBLE);
             holder.body.setText(currentMessage.getBody());
         }
+
+        if (holder.bubbleHolder != null)
+            holder.bubbleHolder.setVisibility(View.VISIBLE);
 
         final String imageUrl = currentMessage.getImageUrl();
 
@@ -101,5 +106,6 @@ public class ConversationListArrayAdapter extends ArrayAdapter<ChatMessage> {
     private class ViewHolder {
         private TextView body;
         private ImageView image;
+        public View bubbleHolder;
     }
 }
