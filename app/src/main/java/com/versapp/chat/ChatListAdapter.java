@@ -162,7 +162,6 @@ public class ChatListAdapter extends BaseAdapter {
 
                         } else {
                             holder.backgroundImage.setImageBitmap(null);
-                            Log.d(Logger.CHAT_DEBUG, "Downloading image for: " + confession.getBody() + ": " + confession.getImageUrl());
                             ImageViewFuture imageViewFuture = Ion.with(context)
                                     .load("https://versapp.co/v2/download.php?cache="+confession.getId())//.noCache()
                                     .setBodyParameter("bucket", "msgpics")
@@ -176,9 +175,6 @@ public class ChatListAdapter extends BaseAdapter {
                         }
 
                     } else {
-                        // Set default background.
-                        //holder.backgroundImageView.setBackgroundColor(context.getResources().getColor(R.color.confessionBlue));
-
                         // Indicate failed to retreive this confession, do not try again.
                         ((ConfessionChat) currentChat).setFailedToRetrieveConfession(true);
                     }

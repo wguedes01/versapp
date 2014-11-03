@@ -57,8 +57,8 @@ public class DownloadImageAT extends AsyncTask<Void, Void, Bitmap> {
             if (imageView != null) {
 
                 if (bitmap != null) {
-
-                    ConfessionImageCache.setBitmapOnView(context, imageView, bitmap);
+                    imageView.setImageBitmap(bitmap);
+                    //ConfessionImageCache.setBitmapOnView(context, imageView, bitmap);
                     cache.addToCache(key, bitmap);
                 } else {
                     imageView.setImageBitmap(null);
