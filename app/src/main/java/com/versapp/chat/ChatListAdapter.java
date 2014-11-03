@@ -112,9 +112,9 @@ public class ChatListAdapter extends BaseAdapter {
 
                     // if last message timestamp is larger than last time opened. Highlight
                     if (currentChat.hasNewMessage(msg)){
-                        holder.lastMsg.setVisibility(View.VISIBLE);
+                        //holder.lastMsg.setVisibility(View.VISIBLE);
                     } else {
-                        holder.lastMsg.setVisibility(View.GONE);
+                        //holder.lastMsg.setVisibility(View.GONE);
                     }
 
                 } else {
@@ -188,7 +188,6 @@ public class ChatListAdapter extends BaseAdapter {
 
 
         }
-
 
         // Adjust square.
         GridView.LayoutParams params = (GridView.LayoutParams) convertView.getLayoutParams();

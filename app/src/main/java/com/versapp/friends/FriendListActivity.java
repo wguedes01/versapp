@@ -232,7 +232,8 @@ public class FriendListActivity extends Activity {
             public boolean onItemLongClick(AdapterView<?> parent, View view, final int position, long id) {
                 AlertDialog.Builder dialog = new AlertDialog.Builder(FriendListActivity.this);
 
-                String[] options = { (friendListItems.get(position).friend.isBlocked() ? "Unblock" : "Block"), "Delete" };
+                //String[] options = { (friendListItems.get(position).friend.isBlocked() ? "Unblock" : "Block"), "Delete" };
+                String[] options = { "Delete" };
 
                 dialog.setItems(options, new Dialog.OnClickListener() {
 
@@ -240,7 +241,7 @@ public class FriendListActivity extends Activity {
                     public void onClick(DialogInterface dialog, int which) {
 
                         switch (which) {
-                            case 0: // block/unblock
+                            /*case 0: // block/unblock
 
                                 new AsyncTask<Void, Void, Void>() {
 
@@ -256,7 +257,8 @@ public class FriendListActivity extends Activity {
                                 }.execute();
 
                                 break;
-                            case 1: // remove
+                                */
+                            case 0: // remove
 
                                 AlertDialog.Builder confirmDialog = new AlertDialog.Builder(FriendListActivity.this);
                                 confirmDialog.setTitle("Delete Friend");

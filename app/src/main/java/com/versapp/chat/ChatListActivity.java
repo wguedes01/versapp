@@ -8,14 +8,12 @@ import android.content.IntentFilter;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.content.LocalBroadcastManager;
-import android.text.method.CharacterPickerDialog;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
 
 import com.versapp.R;
-import com.versapp.chat.conversation.ChatMessage;
 import com.versapp.chat.conversation.ConversationActivity;
 import com.versapp.database.ChatsDAO;
 import com.versapp.database.MessagesDAO;

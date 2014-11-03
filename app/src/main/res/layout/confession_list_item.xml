@@ -47,12 +47,13 @@
             android:layout_gravity="center_vertical"
             android:layout_marginRight="2dp"
             android:textColor="@android:color/white"
-            android:textSize="16sp" />
+            android:textSize="16sp"/>
 
         <ImageView
             android:layout_width="12dp"
             android:layout_height="12dp"
-            android:layout_gravity="center_vertical" />
+            android:layout_gravity="center_vertical"
+            android:src="@drawable/big_confession_heart_filled_white"/>
     </LinearLayout>
 
     <ImageView

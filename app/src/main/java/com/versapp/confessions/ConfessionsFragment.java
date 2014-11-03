@@ -215,8 +215,6 @@ public class ConfessionsFragment extends Fragment {
                         createConfessionChatLabel.setVisibility(View.GONE);
                     }
 
-
-
                 }
 
             }
