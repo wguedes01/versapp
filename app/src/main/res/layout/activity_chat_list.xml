@@ -12,4 +12,17 @@
         android:numColumns="2"
         ></GridView>
 
+    <TextView
+        android:id="@+id/acitvity_chat_list_no_chats_message"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/no_chats_message"
+        android:textColor="@android:color/white"
+        android:textSize="18sp"
+        android:background="@drawable/round_dark_background"
+        android:layout_centerInParent="true"
+        android:visibility="gone"
+        android:gravity="center"
+        android:padding="5dp"/>
+
 </RelativeLayout>

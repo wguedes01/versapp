@@ -30,10 +30,14 @@ public class ChatListActivity extends Activity {
     NewMessageOnDashboardBR newMessageBR;
     BroadcastReceiver joinedChatsSynced;
 
+    View noChatLabel;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat_list);
+
+        noChatLabel = findViewById(R.id.acitvity_chat_list_no_chats_message);
 
         chatsDAO = new ChatsDAO(getApplicationContext());
         messagesDAO = new MessagesDAO(getApplicationContext());
@@ -144,6 +148,11 @@ public class ChatListActivity extends Activity {
 
         @Override
         protected void onPostExecute(ArrayList<Chat> result) {
+
+            if (result.size() == 0){
+                noChatLabel.setVisibility(View.VISIBLE);
+            }
+
             chats.clear();
             chats.addAll(result);
             adapter.notifyDataSetChanged();
