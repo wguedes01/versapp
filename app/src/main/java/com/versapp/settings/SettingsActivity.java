@@ -255,11 +255,21 @@ public class SettingsActivity extends Activity {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
 
-                    try {
-                        ConnectionManager.getInstance(getApplicationContext()).logout();
-                    } catch (SmackException.NotConnectedException e) {
-                        e.printStackTrace();
-                    }
+                    new AsyncTask<Void, Void, Void>(){
+
+                        @Override
+                        protected Void doInBackground(Void... params) {
+
+                            try {
+                                ConnectionManager.getInstance(getApplicationContext()).logout();
+                            } catch (SmackException.NotConnectedException e) {
+                                e.printStackTrace();
+                            }
+
+                            return null;
+                        }
+
+                    }.execute();
 
                     Intent intent = new  Intent(getApplicationContext(), LoginActivity.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TASK);

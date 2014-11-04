@@ -28,6 +28,7 @@ public class ChatListActivity extends Activity {
     MessagesDAO messagesDAO;
 
     NewMessageOnDashboardBR newMessageBR;
+    BroadcastReceiver joinedChatsSynced;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +40,13 @@ public class ChatListActivity extends Activity {
         chats = new ArrayList<Chat>();
 
         newMessageBR = new NewMessageOnDashboardBR();
+
+        joinedChatsSynced = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                new LoadChatFromDb().execute();
+            }
+        };
 
         GridView gridView = (GridView) findViewById(R.id.activity_chat_list_grid);
         adapter = new ChatListAdapter(this, chats, getWindowManager().getDefaultDisplay(), messagesDAO);
@@ -58,32 +66,17 @@ public class ChatListActivity extends Activity {
 
     @Override
     protected void onResume() {
-
+        LocalBroadcastManager.getInstance(getApplicationContext()).registerReceiver(joinedChatsSynced, new IntentFilter(ChatManager.CHAT_SYNCED_ACTION));
         LocalBroadcastManager.getInstance(getApplicationContext()).registerReceiver(newMessageBR, new IntentFilter(ChatMessageListener.NEW_MESSAGE_ACTION));
 
-
-        // populate chats.
-        new AsyncTask<Void, Void, ArrayList<Chat>>(){
-
-            @Override
-            protected ArrayList<Chat> doInBackground(Void... params) {
-                return chatsDAO.getAll();
-            }
-
-            @Override
-            protected void onPostExecute(ArrayList<Chat> result) {
-                chats.addAll(result);
-                adapter.notifyDataSetChanged();
-                super.onPostExecute(result);
-            }
-        }.execute();
+        new LoadChatFromDb().execute();
 
         super.onResume();
     }
 
     @Override
     protected void onPause() {
-
+        LocalBroadcastManager.getInstance(getApplicationContext()).unregisterReceiver(joinedChatsSynced);
         LocalBroadcastManager.getInstance(getApplicationContext()).unregisterReceiver(newMessageBR);
 
         // Remove chats from memory explicitly in order to improve memory management.
@@ -107,7 +100,6 @@ public class ChatListActivity extends Activity {
             }
 
             adapter.notifyDataSetChanged();
-
         }
     }
 
@@ -142,6 +134,22 @@ public class ChatListActivity extends Activity {
 
 
     }
+
+    private class LoadChatFromDb extends AsyncTask<Void, Void, ArrayList<Chat>>{
+
+        @Override
+        protected ArrayList<Chat> doInBackground(Void... params) {
+            return chatsDAO.getAll();
+        }
+
+        @Override
+        protected void onPostExecute(ArrayList<Chat> result) {
+            chats.clear();
+            chats.addAll(result);
+            adapter.notifyDataSetChanged();
+            super.onPostExecute(chats);
+        }
+    };
 
 
 }

@@ -54,14 +54,12 @@ public class FriendListArrayAdapter extends ArrayAdapter<FriendListItem> {
           // selectionIcon.setImageResource(R.drawable.friend_blocked_circle);
         } else if (friendListItem.isSelected()) {
             if (listMode.equals(FriendListActivity.MULTI_SELECTION_MODE)) {
-                //selectionIcon.setImageResource(R.drawable.select_friend_filled);
                 selectionIcon.setImageResource(R.drawable.friend_item_selected);
             } else {
                 selectionIcon.setVisibility(View.GONE);
             }
         } else {
             if (listMode.equals(FriendListActivity.MULTI_SELECTION_MODE)) {
-               // selectionIcon.setImageResource(R.drawable.select_friend_outline);
                 selectionIcon.setImageResource(R.drawable.friend_item_unselected);
             } else {
                 selectionIcon.setVisibility(View.GONE);

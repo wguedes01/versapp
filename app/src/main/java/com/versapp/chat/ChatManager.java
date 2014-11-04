@@ -1,6 +1,8 @@
 package com.versapp.chat;
 
 import android.content.Context;
+import android.content.Intent;
+import android.support.v4.content.LocalBroadcastManager;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -24,6 +26,8 @@ import java.util.Arrays;
  * Created by william on 25/09/14.
  */
 public class ChatManager {
+
+    public static final String CHAT_SYNCED_ACTION = "CHAT_SYNCED_ACTION";
 
     private static ChatManager instance;
     //private static ArrayList<Chat> chats = new ArrayList<Chat>();
@@ -118,7 +122,7 @@ public class ChatManager {
     }
 
 
-    public ArrayList<Chat> syncLocalChatDB(Context context){
+    public void syncLocalChatDB(Context context){
 
         ChatsDAO chatsDb = new ChatsDAO(context);
 
@@ -149,7 +153,7 @@ public class ChatManager {
 
         }
 
-        return chats;
+        LocalBroadcastManager.getInstance(context).sendBroadcast(new Intent(CHAT_SYNCED_ACTION));
     }
 
     public void leaveChat(Context context, Chat chat){

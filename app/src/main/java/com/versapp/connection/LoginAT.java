@@ -9,6 +9,7 @@ import android.widget.Toast;
 
 import com.versapp.DashboardActivity;
 import com.versapp.Logger;
+import com.versapp.chat.ChatManager;
 import com.versapp.chat.ChatMessageListener;
 import com.versapp.contacts.EfficientContactManager;
 import com.versapp.friends.FriendRequestListener;
