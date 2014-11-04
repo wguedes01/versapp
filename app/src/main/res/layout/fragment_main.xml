@@ -116,7 +116,8 @@
                     android:id="@+id/fragment_main_notifications_image"
                     android:layout_width="80dp"
                     android:layout_height="80dp"
-                    android:layout_centerInParent="true"/>
+                    android:layout_centerInParent="true"
+                    android:src="@drawable/dashboard_notification_count_0"/>
 
                 <TextView
                     android:id="@+id/fragment_main_notification_label"
@@ -126,7 +127,8 @@
                     android:textColor="@android:color/white"
                     android:textSize="16sp"
                     android:layout_centerHorizontal="true"
-                    android:layout_below="@id/fragment_main_notifications_image"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginBottom="5dp"
                     android:layout_marginTop="3dp"/>
 
 

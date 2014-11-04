@@ -188,7 +188,6 @@ public class LoginAT extends AsyncTask<String, Void, XMPPTCPConnection>{
                 Toast.makeText(context, "Sorry, we are having some technical issues. Try again soon!", Toast.LENGTH_LONG).show();
             }
 
-
         }
 
         super.onPostExecute(conn);

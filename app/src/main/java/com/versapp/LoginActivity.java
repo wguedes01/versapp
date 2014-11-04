@@ -41,9 +41,9 @@ public class LoginActivity extends Activity {
         loginCover = findViewById(R.id.login_cover);
 
 
-        if (CredentialsManager.getInstance(this).getValidUsername() != null) {
+        if (CredentialsManager.getInstance(getApplicationContext()).getValidUsername() != null) {
 
-            login(CredentialsManager.getInstance(this).getValidUsername(), CredentialsManager.getInstance(this).getValidPassword());
+            login(CredentialsManager.getInstance(getApplicationContext()).getValidUsername(), CredentialsManager.getInstance(getApplicationContext()).getValidPassword());
 
         } else {
             loginCover.setVisibility(View.GONE);
@@ -94,14 +94,11 @@ public class LoginActivity extends Activity {
     }
 
     public void signUp(View view) {
-
-        startActivity(new Intent(this, SignUpNameEmailInputActivity.class));
-
+        startActivity(new Intent(getApplicationContext(), SignUpNameEmailInputActivity.class));
     }
 
     private void login(String username, String password){
-
-        LoginAT loginAt = new LoginAT(this, null, progressBar, loginCover);
+        LoginAT loginAt = new LoginAT(getApplicationContext(), null, progressBar, loginCover);
         loginAt.execute(username, password);
     }
 
@@ -125,8 +122,6 @@ public class LoginActivity extends Activity {
 
         AlertDialog dialog = builder.create();
         dialog.show();
-
-
 
     }
 
